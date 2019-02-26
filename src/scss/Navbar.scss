@@ -1,0 +1,45 @@
+@import './variables';
+
+#navbar {
+    position: relative;
+    &.MuiAppBar-colorPrimary-98 {
+        box-shadow: none;
+        background: none;
+    }
+    #toolbar {
+        justify-content: space-between;
+        .title {
+            color: $darkGrey;
+            text-transform: capitalize !important;
+        }
+        #links {
+            display: flex;
+            button {
+                color: $darkGrey;
+                min-width: 50px;
+                &:hover {
+                    background: none;
+                }
+                svg {
+                    height: 1.2rem;
+                    width: 1.2rem;
+                }
+            }
+            .notifications-number {
+                top: -2px;
+                right: 3px;
+                color: $darkGrey;
+                border: 1px solid $darkGrey;
+                height: 15px;
+                display: block;
+                position: absolute;
+                font-size: 9px;
+                min-width: 16px;
+                text-align: center;
+                line-height: 16px;
+                border-radius: 12px;
+                vertical-align: middle;
+            }
+        }
+    }
+}
