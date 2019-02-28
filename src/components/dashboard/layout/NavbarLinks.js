@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Grow from "@material-ui/core/Grow";
@@ -31,13 +30,15 @@ export default class NavbarLinks extends Component {
       <div id="links">
 
         {/* Dashboard */}
-        <Button
+        <a href="/dashboard/main">
+          <Button
           aria-label="Dashboard">
-          <DashboardIcon />
-          <Hidden mdUp implementation="css">
-            <p>|</p>
-          </Hidden>
-        </Button>
+            <DashboardIcon />
+            <Hidden mdUp implementation="css">
+              <p>|</p>
+            </Hidden>
+          </Button>
+        </a>
 
         {/* Notifications */}
         <div>
@@ -68,10 +69,11 @@ export default class NavbarLinks extends Component {
                     <Paper>
                         <ClickAwayListener onClickAway={this.handleClose}>
                             <MenuList role="menu">
-                              {notificationsData.map((notification, index) => {
+                              {/* If there are no notifications, display No Notifications */}
+                              {notificationsData.length === 0 ? <MenuItem>No Notifications</MenuItem> : notificationsData.map((notification, index) => {
                                 return (
-                                  <MenuItem key={index} onClick={this.handleClose}>
-                                    {notification.name}
+                                  <MenuItem className="notification-item" key={index} onClick={this.handleClose}>
+                                    <a href={`/dashboard/notifications/#${notification.type}`}>{notification.name}</a>
                                   </MenuItem>
                                 )
                               })}
@@ -84,10 +86,12 @@ export default class NavbarLinks extends Component {
         </div>
 
         {/* Profile */}
-        <Button
+        <a href="/dashboard/profile">
+          <Button
           aria-label="Person">
-          <Person />
-        </Button>
+            <Person />
+          </Button>
+        </a>
 
       </div>
     );

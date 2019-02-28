@@ -38,6 +38,16 @@
                     width: 1.2rem;
                 }
             }
+            .notification-item {
+                a {
+                    margin: 0;
+                }
+            }
+            a {
+                text-decoration: none;
+                color: $primary;
+                margin: 0 0.5rem;
+            }
             .notifications-number {
                 top: -2px;
                 right: 3px;

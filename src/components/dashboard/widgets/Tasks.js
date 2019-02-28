@@ -61,9 +61,9 @@ class Tasks extends Component {
                     </Tabs>
                 </AppBar>
                 <div className="task-content">
-                    {value === 0 && <TabContainer>{bugs}</TabContainer>}
-                    {value === 1 && <TabContainer>{websites}</TabContainer>}
-                    {value === 2 && <TabContainer>{servers}</TabContainer>}
+                    {value === 0 && <TabContainer>{bugsData.length === 0 ? 'No Bug Tasks' : bugs}</TabContainer>}
+                    {value === 1 && <TabContainer>{websiteData.length === 0 ? 'No Website Tasks' : websites}</TabContainer>}
+                    {value === 2 && <TabContainer>{serverData.length === 0 ? 'No Server Tasks' : servers}</TabContainer>}
                 </div>
             </div>
         )

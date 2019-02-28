@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import routes from '../routes';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 // SCSS
 import '../scss/Dashboard.scss';
@@ -23,6 +23,12 @@ const switchRoutes = (
             key={key}
           />
         );
+      } else {
+        return (
+            <Route path={prop.path}
+            component={prop.component}
+            key={key} />
+        )
       }
     })}
   </Switch>

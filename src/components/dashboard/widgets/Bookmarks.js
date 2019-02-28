@@ -21,7 +21,8 @@ class Bookmarks extends Component {
                     <NoteAdd />
                 </div>
                 <div className="url-bookmarks">
-                    {bookmarksData.map((bookmark, index) => {
+                    {/* If there are no bookmarks, display No Bookmarks */}
+                    {bookmarksData.length === 0 ? 'No Bookmarks' : bookmarksData.map((bookmark, index) => {
                         return (
                             <div key={index} data-id={bookmark.id} className="bookmark">
                                 <a href={bookmark.url}>{bookmark.name}</a>

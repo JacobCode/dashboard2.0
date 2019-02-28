@@ -4,32 +4,125 @@
     display: grid;
     grid-gap: 1.5rem;
     grid-auto-flow: row;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     .widget {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
         background: white;
         padding: 1.5rem;
         min-width: 300px;
+        max-width: 600px;
         .chart-container {
             
         }
         &#tasks {
-            // grid-row: 1 / 2;
         }
         &#calendar {
-            // grid-row: 4 / 5;
         }
         &#bookmarks {
-            // grid-row: 3 / 4;
         }
         &#pie-chart {
-            // grid-row: 2 / 3;
         }
         &#line-chart {
-            // grid-row: 5 / 6;
         }
+        // CALENDAR
+        &#calendar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .picky-date-time.visible {
+                box-shadow: none;
+                padding: 0;
+                // Hide default close button
+                .picky-date-time__close.picky-date-time-highlight_off {
+                    display: none;
+                }
+                .picky-date-time__calendar {
+                    margin: 0;
+                }
+                // Main calendar
+                .picky-date-time-calendar {
+                    // Header
+                    .picky-date-time-calendar__header {
+                        .picky-date-time__col.picky-date-time__col-6 {
+                            &:hover {
+                                .picky-date-time-calendar__title-container {
+                                    span {
+                                        color: primary;
+                                    }
+                                }
+                            }
+                            span {
+                                color: $primary;
+                            }
+                        }
+                    }
+                    // Content
+                    .picky-date-time-calendar__content {
+                        // All Days
+                        .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item {
+                            &:hover {
+                                background: $primaryLight;
+                            }
+                        }
+                        // Current Day
+                        .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item.today.active {
+                            color: white;
+                            background: $primary;
+                        }
+                        // Disabled days
+                        .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item.disabled {
+                            background: none !important;
+                        }
+                    }
+                    // Current day button
+                    .picky-date-time-calendar__button.picky-date-time-calendar__today {
+                        display: none;
+                    }
+                }
+            }
+        }
+        // CLOCK
         &#clock {
-            // grid-row: 6 / 7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .picky-date-time.visible {
+                .picky-date-time-clock {
+                    .picky-date-time-clock__circle {
+                        background: $lightGrey;
+                        box-shadow: none;
+                        // Seconds hand
+                        .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--second {
+                            background: $primary;
+                        }
+                        // Minute hand
+                        .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--minute { 
+                        }
+                        // Hour hand
+                        .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--hour {
+                        }
+                        // 12, 3, 6, 9 hour indicators
+                        .picky-date-time-clock__clock-minute--five.picky-date-time-clock__clock-minute--quarter {
+                        }
+                        // General minute indicators
+                        .picky-date-time-clock__clock-minute {
+                            // display: none;
+                        }
+                        // Every other five minutes indicator
+                        .picky-date-time-clock__clock-minute.picky-date-time-clock__clock-minute--five {
+                            // display: none;
+                        }
+                    }
+                }
+            }
+            // Hide default time output
+            .picky-date-time-clock__inputer-wrapper {
+                display: none;
+            }
+            // Hide close icon
+            .picky-date-time__close.picky-date-time-highlight_off {
+                display: none;
+            }
         }
     }
 }

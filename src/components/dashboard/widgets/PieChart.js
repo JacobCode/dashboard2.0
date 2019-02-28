@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ChartistGraph from "react-chartist";
 
 // Charts
-import { circleChart, dailySalesChart, emailsSubscriptionChart, completedTasksChart } from './variables/charts';
+import { circleChart } from './variables/charts';
 
 // SCSS
 import '../../../scss/Graph.scss';
