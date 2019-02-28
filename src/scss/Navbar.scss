@@ -2,13 +2,26 @@
 
 #navbar {
     position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     &.MuiAppBar-colorPrimary-98 {
         box-shadow: none;
         background: none;
     }
+    div[role="tooltip"] {
+        right: 1.5rem;
+    }
     #toolbar {
         justify-content: space-between;
+        button {
+            color: $darkGrey;
+        }
         .title {
+            a {
+                text-transform: capitalize;
+                &:hover {
+                    background: none;
+                }
+            }
             color: $darkGrey;
             text-transform: capitalize !important;
         }

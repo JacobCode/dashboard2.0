@@ -20,7 +20,7 @@ const Sidebar = ({ ...props }) => {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
 
-  const { logo, logoText, routes } = props;
+  const { logo, logoText, routes, handleDrawerToggle } = props;
 
   var links = (
     <List id="sidebar-links">
@@ -73,7 +73,6 @@ const Sidebar = ({ ...props }) => {
             keepMounted: true // Better open performance on mobile.
           }}>
           {brand}
-          <div className="divider">erer</div>
           <div>
             {/* {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />} */}
             {links}
@@ -87,7 +86,6 @@ const Sidebar = ({ ...props }) => {
           variant="permanent"
           open>
           {brand}
-          <div className="divider"></div>
           <div>{links}</div>
         </Drawer>
       </Hidden>

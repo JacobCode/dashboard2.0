@@ -53,7 +53,6 @@ export default class Dashboard extends Component {
                 open={this.state.mobileOpen} />
                 <div id="main-panel">
                     <Navbar handleDrawerToggle={this.handleDrawerToggle} />
-                    <div className="divider"></div>
                     <div className="content">
                         {this.getRoute() ? (
                             <div className="container">
@@ -63,7 +62,6 @@ export default class Dashboard extends Component {
                             <div>{switchRoutes} style={{border: '10px solid red'}}</div>
                         )}
                     </div>
-                    <div className="divider"></div>
                     <Footer />
                 </div>
             </div>

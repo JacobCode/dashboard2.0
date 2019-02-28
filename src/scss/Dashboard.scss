@@ -1,59 +1,55 @@
 @import './variables';
 
+.MuiPaper-root-30.MuiPaper-elevation0-32.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19.MuiDrawer-paperAnchorDockedLeft-23, 
+.MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19 {
+    width: 260px;
+    height: 100%;
+    position: fixed;
+    border: none;
+    #sidebar-brand {
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            min-height: 64px;
+            div.user-icon {
+                background: $primary;
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+            }
+            span {
+                margin-left: 1rem;
+                color: black;
+            }
+        }
+    }
+    #sidebar-links {
+        a {
+            text-decoration: none;
+            div[role="button"] {
+                color: $darkGrey;
+            }
+        }
+    }
+
+}
+.MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19 {
+    width: 190px;
+}
+
 #dashboard {
     top: 0;
     height: 100vh;
     position: relative;
-    .divider {
-        height: 2px;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.08);
-    }
     #sidebar {
         float: left;
-        .MuiPaper-root-30.MuiPaper-elevation0-32.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19.MuiDrawer-paperAnchorDockedLeft-23 {
-            width: 260px;
-            height: 100%;
-            position: fixed;
-            border: none;
-            #sidebar-brand {
-                a {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0.5rem;
-                    text-decoration: none;
-                    div.user-icon {
-                        background: $primary;
-                        height: 50px;
-                        width: 50px;
-                        border-radius: 50%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: white;
-                    }
-                    span {
-                        margin-left: 1rem;
-                        color: black;
-                    }
-                }
-            }
-            .divider {
-                height: 1px;
-                width: 100%;
-                background: rgba(0, 0, 0, 0.08);
-            }
-            #sidebar-links {
-                a {
-                    text-decoration: none;
-                    div[role="button"] {
-                        color: $darkGrey;
-                    }
-                }
-            }
-
-        }
     }
     
     #main-panel {
@@ -68,6 +64,43 @@
         .content {
             padding: 30px 15px;
             min-height: calc(100vh - 123px);
+        }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    #dashboard {
+        .divider {
+        }
+        #sidebar {
+            
+        }
+        #main-panel {
+            width: 100% !important;
+            .content {
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19 {
+        width: 180px;
+        #sidebar-brand {
+            a {
+                min-height: 56px;
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+    #dashboard {
+        .divider {}
+        #main-panel {
+            width: 100%;
+
+            .content {}
         }
     }
 }

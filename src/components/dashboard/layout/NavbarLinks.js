@@ -11,8 +11,7 @@ import Person from "@material-ui/icons/Person";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import Button from '@material-ui/core/Button';
-
-const notifications = ["item 1", "item 2", "item 3"];
+import { notificationsData } from '../widgets/variables/notifications';
 
 export default class NavbarLinks extends Component {
   state = {
@@ -47,7 +46,7 @@ export default class NavbarLinks extends Component {
             aria-haspopup="true"
             onClick={this.handleToggle}>
             <NotificationsIcon />
-            <span className="notifications-number">{notifications.length}</span>
+            <span className="notifications-number">{notificationsData.length}</span>
             <Hidden mdUp implementation="css">
               <p onClick={this.handleClick}>|</p>
             </Hidden>
@@ -69,10 +68,10 @@ export default class NavbarLinks extends Component {
                     <Paper>
                         <ClickAwayListener onClickAway={this.handleClose}>
                             <MenuList role="menu">
-                              {notifications.map((notification, index) => {
+                              {notificationsData.map((notification, index) => {
                                 return (
                                   <MenuItem key={index} onClick={this.handleClose}>
-                                    {notification}
+                                    {notification.name}
                                   </MenuItem>
                                 )
                               })}

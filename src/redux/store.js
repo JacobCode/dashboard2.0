@@ -12,9 +12,10 @@ const store = createStore(
   initialState,
   compose(
     // Add middleware
-    applyMiddleware(...middleware),
-    // Chrome extension
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(...middleware)
+    // ,
+    // // Chrome extension
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 

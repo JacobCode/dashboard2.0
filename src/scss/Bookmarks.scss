@@ -1,0 +1,41 @@
+@import './variables';
+
+#bookmarks {
+    color: $darkGrey;
+    .header {
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            font-size: 1.5rem;
+        }
+    }
+    .url-bookmarks {
+        .bookmark {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            overflow: hidden;
+            &:hover {
+                svg {
+                    transform: translate3d(0, 0, 0);
+                }
+            }
+            a {
+                // text-decoration: none;
+                color: $primary;
+            }
+            svg {
+                cursor: pointer;
+                padding: 0.25rem;
+                fill: #ff4343;
+                padding: 0;
+                transition: all 0.3s ease-in-out;
+                transform: translate3d(50px, 0, 0);
+            }
+        }
+    }
+}

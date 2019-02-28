@@ -7,7 +7,8 @@ import '../../scss/Widgets.scss';
 import Tasks from './widgets/Tasks';
 import Calendar from './widgets/Calendar';
 import Bookmarks from './widgets/Bookmarks';
-import Graph from './widgets/Graph';
+import PieChart from './widgets/PieChart';
+import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
 
 export default class Main extends Component {
@@ -17,7 +18,8 @@ export default class Main extends Component {
                 <Tasks />
                 <Calendar />
                 <Bookmarks />
-                <Graph />
+                <PieChart />
+                <LineChart />
                 <Clock />
             </div>
         )

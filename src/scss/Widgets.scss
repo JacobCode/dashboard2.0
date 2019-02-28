@@ -1,23 +1,47 @@
 @import './variables';
 
 #widget-grid {
+    display: grid;
+    grid-gap: 1.5rem;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr;
     .widget {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
         background: white;
         padding: 1.5rem;
-        &#tasks {
+        min-width: 300px;
+        .chart-container {
             
+        }
+        &#tasks {
+            // grid-row: 1 / 2;
         }
         &#calendar {
-
+            // grid-row: 4 / 5;
         }
         &#bookmarks {
-            
+            // grid-row: 3 / 4;
         }
-        &#graph {
+        &#pie-chart {
+            // grid-row: 2 / 3;
+        }
+        &#line-chart {
+            // grid-row: 5 / 6;
         }
         &#clock {
-
+            // grid-row: 6 / 7;
         }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    #widget-grid {
+        
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #widget-grid {
+        grid-template-columns: 1fr;
     }
 }

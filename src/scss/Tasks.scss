@@ -1,0 +1,26 @@
+@import './variables';
+
+#tasks {
+    button[aria-selected="true"] {
+        color: white;
+    }
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            span {
+                background: none !important;
+            }
+        }
+        span {
+            background: white;
+        }
+        .tabs {
+
+        }
+    }
+    .task-content {
+    }
+}
