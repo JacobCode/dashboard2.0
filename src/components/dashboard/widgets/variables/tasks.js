@@ -1,24 +1,30 @@
 const bugsData = [
     {
-        title: 'Bug Title 1'
+        title: 'Fix horizontal scrolling view'
     },
     {
-        title: 'Bug Title 2'
+        title: 'Optimize images'
+    },
+    {
+        title: 'Fix navbar menu'
     }
 ];
 
 const websiteData = [
     {
-        title: 'Website Title 1'
+        title: 'Renew website certificate'
     },
     {
-        title: 'Website Title 2'
+        title: 'Deploy new website'
     }
 ];
 
 const serverData = [
     {
-        title: 'Server Title 1'
+        title: 'Update store database'
+    },
+    {
+        title: 'Add users table to database'
     }
 ];
 

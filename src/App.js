@@ -10,18 +10,34 @@ import './scss/reset.scss';
 import Login from './layouts/Login';
 import Dashboard from './layouts/Dashboard';
 
+import { createMuiTheme } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+    secondary: blueGrey,
+  },
+  typography: {
+    useNextVariants: true,
+  }
+});
+
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <div className="App">
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/dashboard" component={Dashboard} />
-              <Redirect from="/" to="/dashboard/main" />
-            </Switch>
-          </div>
+          <MuiThemeProvider theme={theme}>
+            <div className="App">
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/dashboard" component={Dashboard} />
+                <Redirect from="/" to="/dashboard/main" />
+              </Switch>
+            </div>
+          </MuiThemeProvider>
         </BrowserRouter>
       </Provider>
     );

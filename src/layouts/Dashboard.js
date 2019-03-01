@@ -49,13 +49,19 @@ export default class Dashboard extends Component {
             mobileOpen: !this.state.mobileOpen
         });
     };
+    closeDrawer = () => {
+        this.setState({
+            mobileOpen: false
+        })
+    }
     render() {
         return (
             <div id="dashboard">
                 <Sidebar routes={routes}
-                logoText={"Jacob Carver"}
+                logoText={"guest user"}
                 logo={logo}
                 handleDrawerToggle={this.handleDrawerToggle}
+                closeDrawer={this.closeDrawer}
                 open={this.state.mobileOpen} />
                 <div id="main-panel">
                     <Navbar handleDrawerToggle={this.handleDrawerToggle} />

@@ -2,36 +2,60 @@
 
 #widget-grid {
     display: grid;
-    grid-gap: 1.5rem;
-    grid-auto-flow: row;
-    grid-template-columns: 1fr;
+    grid-gap: 2.5rem;
+    // background: red;
     .widget {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
         background: white;
         padding: 1.5rem;
-        min-width: 300px;
-        max-width: 600px;
         .chart-container {
             
         }
         &#tasks {
-        }
-        &#calendar {
+            grid-row: 1 / 2;
+            grid-column: 1 / 6;
+            max-height: 350px;
         }
         &#bookmarks {
+            max-width: 500px;
+            max-height: 500px;
+            grid-row: 2 / 3;
+            grid-column: 4 / 8;
         }
         &#pie-chart {
+            max-width: 300px;
+            grid-row: 3 / 4;
+            grid-column: 1 / 4;
+            // grid-column-start: span 0;
         }
         &#line-chart {
+            max-width: 300px;
+            max-height: 150px;
+            grid-row: 3 / 4;
+            grid-column: 4 / 8;
         }
         // CALENDAR
         &#calendar {
             display: flex;
             align-items: center;
             justify-content: center;
+            max-width: 300px;
+            grid-row: 2 / 3;
+            grid-column: 1 / 4;
+            padding-top: 0.5rem;
             .picky-date-time.visible {
                 box-shadow: none;
                 padding: 0;
+                .picky-date-time-calendar__body-container.xs {
+                    height: 265px !important;
+                }
+                .picky-date-time-calendar__table-cel.today {
+                    color: $primary;
+                }
+                .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item {
+                    height: 30px;
+                    width: 30px;
+                }
                 // Hide default close button
                 .picky-date-time__close.picky-date-time-highlight_off {
                     display: none;
@@ -43,6 +67,7 @@
                 .picky-date-time-calendar {
                     // Header
                     .picky-date-time-calendar__header {
+                        margin-bottom: 0.5rem;
                         .picky-date-time__col.picky-date-time__col-6 {
                             &:hover {
                                 .picky-date-time-calendar__title-container {
@@ -53,11 +78,20 @@
                             }
                             span {
                                 color: $primary;
+                                font-size: 1.2rem;
                             }
+                        }
+                    }
+                    .picky-date-time-calendar__table-row {
+                        .picky-date-time-calendar__table-caption {
+                            font-family: Roboto,Helvetica,Arial,sans-serif !important;
                         }
                     }
                     // Content
                     .picky-date-time-calendar__content {
+                        .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item {
+                            font-family: Roboto,Helvetica,Arial,sans-serif !important;
+                        }
                         // All Days
                         .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item {
                             &:hover {
@@ -68,6 +102,7 @@
                         .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item.today.active {
                             color: white;
                             background: $primary;
+
                         }
                         // Disabled days
                         .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item.disabled {
@@ -86,14 +121,32 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            grid-row: 1 / 2;
+            grid-column: 6 / 7;
+            max-height: 150px;
+            max-width: 150px;
+            // grid-column: 9 / 12;
+            // Display Clock
             .picky-date-time.visible {
+                box-shadow: none;
+                max-height: 125px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
                 .picky-date-time-clock {
+                    // Clock circle
                     .picky-date-time-clock__circle {
-                        background: $lightGrey;
+                        background: none;
                         box-shadow: none;
+                        height: 125px;
+                        width: 125px;
+                        border: none;
+                        margin: 0 auto;
                         // Seconds hand
                         .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--second {
-                            background: $primary;
+                            background: #ff2b2b;
+                            width: 1px;
                         }
                         // Minute hand
                         .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--minute { 
@@ -106,7 +159,7 @@
                         }
                         // General minute indicators
                         .picky-date-time-clock__clock-minute {
-                            // display: none;
+                            display: none;
                         }
                         // Every other five minutes indicator
                         .picky-date-time-clock__clock-minute.picky-date-time-clock__clock-minute--five {
@@ -123,18 +176,113 @@
             .picky-date-time__close.picky-date-time-highlight_off {
                 display: none;
             }
+            // Display time and date
+            .time {
+                text-align: center;
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+                font-weight: 300;
+            }
+            .date {
+                text-align: center;
+                font-weight: 300;
+            }
+        }
+    }
+}
+
+// Big screens
+@media screen and (min-width: 1120px) {
+    #widget-grid {
+        .widget {
+            &#tasks {
+                grid-row: 1 / 3;
+                grid-column: 1 / 6;
+            }
+
+            &#bookmarks {
+                grid-row: 3 / 4;
+                grid-column: 2 / 6;
+            }
+
+            &#pie-chart {
+                grid-row: 4 / 5;
+                grid-column: 1 / 6;
+            }
+
+            &#line-chart {
+                grid-row: 1 / 2;
+                grid-column: 6 / 13;
+            }
+
+            &#calendar {
+                grid-row: 2 / 4;
+                grid-column: 6 / 13;
+            }
+
+            &#clock {
+                grid-row: 3 / 4;
+                grid-column: 1 / 2;
+                max-height: none;
+                max-width: none;
+            }
         }
     }
 }
 
 @media screen and (max-width: 960px) {
     #widget-grid {
-        
+        // background: green;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #widget-grid {
+        // background: pink;
+        grid-template-columns: 1fr;
+        .widget {
+            max-width: none !important;
+            &#tasks {
+                grid-row: 1 / 2;
+                grid-column: 1 / 2;
+            }
+
+            &#bookmarks {
+                grid-row: 6 / 7;
+                grid-column: 1 / 2;
+            }
+
+            &#pie-chart {
+                grid-row: 4 / 5;
+                grid-column: 1 / 2;
+            }
+
+            &#line-chart {
+                grid-row: 2 / 3;
+                grid-column: 1 / 2;
+            }
+
+            &#calendar {
+                grid-row: 5 / 6;
+                grid-column: 1 / 2;
+            }
+
+            &#clock {
+                grid-row: 3 / 4;
+                grid-column: 1 / 2;
+                max-width: 150px !important;
+                margin: 0 auto;
+            }
+        }
     }
 }
 
 @media screen and (max-width: 480px) {
     #widget-grid {
         grid-template-columns: 1fr;
+        .widget {
+            grid-column: 1 / 2;
+            max-width: none !important;
+        }
     }
 }

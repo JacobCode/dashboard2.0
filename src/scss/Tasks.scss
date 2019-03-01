@@ -1,6 +1,10 @@
 @import './variables';
 
+.tab-container {
+}
+
 #tasks {
+    max-width: 600px;
     button[aria-selected="true"] {
         color: white;
     }
@@ -22,5 +26,48 @@
         }
     }
     .task-content {
+        .task {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left {
+                display: flex;
+                align-items: center;
+                .title {
+                    cursor: pointer;
+                }
+            }
+            img {
+                height: 25px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+
+}
+@media screen and (max-width: 768px) {
+
+}
+@media screen and (max-width: 480px) {
+    #tasks {
+        header {
+            button {
+            }
+            span {
+            }
+            .tabs {}
+        }
+        .task-content {
+            .task {
+                .left {
+                    .title {}
+                }
+            }
+        }
     }
 }

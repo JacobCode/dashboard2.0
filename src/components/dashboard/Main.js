@@ -16,11 +16,11 @@ export default class Main extends Component {
         return (
             <div id="widget-grid">
                 <Tasks />
-                <Calendar />
-                <Bookmarks />
+                <Clock />
                 <PieChart />
                 <LineChart />
-                <Clock />
+                <Calendar />
+                <Bookmarks />
             </div>
         )
     }

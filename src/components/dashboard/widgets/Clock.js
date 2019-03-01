@@ -5,8 +5,37 @@ class Clock extends Component {
     constructor() {
         super();
         this.state = {
-            showPickyDateTime: true
+            showPickyDateTime: true,
+            time: '',
+            date: '',
+            days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         }
+        this.startTime = this.startTime.bind(this);
+        this.getDate = this.getDate.bind(this);
+    }
+    getDate() {
+        var d = new Date();
+        var weekDay = this.state.days[d.getDay() - 1];
+        var month = this.state.months[d.getMonth()];
+        var dayNum = d.getDate();
+        this.setState({ date: `${weekDay}, ${month} ${dayNum}` })
+    }
+    startTime() {
+        var d = new Date();
+        var hour = d.getHours();
+        var minute = d.getMinutes();
+        minute = this.checkTime(minute);
+        this.setState({ time: `${hour}:${minute}` })
+        var t = setTimeout(this.startTime, 500);
+    }
+    checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+    }
+    componentDidMount() {
+        this.startTime();
+        this.getDate();
     }
     render() {
         const { showPickyDateTime } = this.state
@@ -29,6 +58,12 @@ class Clock extends Component {
                 onResetTime={res => this.onResetTime(res)}
                 onClearTime={res => this.onClearTime(res)}
                 />
+                <div className="time">
+                    {this.state.time}
+                </div>
+                <div className="date">
+                    {this.state.date}
+                </div>
             </div>
         )
     }

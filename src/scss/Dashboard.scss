@@ -27,6 +27,7 @@
             span {
                 margin-left: 1rem;
                 color: black;
+                text-transform: capitalize;
             }
         }
     }
@@ -64,7 +65,7 @@
         max-height: 100%;
         background: $lightGrey;
         .content {
-            padding: 30px 15px;
+            padding: 1.5rem;
             min-height: calc(100vh - 123px);
         }
     }

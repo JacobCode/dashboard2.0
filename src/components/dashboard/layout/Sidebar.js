@@ -12,13 +12,13 @@ const Sidebar = ({ ...props }) => {
   //   return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   // }
 
-  const { logoText, routes } = props;
+  const { logoText, routes, closeDrawer } = props;
 
   var links = (
     <List id="sidebar-links">
       {routes.map((prop, key) => {
         return (
-          <NavLink
+          <NavLink onClick={closeDrawer}
             to={prop.dir + prop.path}
             activeClassName="active"
             key={key}>

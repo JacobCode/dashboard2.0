@@ -8,6 +8,15 @@ class Calendar extends Component {
             showPickyDateTime: true
         }
     }
+    onYearPicked(res) {
+        console.log(res.year)
+    }
+    onMonthPicked(res) {
+        console.log(res);
+    }
+    onDatePicked(res) {
+        console.log(res);
+    }
     render() {
         const { showPickyDateTime } = this.state
         return (
