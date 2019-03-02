@@ -5,12 +5,13 @@ class Clock extends Component {
     constructor() {
         super();
         this.state = {
-            showPickyDateTime: true,
+            showPickyDateTime: false,
             time: '',
             date: '',
             days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         }
+        this._isMounted = false;
         this.startTime = this.startTime.bind(this);
         this.getDate = this.getDate.bind(this);
     }
@@ -27,7 +28,7 @@ class Clock extends Component {
         var minute = d.getMinutes();
         minute = this.checkTime(minute);
         this.setState({ time: `${hour}:${minute}` })
-        var t = setTimeout(this.startTime, 500);
+        setTimeout(this.startTime, 500);
     }
     checkTime(i) {
         if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
@@ -36,6 +37,9 @@ class Clock extends Component {
     componentDidMount() {
         this.startTime();
         this.getDate();
+    }
+    componentWillMount() {
+        this.setState({ showPickyDateTime: true })
     }
     render() {
         const { showPickyDateTime } = this.state

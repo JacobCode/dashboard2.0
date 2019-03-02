@@ -57,6 +57,7 @@ const Sidebar = ({ ...props }) => {
     
       <Hidden mdUp implementation="css">
         <Drawer
+          id="sidebar1"
           variant="temporary"
           anchor="left"
           open={props.open}
@@ -74,6 +75,7 @@ const Sidebar = ({ ...props }) => {
 
       <Hidden smDown implementation="css">
         <Drawer
+          id="sidebar2"
           anchor="left"
           variant="permanent"
           open>

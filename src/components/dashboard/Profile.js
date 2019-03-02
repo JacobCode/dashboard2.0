@@ -75,7 +75,9 @@ export default class DashboardView extends Component {
                         type="email"
                         required
                         />
-                        <Button type="submit" color="primary" variant="contained">Submit</Button>
+                        <div className="button-container">
+                            <Button type="submit" color="primary" variant="contained">Submit</Button>
+                        </div>
                     </form>
                 </div>
                 <div className="profile-card">

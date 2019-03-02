@@ -3,10 +3,8 @@
 #navbar {
     position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    &.MuiAppBar-colorPrimary-98 {
-        box-shadow: none;
-        background: none;
-    }
+    background: $lightGrey !important;
+    box-shadow: none !important;
     div[role="tooltip"] {
         right: 1.5rem;
     }
@@ -23,8 +21,8 @@
                     background: none;
                 }
             }
-            color: $darkGrey;
             text-transform: capitalize !important;
+            color: $darkGrey;
         }
         #links {
             display: flex;

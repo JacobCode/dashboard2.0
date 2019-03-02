@@ -1,7 +1,9 @@
 @import './variables';
 
 .MuiPaper-root-30.MuiPaper-elevation0-32.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19.MuiDrawer-paperAnchorDockedLeft-23, 
-.MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19 {
+.MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19,
+.jss30.jss48.jss18.jss19,
+.jss30.jss32.jss18.jss19.jss23 {
     width: 220px;
     height: 100%;
     position: fixed;
@@ -40,9 +42,6 @@
         }
     }
 
-}
-.MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19 {
-    width: 190px;
 }
 
 #dashboard {

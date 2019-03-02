@@ -33,7 +33,9 @@ class App extends Component {
             <div className="App">
               <Switch>
                 <Route path="/login" component={Login} />
-                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/dashboard/main" component={Dashboard} />
+                <Route path="/dashboard/profile" component={Dashboard} />
+                <Route path="/dashboard/notifications" component={Dashboard} />
                 <Redirect from="/" to="/dashboard/main" />
               </Switch>
             </div>
