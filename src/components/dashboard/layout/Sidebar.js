@@ -44,9 +44,6 @@ const Sidebar = ({ ...props }) => {
   var brand = (
     <div id="sidebar-brand">
       <a href="https://jacobcode.github.io/portfolio/">
-        <div className="user-icon">
-            {logoText.charAt(0).toUpperCase()}
-        </div>
         <span>{logoText}</span>
       </a>
     </div>

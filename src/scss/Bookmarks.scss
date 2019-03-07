@@ -7,34 +7,55 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        cursor: default;
         .title {
             font-size: 1.5rem;
+        }
+        svg {
+            cursor: copy;
+        }
+    }
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-top: -0.925rem;
+        .input {
+            margin-right: 0.5rem;
+            max-width: 100px;
+            div {
+                margin-bottom: 1rem;
+            }
+        }
+        button {
+            background: rgb(47, 175, 64);
+            min-width: 30px !important;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span {
+                padding: 0;
+                margin: 0;
+            }
         }
     }
     .url-bookmarks {
         .bookmark {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: 0.5rem;
             padding: 0.5rem 0;
             overflow: hidden;
-            &:hover {
-                svg {
-                    transform: translate3d(0, 0, 0);
-                }
-            }
             a {
-                // text-decoration: none;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                text-decoration: none;
                 color: $primary;
             }
-            svg {
-                cursor: pointer;
-                padding: 0.25rem;
-                fill: #ff4343;
-                padding: 0;
-                transition: all 0.3s ease-in-out;
-                transform: translate3d(50px, 0, 0);
+            img {
+                height: 25px;
+                width: 25px;
             }
         }
     }

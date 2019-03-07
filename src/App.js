@@ -32,10 +32,11 @@ class App extends Component {
           <MuiThemeProvider theme={theme}>
             <div className="App">
               <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/dashboard/main" component={Dashboard} />
-                <Route path="/dashboard/profile" component={Dashboard} />
-                <Route path="/dashboard/notifications" component={Dashboard} />
+                <Route path="/login" component={Login} exact />
+                <Route path="/dashboard/main" component={Dashboard} exact />
+                <Route path="/dashboard" component={Dashboard} exact />
+                <Route path="/dashboard/profile" component={Dashboard} exact />
+                <Route path="/dashboard/notifications" component={Dashboard} exact />
                 <Redirect from="/" to="/dashboard/main" />
               </Switch>
             </div>

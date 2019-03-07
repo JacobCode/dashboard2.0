@@ -48,6 +48,7 @@ export default class DashboardView extends Component {
                     <h1>Edit Profile</h1>
                     <form onSubmit={this.handleSubmit}>
                         <TextField
+                        error
                         label="Username"
                         defaultValue="@guestuser"
                         InputProps={{

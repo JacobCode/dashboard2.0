@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
+
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Grow from "@material-ui/core/Grow";
@@ -18,6 +20,7 @@ export default class NavbarLinks extends Component {
   };
   handleToggle = () => {
     this.setState(state => ({ open: !state.open }));
+    console.log('toggle');
   };
 
   handleClose = event => {
@@ -30,7 +33,7 @@ export default class NavbarLinks extends Component {
       <div id="links">
 
         {/* Dashboard */}
-        <a href="/dashboard/main">
+        <Link to="/dashboard/main">
           <Button
           aria-label="Dashboard">
             <DashboardIcon />
@@ -38,7 +41,7 @@ export default class NavbarLinks extends Component {
               <p>|</p>
             </Hidden>
           </Button>
-        </a>
+        </Link>
 
         {/* Notifications */}
         <div>
@@ -73,7 +76,7 @@ export default class NavbarLinks extends Component {
                               {notificationsData.length === 0 ? <MenuItem>No Notifications</MenuItem> : notificationsData.map((notification, index) => {
                                 return (
                                   <MenuItem className="notification-item" key={index} onClick={this.handleClose}>
-                                    <a href={`/dashboard/notifications/#${notification.type}`}>{notification.name}</a>
+                                    <Link to={`/dashboard/notifications/#${notification.type}`}>{notification.name}</Link>
                                   </MenuItem>
                                 )
                               })}
@@ -86,12 +89,12 @@ export default class NavbarLinks extends Component {
         </div>
 
         {/* Profile */}
-        <a href="/dashboard/profile">
+        <Link to="/dashboard/profile">
           <Button
           aria-label="Person">
             <Person />
           </Button>
-        </a>
+        </Link>
 
       </div>
     );

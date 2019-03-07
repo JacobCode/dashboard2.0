@@ -8,16 +8,15 @@ class Clock extends Component {
             showPickyDateTime: false,
             time: '',
             date: '',
-            days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         }
-        this._isMounted = false;
         this.startTime = this.startTime.bind(this);
         this.getDate = this.getDate.bind(this);
     }
     getDate() {
         var d = new Date();
-        var weekDay = this.state.days[d.getDay() - 1];
+        var weekDay = this.state.days[d.getDay()];
         var month = this.state.months[d.getMonth()];
         var dayNum = d.getDate();
         this.setState({ date: `${weekDay}, ${month} ${dayNum}` })
@@ -26,23 +25,24 @@ class Clock extends Component {
         var d = new Date();
         var hour = d.getHours();
         var minute = d.getMinutes();
-        minute = this.checkTime(minute);
+        if (hour > 12) {
+            hour = d.getHours() - 12;
+        }
+        if (minute < 10) {
+            minute = `0${minute}`
+        }
         this.setState({ time: `${hour}:${minute}` })
         setTimeout(this.startTime, 500);
     }
-    checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
-    }
     componentDidMount() {
-        this.startTime();
         this.getDate();
+        this.startTime();
     }
     componentWillMount() {
         this.setState({ showPickyDateTime: true })
     }
     render() {
-        const { showPickyDateTime } = this.state
+        const { showPickyDateTime, time, date } = this.state
         return (
             <div id="clock" className="widget">
                 <PickyDateTime
@@ -51,22 +51,13 @@ class Clock extends Component {
                 show={showPickyDateTime}
                 locale="en-us"
                 onClose={() => this.setState({ showPickyDateTime: false })}
-                onYearPicked={res => this.onYearPicked(res)}
-                onMonthPicked={res => this.onMonthPicked(res)}
-                onDatePicked={res => this.onDatePicked(res)}
-                onResetDate={res => this.onResetDate(res)}
-                onSecondChange={res => this.onSecondChange(res)}
-                onMinuteChange={res => this.onMinuteChange(res)}
-                onHourChange={res => this.onHourChange(res)}
-                onMeridiemChange={res => this.onMeridiemChange(res)}
                 onResetTime={res => this.onResetTime(res)}
-                onClearTime={res => this.onClearTime(res)}
                 />
                 <div className="time">
-                    {this.state.time}
+                    {time}
                 </div>
                 <div className="date">
-                    {this.state.date}
+                    {date}
                 </div>
             </div>
         )

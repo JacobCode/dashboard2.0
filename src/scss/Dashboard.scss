@@ -4,7 +4,7 @@
 .MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19,
 .jss30.jss48.jss18.jss19,
 .jss30.jss32.jss18.jss19.jss23 {
-    width: 220px;
+    width: 190px;
     height: 100%;
     position: fixed;
     border: none;
@@ -16,19 +16,9 @@
             text-decoration: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0.08);
             min-height: 64px;
-            div.user-icon {
-                background: $primary;
-                height: 50px;
-                width: 50px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-            }
+            background: $primary;
             span {
-                margin-left: 1rem;
-                color: black;
+                color: white;
                 text-transform: capitalize;
             }
         }
@@ -54,7 +44,7 @@
     
     #main-panel {
         float: right;
-        width: calc(100% - 220px);
+        width: calc(100% - 190px);
         overflow-y: scroll;
         /* has to be scroll, not auto */
         -webkit-overflow-scrolling: touch;
@@ -91,9 +81,6 @@
         #sidebar-brand {
             a {
                 min-height: 56px;
-                span {
-                    display: none;
-                }
             }
         }
     }
