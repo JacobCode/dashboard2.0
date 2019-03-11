@@ -40,6 +40,17 @@ class Bookmarks extends Component {
     }
     addBookmark(e) {
         e.preventDefault();
+        const arr = this.state.bookmarksData;
+        const newBookmark = {
+            name: this.state.name,
+            url: this.state.url
+        }
+        arr.push(newBookmark);
+        this.setState({
+            bookmarksData: arr
+        })
+
+        this.toggleForm();
         e.target.reset();
     }
     render() {
@@ -73,7 +84,7 @@ class Bookmarks extends Component {
                 }
                 <div className="url-bookmarks">
                     {/* If there are no bookmarks, display No Bookmarks */}
-                    {bookmarksData.length === 0 ? 'No Bookmarks' : bookmarksData.map((bookmark, index) => {
+                    {this.state.bookmarksData.length === 0 ? 'No Bookmarks' : bookmarksData.map((bookmark, index) => {
                         return (
                             <div key={index} data-id={bookmark.id} className="bookmark">
                                 <a href={bookmark.url}>

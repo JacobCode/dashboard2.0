@@ -32,7 +32,12 @@
                     span {
                         display: flex;
                         align-items: center;
-                        justify-content: center;
+                        &.ct-vertical {
+                            margin-left: 1rem;
+                        }
+                        &.ct-horizontal {
+                            margin-left: -0.25rem;
+                        }
                     }
                 }
                 .ct-label {

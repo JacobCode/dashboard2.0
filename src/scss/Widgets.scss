@@ -17,8 +17,11 @@
             max-height: 350px;
         }
         &#bookmarks {
-            max-width: 500px;
-            max-height: 500px;
+            height: 250px;
+            max-height: 250px;
+            margin: 0 auto;
+            overflow: scroll;
+            min-width: 275px;
             grid-row: 2 / 3;
             grid-column: 4 / 8;
         }
@@ -40,6 +43,7 @@
             align-items: center;
             justify-content: center;
             max-width: 300px;
+            max-height: 350px;
             grid-row: 2 / 3;
             grid-column: 1 / 4;
             padding-top: 0.5rem;
@@ -123,8 +127,8 @@
             justify-content: center;
             grid-row: 1 / 2;
             grid-column: 6 / 7;
-            max-height: 150px;
-            max-width: 150px;
+            height: 150px;
+            width: 150px;
             // grid-column: 9 / 12;
             // Display Clock
             .picky-date-time.visible {
@@ -248,7 +252,7 @@
             }
 
             &#bookmarks {
-                grid-row: 6 / 7;
+                grid-row: 5 / 6;
                 grid-column: 1 / 2;
             }
 
@@ -263,7 +267,7 @@
             }
 
             &#calendar {
-                grid-row: 5 / 6;
+                grid-row: 4 / 5;
                 grid-column: 1 / 2;
             }
 

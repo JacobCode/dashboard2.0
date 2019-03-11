@@ -19,7 +19,7 @@ const Sidebar = ({ ...props }) => {
       {routes.map((prop, key) => {
         return (
           <NavLink onClick={closeDrawer}
-            to={prop.dir + prop.path}
+            to={prop.path}
             activeClassName="active"
             key={key}>
             <ListItem button>

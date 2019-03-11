@@ -2,32 +2,26 @@ const notificationsData = [
     {
         id: 1,
         type: 'work',
-        name: 'Fix routing system',
+        name: 'Notification 1',
         date: '2/13',
     },
     {
         id: 2,
         type: 'school',
-        name: 'Finish thesis essay',
+        name: 'Notification 2',
         date: '2/19',
     },
     {
         id: 3,
-        type: 'school',
-        name: 'Start algorithms project',
+        type: 'personal',
+        name: 'Notification 3',
         date: '2/27',
     },
     {
         id: 4,
-        type: 'personal',
-        name: 'Setup portfolio',
-        date: '3/01',
-    },
-    {
-        id: 5,
-        type: 'work',
-        name: 'Setup database',
-        date: new Date(),
+        type: 'school',
+        name: 'Notification 4',
+        date: '3/06',
     }
 ]
 

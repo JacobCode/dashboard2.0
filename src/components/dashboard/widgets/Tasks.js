@@ -46,6 +46,9 @@ class Tasks extends Component {
             value
         });
     };
+    deleteTask(e) {
+        e.target.parentElement.style.display = 'none'
+    }
     render() {
         const { value, checkedBoxes } = this.state;
         // Task Variables
@@ -61,7 +64,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={this.deleteTask} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -77,7 +80,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={this.deleteTask} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -93,7 +96,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={this.deleteTask} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });

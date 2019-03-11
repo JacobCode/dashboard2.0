@@ -11,21 +11,21 @@ import Notifications from './components/dashboard/Notifications';
 
 const dashboardRoutes = [
     {
-        dir: "/dashboard",
+        dir: "/",
         path: "/main",
         name: "Dashboard",
         icon: DashboardIcon,
         component: DashboardView
     },
     {
-        dir: "/dashboard",
+        dir: "/",
         path: "/profile",
         name: "Edit Profile",
         icon: PersonIcon,
         component: Profile
     },
     {
-        dir: "/dashboard",
+        dir: "/",
         path: "/notifications",
         name: "Notifications",
         icon: NotificationsIcon,

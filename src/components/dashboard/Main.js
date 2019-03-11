@@ -7,7 +7,7 @@ import '../../scss/Widgets.scss';
 import Tasks from './widgets/Tasks';
 import Calendar from './widgets/Calendar';
 import Bookmarks from './widgets/Bookmarks';
-import PieChart from './widgets/PieChart';
+// import PieChart from './widgets/PieChart';
 import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
 
@@ -17,7 +17,6 @@ export default class Main extends Component {
             <div id="widget-grid">
                 <Tasks />
                 <Clock />
-                <PieChart />
                 <LineChart />
                 <Calendar />
                 <Bookmarks />

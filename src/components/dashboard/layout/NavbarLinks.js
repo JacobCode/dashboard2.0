@@ -33,7 +33,7 @@ export default class NavbarLinks extends Component {
       <div id="links">
 
         {/* Dashboard */}
-        <Link to="/dashboard/main">
+        <Link to="/main">
           <Button
           aria-label="Dashboard">
             <DashboardIcon />
@@ -76,7 +76,7 @@ export default class NavbarLinks extends Component {
                               {notificationsData.length === 0 ? <MenuItem>No Notifications</MenuItem> : notificationsData.map((notification, index) => {
                                 return (
                                   <MenuItem className="notification-item" key={index} onClick={this.handleClose}>
-                                    <Link to={`/dashboard/notifications/#${notification.type}`}>{notification.name}</Link>
+                                    <Link to={`/notifications/#${notification.type}`}>{notification.name}</Link>
                                   </MenuItem>
                                 )
                               })}
@@ -89,7 +89,7 @@ export default class NavbarLinks extends Component {
         </div>
 
         {/* Profile */}
-        <Link to="/dashboard/profile">
+        <Link to="/main">
           <Button
           aria-label="Person">
             <Person />

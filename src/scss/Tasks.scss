@@ -13,6 +13,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 0.5rem;
         button {
             span {
                 background: none !important;
@@ -26,6 +27,9 @@
         }
     }
     .task-content {
+        min-height: 250px;
+        max-height: 250px;
+        overflow: scroll;
         .task {
             border-bottom: 1px solid rgba(0, 0, 0, 0.08);
             margin-bottom: 0.5rem;
@@ -42,6 +46,10 @@
             }
             img {
                 height: 25px;
+                cursor: pointer;
+                border: 1px solid red;
+                border-radius: 50%;
+                margin-right: 1rem;
             }
         }
     }
