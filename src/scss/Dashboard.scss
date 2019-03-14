@@ -1,7 +1,6 @@
 @import './variables';
 
-.MuiPaper-root-30.MuiPaper-elevation0-32.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19.MuiDrawer-paperAnchorDockedLeft-23, 
-.MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19,
+.MuiDrawer-paperAnchorLeft-19,
 .jss30.jss48.jss18.jss19,
 .jss30.jss32.jss18.jss19.jss23 {
     width: 190px;
@@ -31,11 +30,11 @@
             div[role="button"] {
                 color: $darkGrey;
             }
-            &[aria-current="page"] {
-                div {
-                    border-left: 5px solid $primary;
-                }
-            }
+            // &[aria-current="page"] {
+            //     div {
+            //         border-left: 5px solid $primary;
+            //     }
+            // }
             div {
                 border-left: 0px solid transparent;
                 transition: all 0.4s ease-in-out;

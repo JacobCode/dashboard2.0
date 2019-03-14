@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import BookmarkIcon from "@material-ui/icons/NoteAdd";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { bookmarksData } from '../widgets/variables/bookmarks';
+// import { bookmarks } from '../widgets/variables/bookmarks';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';
@@ -13,7 +15,6 @@ class Bookmarks extends Component {
     constructor() {
         super();
         this.state = {
-            bookmarksData: bookmarksData,
             showBookmarkForm: false,
             name: '',
             url: ''
@@ -40,20 +41,9 @@ class Bookmarks extends Component {
     }
     addBookmark(e) {
         e.preventDefault();
-        const arr = this.state.bookmarksData;
-        const newBookmark = {
-            name: this.state.name,
-            url: this.state.url
-        }
-        arr.push(newBookmark);
-        this.setState({
-            bookmarksData: arr
-        })
-
-        this.toggleForm();
-        e.target.reset();
     }
     render() {
+        const { bookmarks } = this.props;
         return (
             <div id="bookmarks" className="widget">
                 {this.state.showBookmarkForm === false ?
@@ -84,7 +74,7 @@ class Bookmarks extends Component {
                 }
                 <div className="url-bookmarks">
                     {/* If there are no bookmarks, display No Bookmarks */}
-                    {this.state.bookmarksData.length === 0 ? 'No Bookmarks' : bookmarksData.map((bookmark, index) => {
+                    {bookmarks.length === 0 ? 'No Bookmarks' : bookmarks.map((bookmark, index) => {
                         return (
                             <div key={index} data-id={bookmark.id} className="bookmark">
                                 <a href={bookmark.url}>
@@ -100,4 +90,12 @@ class Bookmarks extends Component {
     }
 }
 
-export default Bookmarks;
+Bookmarks.propTypes = {
+    bookmarks: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = state => ({
+    bookmarks: state.siteData.bookmarks
+});
+
+export default connect(mapStateToProps)(Bookmarks);

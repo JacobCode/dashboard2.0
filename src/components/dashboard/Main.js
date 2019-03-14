@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Fade from '@material-ui/core/Fade';
+
 // SCSS
 import '../../scss/Widgets.scss';
 
@@ -12,15 +14,25 @@ import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
 
 export default class Main extends Component {
+    componentWillUnmount() {
+        this.props.startLoading();
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            this.props.stopLoading();
+        }, 1000)
+    }
     render() {
         return (
-            <div id="widget-grid">
-                <Tasks />
-                <Clock />
-                <LineChart />
-                <Calendar />
-                <Bookmarks />
-            </div>
+            <Fade in={true}>
+                <div id="widget-grid">
+                    <Tasks />
+                    <Clock />
+                    <LineChart />
+                    <Calendar />
+                    <Bookmarks />
+                </div>
+            </Fade>
         )
     }
 }

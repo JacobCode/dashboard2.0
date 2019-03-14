@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import { bugsData, websiteData, serverData } from '../widgets/variables/tasks';
-
 import deleteIcon from '../../../images/delete-icon.svg';
 
 // SCSS
 import '../../../scss/Tasks.scss';
 
-function TabContainer(props) {
+const TabContainer = (props) => {
     return (
         <Typography component="div" style={{ padding: 8 * 3 }}>
             {props.children}
@@ -51,6 +51,10 @@ class Tasks extends Component {
     }
     render() {
         const { value, checkedBoxes } = this.state;
+        const { tasks } = this.props;
+        const bugsData = tasks.bugsData;
+        const websiteData = tasks.websiteData;
+        const serverData = tasks.serverData;
         // Task Variables
         const bugs = bugsData.map((task, i) => {
             return (
@@ -132,4 +136,12 @@ class Tasks extends Component {
     }
 }
 
-export default Tasks;
+Tasks.propTypes = {
+    tasks: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+    tasks: state.siteData.tasks
+});
+
+export default connect(mapStateToProps)(Tasks);

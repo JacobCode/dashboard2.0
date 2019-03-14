@@ -1,5 +1,8 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
@@ -12,7 +15,7 @@ const Sidebar = ({ ...props }) => {
   //   return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   // }
 
-  const { logoText, routes, closeDrawer } = props;
+  const { routes, closeDrawer, user_info } = props;
 
   var links = (
     <List id="sidebar-links">
@@ -44,7 +47,7 @@ const Sidebar = ({ ...props }) => {
   var brand = (
     <div id="sidebar-brand">
       <a href="https://jacobcode.github.io/portfolio/">
-        <span>{logoText}</span>
+        <span>{`${user_info.first_name} ${user_info.last_name}`}</span>
       </a>
     </div>
   );
@@ -85,4 +88,12 @@ const Sidebar = ({ ...props }) => {
   );
 };
 
-export default Sidebar;
+Sidebar.propTypes = {
+  user_info: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  user_info: state.siteData.user_info
+});
+
+export default connect(mapStateToProps)(Sidebar);
