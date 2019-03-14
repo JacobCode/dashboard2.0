@@ -2,7 +2,7 @@
 
 #widget-grid {
     display: grid;
-    grid-gap: 2.5rem;
+    grid-gap: 2rem;
     // background: red;
     .widget {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
@@ -127,30 +127,30 @@
             justify-content: center;
             grid-row: 1 / 2;
             grid-column: 6 / 7;
-            height: 150px;
-            width: 150px;
+            height: 250px;
+            width: 250px;
             // grid-column: 9 / 12;
             // Display Clock
             .picky-date-time.visible {
                 box-shadow: none;
-                max-height: 125px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 padding: 0;
                 .picky-date-time-clock {
+                    margin-bottom: 1rem;
                     // Clock circle
                     .picky-date-time-clock__circle {
                         background: none;
                         box-shadow: none;
-                        height: 125px;
-                        width: 125px;
+                        height: 100px;
+                        width: 100px;
                         border: none;
                         margin: 0 auto;
                         // Seconds hand
                         .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--second {
-                            background: #ff2b2b;
-                            width: 1px;
+                            background: $secondary;
+                            width: 2px;
                         }
                         // Minute hand
                         .picky-date-time-clock__clock-hand.picky-date-time-clock__clock-hand--minute { 
@@ -160,10 +160,11 @@
                         }
                         // 12, 3, 6, 9 hour indicators
                         .picky-date-time-clock__clock-minute--five.picky-date-time-clock__clock-minute--quarter {
+                            background: $secondary;
                         }
                         // General minute indicators
                         .picky-date-time-clock__clock-minute {
-                            display: none;
+                            // display: none;
                         }
                         // Every other five minutes indicator
                         .picky-date-time-clock__clock-minute.picky-date-time-clock__clock-minute--five {
@@ -274,7 +275,6 @@
             &#clock {
                 grid-row: 3 / 4;
                 grid-column: 1 / 2;
-                max-width: 150px !important;
                 margin: 0 auto;
             }
         }

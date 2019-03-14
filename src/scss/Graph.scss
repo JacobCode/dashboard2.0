@@ -1,32 +1,36 @@
 @import './variables';
 
 #pie-chart, #line-chart {
-    background: $primary !important;
+    // background: $secondary !important;
     .chart-container {
         max-width: 300px;
         margin: 0 auto;
         // Line Chart
         .ct-chart {
             .ct-grid {
-                stroke: rgba(255, 255, 255, 0.2);
+                stroke: rgba(0, 0, 0, 0.2);
                 stroke-width: 1px;
                 stroke-dasharray: 2px;
             }
             .ct-series {
                 .ct-line {
-                    stroke: rgba(255, 255, 255, 0.8);
+                    stroke: $primary;
                     stroke-width: 4px;
                     fill: none;
                 }
                 .ct-point {
-                    stroke: rgba(255, 255, 255, 0.8);
+                    stroke: $primary;
                     stroke-width: 10px;
                     stroke-linecap: round;
+                }
+                .ct-area {
+                    fill: $primary;
+                    opacity: 0.3;
                 }
             }
             .ct-labels {
                 span {
-                    color: rgba(255, 255, 255, 0.39);
+                    color: $darkGrey;
                 }
                 foreignObject {
                     span {
@@ -36,37 +40,12 @@
                             margin-left: 1rem;
                         }
                         &.ct-horizontal {
-                            margin-left: -0.25rem;
                         }
                     }
                 }
                 .ct-label {
                     font-size: 0.825rem;
                     &.ct-vertical {
-                    }
-                }
-            }
-        }
-        // Pie Chart
-        .ct-chart.ct-chart.ct-golden-section.ct-negative-labels {
-            text {
-                fill: white;
-                font-weight: 300;
-            }
-            .ct-series {
-                &.ct-series-a {
-                    .ct-slice-pie {
-                        fill: #64b5f6;
-                    }
-                }
-                &.ct-series-b {
-                    .ct-slice-pie {
-                        fill: #90caf9;
-                    }
-                }
-                &.ct-series-c {
-                    .ct-slice-pie {
-                        fill: #bbdefb;
                     }
                 }
             }

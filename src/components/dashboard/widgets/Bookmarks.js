@@ -6,16 +6,17 @@ import BookmarkIcon from "@material-ui/icons/NoteAdd";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-// import { bookmarks } from '../widgets/variables/bookmarks';
+import { addBookmark, deleteBookmark } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';
 
 class Bookmarks extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             showBookmarkForm: false,
+            bookmarks: props.bookmarks,
             name: '',
             url: ''
         }
@@ -41,6 +42,11 @@ class Bookmarks extends Component {
     }
     addBookmark(e) {
         e.preventDefault();
+        const bookmark = {
+            url: this.state.url,
+            name: this.state.name
+        }
+        this.props.addBookmark([...this.state.bookmarks, bookmark]);
     }
     render() {
         const { bookmarks } = this.props;
@@ -91,6 +97,7 @@ class Bookmarks extends Component {
 }
 
 Bookmarks.propTypes = {
+    addBookmark: PropTypes.func.isRequired,
     bookmarks: PropTypes.array.isRequired,
 };
 
@@ -98,4 +105,4 @@ const mapStateToProps = state => ({
     bookmarks: state.siteData.bookmarks
 });
 
-export default connect(mapStateToProps)(Bookmarks);
+export default connect(mapStateToProps, { addBookmark })(Bookmarks);

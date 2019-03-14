@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ChartistGraph from "react-chartist";
 
 // Charts
-import { dailySalesChart } from './variables/charts';
+import { dailySalesChart, lineChart } from './variables/charts';
 
 // SCSS
 import '../../../scss/Graph.scss';
@@ -14,10 +14,10 @@ class LineChart extends Component {
                 <div className="chart-container">
                     <ChartistGraph
                     className="ct-chart"
-                    data={dailySalesChart.data}
+                    data={lineChart.data}
                     type="Line"
-                    options={dailySalesChart.options}
-                    listener={dailySalesChart.animation}
+                    options={lineChart.options}
+                    listener={lineChart.animation}
                     />
                 </div>
             </div>

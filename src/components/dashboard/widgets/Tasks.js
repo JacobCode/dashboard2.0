@@ -9,6 +9,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
 import deleteIcon from '../../../images/delete-icon.svg';
+import { addTask, deleteTask } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Tasks.scss';
@@ -21,18 +22,30 @@ const TabContainer = (props) => {
     );
 }
 
+const NoTasks = (props) => {
+    return (
+        <div className="no-tasks">
+            {`No ${props.type} tasks`}
+        </div>
+    )
+}
+
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
 class Tasks extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             value: 0,
+            bugsData: props.tasks.bugsData,
+            websiteData: props.tasks.websiteData,
+            serverData: props.tasks.serverData,
             checkedBoxes: []
         }
         this.handleCheck = this.handleCheck.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
     };
     handleCheck(e, x) {
         this.setState(state => ({
@@ -41,34 +54,37 @@ class Tasks extends Component {
                 [...state.checkedBoxes, x]
         }));
     }
-    handleChange = (event, value) => {
-        this.setState({
-            value
-        });
+    handleChange = (e, value) => {
+        this.setState({ value });
     };
-    deleteTask(e) {
-        e.target.parentElement.style.display = 'none'
+    deleteTask(e, id, type) {
+        var arr;
+        if (type === 'bug') {
+            arr = this.state.bugsData;
+        } else if (type === 'website') {
+            arr = this.state.websiteData;
+        } else {
+            arr = this.state.serverData;
+        }
+        this.props.deleteTask(arr.splice(id, 1));
+        e.target.parentElement.style.display = 'none';
     }
     render() {
-        const { value, checkedBoxes } = this.state;
-        const { tasks } = this.props;
-        const bugsData = tasks.bugsData;
-        const websiteData = tasks.websiteData;
-        const serverData = tasks.serverData;
+        const { value, checkedBoxes, bugsData, websiteData, serverData } = this.state;
         // Task Variables
         const bugs = bugsData.map((task, i) => {
             return (
                 <div key={i} className="task">
                     <div className="left">
                         <Checkbox
-                        color="primary"
+                        color="secondary"
                         label={task.title}
                         onChange={e => this.handleCheck(e,task)}
                         checked={checkedBoxes.includes(task)}
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={this.deleteTask} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e,i,task.type)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -77,14 +93,14 @@ class Tasks extends Component {
                 <div key={i} className="task">
                     <div className="left">
                         <Checkbox
-                        color="primary"
+                        color="secondary"
                         label={task.title}
                         onChange={e => this.handleCheck(e,task)}
                         checked={checkedBoxes.includes(task)}
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={this.deleteTask} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e,i,task.type)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -93,20 +109,20 @@ class Tasks extends Component {
                 <div key={i} className="task">
                     <div className="left">
                         <Checkbox
-                        color="primary"
+                        color="secondary"
                         label={task.title}
                         onChange={e => this.handleCheck(e,task)}
                         checked={checkedBoxes.includes(task)}
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={this.deleteTask} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e,i,task.type)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
         return (
             <div id="tasks" className="widget">
-                <AppBar position="static">
+                <AppBar position="static" color="secondary">
                     <Tabs className="tabs" value={value} onChange={this.handleChange}>
                         <Tab label="Bugs" />
                         <Tab label="Website" />
@@ -114,29 +130,18 @@ class Tasks extends Component {
                     </Tabs>
                 </AppBar>
                 <div className="task-content">
-                    {value === 0 && <div className="tab-container">{bugsData.length === 0 ? 'No Bug Tasks' : bugs}</div>}
-                    {value === 1 && <div className="tab-container">{websiteData.length === 0 ? 'No Website Tasks' : websites}</div>}
-                    {value === 2 && <div className="tab-container">{serverData.length === 0 ? 'No Server Tasks' : servers}</div>}
+                    {value === 0 && <div className="tab-container">{bugsData.length === 0 ? <NoTasks type="bug" /> : bugs}</div>}
+                    {value === 1 && <div className="tab-container">{websiteData.length === 0 ? <NoTasks type="website" /> : websites}</div>}
+                    {value === 2 && <div className="tab-container">{serverData.length === 0 ? <NoTasks type="server" /> : servers}</div>}
                 </div>
-                    {/* <Checkbox
-                    label='hey'
-                    onChange={e => this.handleCheck(e)}
-                    checked={this.state}
-                    /> */}
-                    {/* { bugsData.map(x =>
-                        <Checkbox
-                        label={x.title} key={x.title.toString()}
-                        onChange={e => this.handleCheck(e,x)}
-                        checked={this.state.checkedBoxes.includes(x)}
-                        />
-                    )}} */}
-                {/* )}} */}
             </div>
         )
     }
 }
 
 Tasks.propTypes = {
+    addTask: PropTypes.func.isRequired,
+    deleteTask: PropTypes.func.isRequired,
     tasks: PropTypes.object.isRequired,
 };
 
@@ -144,4 +149,4 @@ const mapStateToProps = state => ({
     tasks: state.siteData.tasks
 });
 
-export default connect(mapStateToProps)(Tasks);
+export default connect(mapStateToProps, { addTask, deleteTask })(Tasks);

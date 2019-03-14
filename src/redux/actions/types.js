@@ -1,1 +1,5 @@
 export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
+export const ADD_TASK = 'ADD_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
+export const ADD_BOOKMARK = 'ADD_BOOKMARK';
+export const DELETE_BOOKMARK = 'DELETE_BOOKMARK';
