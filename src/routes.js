@@ -3,30 +3,21 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-
-// Components
-import Main from './components/dashboard/Main';
-import Profile from './components/dashboard/Profile';
-import Notifications from './components/dashboard/Notifications';
-
 const dashboardRoutes = [
     {
-        path: "/main",
+        path: "/",
         name: "Dashboard",
-        icon: DashboardIcon,
-        component: Main
+        icon: DashboardIcon
     },
     {
         path: "/profile",
         name: "Edit Profile",
-        icon: PersonIcon,
-        component: Profile
+        icon: PersonIcon
     },
     {
         path: "/notifications",
         name: "Notifications",
-        icon: NotificationsIcon,
-        component: Notifications
+        icon: NotificationsIcon
     }
 ];
 

@@ -14,14 +14,6 @@ import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
 
 export default class Main extends Component {
-    componentWillUnmount() {
-        this.props.startLoading();
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            this.props.stopLoading();
-        }, 1000)
-    }
     render() {
         return (
             <Fade in={true}>

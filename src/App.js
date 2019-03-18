@@ -4,6 +4,11 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import store from './redux/store';
 import routes from './routes';
 
+// Pages
+import Main from './components/dashboard/Main';
+import Profile from './components/dashboard/Profile';
+import Notifications from './components/dashboard/Notifications';
+
 // SCSS
 import './scss/reset.scss';
 import './scss/Dashboard.scss';
@@ -49,18 +54,6 @@ class App extends Component {
       mobileOpen: false
     })
   }
-  stopLoading = () => {
-    console.log('stop loading');
-    this.setState({
-      loading: false
-    })
-  }
-  startLoading = () => {
-    console.log('start loading');
-    this.setState({
-      loading: true
-    })
-  }
   componentWillMount() {
     this.setState({
       loading: true
@@ -95,15 +88,9 @@ class App extends Component {
                   <div className="content">
                     <div className="container">
                       <Switch>
-                        {routes.map((prop, key) => {
-                          return (
-                            <Route
-                              path={prop.path}
-                              render={(props) => <prop.component {...props} startLoading={this.startLoading} stopLoading={this.stopLoading} />}
-                              key={key}
-                            />
-                          );
-                        })}
+                        <Route path={process.env.PUBLIC_URL + '/'} component={Main} exact />
+                        <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} exact />
+                        <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
                       </Switch>
                     </div>
                   </div>

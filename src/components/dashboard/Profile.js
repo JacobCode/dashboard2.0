@@ -45,14 +45,6 @@ class Profile extends Component {
         e.target.reset();
         this.props.updateUserInfo(output);
     }
-    componentWillUnmount() {
-        this.props.startLoading();
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            this.props.stopLoading();
-        }, 1000)
-    }
     render() {
         const { user_info } = this.props;
         return (

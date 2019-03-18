@@ -13,14 +13,6 @@ class Notifications extends Component {
     constructor(props) {
         super(props);
     }
-    componentWillUnmount() {
-        this.props.startLoading();
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            this.props.stopLoading();
-        }, 1000)
-    }
     render() {
         const { notifications } = this.props;
         return (
