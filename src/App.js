@@ -100,12 +100,10 @@ class App extends Component {
                             <Route
                               path={prop.path}
                               render={(props) => <prop.component {...props} startLoading={this.startLoading} stopLoading={this.stopLoading} />}
-                              // component={prop.component}
                               key={key}
                             />
                           );
                         })}
-                        <Redirect from='/' to='/main' />
                       </Switch>
                     </div>
                   </div>
