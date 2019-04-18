@@ -42,11 +42,16 @@ class Bookmarks extends Component {
     }
     addBookmark(e) {
         e.preventDefault();
-        const bookmark = {
-            url: this.state.url,
-            name: this.state.name
+        if (this.state.url.length > 0 && this.state.name.length > 0) {
+            this.setState({ showBookmarkForm: false })
+            const bookmark = {
+                url: this.state.url,
+                name: this.state.name
+            }
+            this.props.addBookmark([...this.state.bookmarks, bookmark]);
+        } else {
+            this.setState({ showBookmarkForm: false })
         }
-        this.props.addBookmark([...this.state.bookmarks, bookmark]);
     }
     render() {
         const { bookmarks } = this.props;
@@ -64,17 +69,17 @@ class Bookmarks extends Component {
                         <TextField
                         className="input"
                         label="Name"
-                        required
                         onChange={this.handleNameInput}
+                        value={this.state.name}
                         />
                         <TextField
                         className = "input"
                         label="Url"
-                        required
                         onChange={this.handleUrlInput}
+                        value={this.state.url}
                         />
                         <Button type="submit" variant="contained" color="secondary">
-                            +
+                            <span>+</span>
                         </Button>
                     </form>
                 }

@@ -1,0 +1,33 @@
+@import './variables';
+
+#tasks-page {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1.5rem;
+        .task-group {
+            background: white;
+            max-width: 300px;
+            padding: 0.5rem;
+            header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                span {
+                }
+            }
+            &.bugs {
+
+            }
+            &.server {
+                
+            }
+            &.website {
+                
+            }
+            header {
+
+            }
+        }
+    }
+}

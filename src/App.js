@@ -8,6 +8,7 @@ import routes from './routes';
 import Main from './components/dashboard/Main';
 import Profile from './components/dashboard/Profile';
 import Notifications from './components/dashboard/Notifications';
+import Tasks from './components/dashboard/Tasks';
 
 // SCSS
 import './scss/reset.scss';
@@ -88,9 +89,10 @@ class App extends Component {
                   <div className="content">
                     <div className="container">
                       <Switch>
-                        <Route path={process.env.PUBLIC_URL + '/'} component={Main} exact />
-                        <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} exact />
-                        <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
+                        <Route path={process.env.PUBLIC_URL + '/'} component={Main} loading={loading} exact />
+                        <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} loading={loading} />
+                        <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} loading={loading} />
+                        <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} loading={loading} />
                       </Switch>
                     </div>
                   </div>

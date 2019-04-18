@@ -58,8 +58,14 @@ const initialState = {
       { title: 'Bug task two', type: 'bug' },
       { title: 'Bug task three', type: 'bug' }
     ],
-    websiteData: [],
-    serverData: []
+    websiteData: [
+      { title: 'Website task one', type: 'website' },
+      { title: 'Website task two', type: 'website' },
+    ],
+    serverData: [
+      { title: 'Server task one', type: 'server' },
+      { title: 'Server task two', type: 'server' },
+    ]
   },
   chart: {}
 };
