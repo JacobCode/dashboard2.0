@@ -15,7 +15,6 @@ import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import Button from '@material-ui/core/Button';
-import { notificationsData } from '../widgets/variables/notifications';
 
 class NavbarLinks extends Component {
   state = {
@@ -92,9 +91,8 @@ class NavbarLinks extends Component {
         </div>
 
         {/* Profile */}
-        <Link to="/">
-          <Button
-          aria-label="Person">
+        <Link to="/profile">
+          <Button>
             <Person />
           </Button>
         </Link>

@@ -16,7 +16,7 @@ class Tasks extends Component {
             <div id="tasks-page">
                 <div className="container">
                     <div className="task-group bugs">
-                        <header>Bugs <span>+</span></header>
+                        <header><p>Bugs <span>+</span></p></header>
                         {tasks.bugsData.map((task, i) => {
                             return (
                                 <div className="task" key={i}>
@@ -26,7 +26,7 @@ class Tasks extends Component {
                         })}
                     </div>
                     <div className="task-group server">
-                        <header>Server <span>+</span></header>
+                        <header><p>Server <span>+</span></p></header>
                         {tasks.serverData.map((task, i) => {
                             return (
                                 <div className="task" key={i}>
@@ -36,7 +36,7 @@ class Tasks extends Component {
                         })}
                     </div>
                     <div className="task-group website">
-                        <header>Website <span>+</span></header>
+                        <header><p>Website <span>+</span></p></header>
                         {tasks.websiteData.map((task, i) => {
                             return (
                                 <div className="task" key={i}>

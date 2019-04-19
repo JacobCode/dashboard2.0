@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { notificationsData } from './widgets/variables/notifications';
-
 // import Fade from '@material-ui/core/Fade';
 
 // SCSS
