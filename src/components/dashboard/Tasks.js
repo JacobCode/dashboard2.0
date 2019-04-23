@@ -122,7 +122,7 @@ class Tasks extends Component {
                             return (
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
-                                    <div className="delete-task-icon">
+                                    <div onClick={e => this.deleteTask(e, task.type, task.title)} className="delete-task-icon">
                                         <DeleteIcon />
                                     </div>
                                 </div>
@@ -136,7 +136,7 @@ class Tasks extends Component {
                             return (
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
-                                    <div className="delete-task-icon">
+                                    <div onClick={e => this.deleteTask(e, task.type, task.title)} className="delete-task-icon">
                                         <DeleteIcon />
                                     </div>
                                 </div>

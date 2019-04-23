@@ -88,12 +88,12 @@ class App extends Component {
                   </div>
                   <div className="content">
                     <div className="container">
-                      <Switch>
+                      {/* <Switch> */}
                         <Route path={process.env.PUBLIC_URL + '/'} component={Main} loading={loading} exact />
                         <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} loading={loading} />
                         <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} loading={loading} />
                         <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} loading={loading} />
-                      </Switch>
+                      {/* </Switch> */}
                     </div>
                   </div>
                   <Footer />
