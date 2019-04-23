@@ -17,18 +17,27 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import Button from '@material-ui/core/Button';
 
 class NavbarLinks extends Component {
-  state = {
-    open: false
-  };
-  handleToggle = () => {
-    this.setState(state => ({ open: !state.open }));
-    console.log('toggle');
-  };
-  handleClose = event => {
+  constructor() {
+    super();
+    this.state = {
+      openNoti: false
+    };
+    this.handleToggles = this.handleToggles.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+  handleToggles() {
+    if (this.state.openNoti === true) {
+      this.setState({ openNoti: false });
+    } 
+    if (this.state.openNoti === false) {
+      this.setState({ openNoti: true });
+    }
+  }
+  handleClose() {
     this.setState({ open: false });
-  };
+  }
+
   render() {
-    const { open } = this.state;
     const { notifications } = this.props;
     return (
       <div id="links">
@@ -47,9 +56,9 @@ class NavbarLinks extends Component {
         {/* Notifications */}
         <div>
           <Button
-            aria-owns={open ? "menu-list-grow" : null}
+            aria-owns={this.state.openNoti ? "menu-list-grow" : null}
             aria-haspopup="true"
-            onClick={this.handleToggle}>
+            onClick={this.handleToggles}>
             <Badge badgeContent={notifications.length} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -59,7 +68,7 @@ class NavbarLinks extends Component {
           </Button>
           {/* Notifications Dropdown */}
           <Poppers
-            open={open}
+            open={this.state.openNoti}
             anchorEl={this.anchorEl}
             transition
             disablePortal>
@@ -77,7 +86,7 @@ class NavbarLinks extends Component {
                               {/* If there are no notifications, display No Notifications */}
                               {notifications.length === 0 ? <MenuItem>No Notifications</MenuItem> : notifications.map((notification, index) => {
                                 return (
-                                  <MenuItem className="notification-item" key={index} onClick={this.handleClose}>
+                                  <MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
                                     <Link to={`/notifications/#${notification.type}`}>{notification.name}</Link>
                                   </MenuItem>
                                 )

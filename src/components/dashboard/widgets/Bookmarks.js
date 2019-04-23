@@ -84,8 +84,9 @@ class Bookmarks extends Component {
                     </form>
                 }
                 <div className="url-bookmarks">
-                    {/* If there are no bookmarks, display No Bookmarks */}
-                    {bookmarks.length === 0 ? 'No Bookmarks' : bookmarks.map((bookmark, index) => {
+                    {/* If there are no bookmarks */}
+                    {bookmarks.length === 0 ? <span className="no-bookmarks">No Bookmarks</span> : 
+                    bookmarks.map((bookmark, index) => {
                         return (
                             <div key={index} data-id={bookmark.id} className="bookmark">
                                 <a href={bookmark.url}>

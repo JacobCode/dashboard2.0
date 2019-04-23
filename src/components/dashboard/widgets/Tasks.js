@@ -9,7 +9,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
 import deleteIcon from '../../../images/delete-icon.svg';
-import { addTask, deleteTask } from '../../../redux/actions/actions';
+import { deleteBug, deleteServer, deleteWebsite } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Tasks.scss';
@@ -39,9 +39,9 @@ class Tasks extends Component {
         super(props);
         this.state = {
             value: 0,
-            bugsData: props.tasks.bugsData,
-            websiteData: props.tasks.websiteData,
-            serverData: props.tasks.serverData,
+            bugsData: props.bugsData,
+            websiteData: props.websiteData,
+            serverData: props.serverData,
             checkedBoxes: []
         }
         this.handleCheck = this.handleCheck.bind(this);
@@ -57,20 +57,20 @@ class Tasks extends Component {
     handleChange = (e, value) => {
         this.setState({ value });
     };
-    deleteTask(e, id, type) {
-        var arr;
+    deleteTask(e, type, name) {
         if (type === 'bug') {
-            arr = this.state.bugsData;
-        } else if (type === 'website') {
-            arr = this.state.websiteData;
-        } else {
-            arr = this.state.serverData;
+            this.props.deleteBug(this.props.bugsData.filter(task => task.title !== name));
         }
-        this.props.deleteTask(arr.splice(id, 1));
-        e.target.parentElement.style.display = 'none';
+        if (type === 'server') {
+            this.props.deleteServer(this.props.serverData.filter(task => task.title !== name));
+        }
+        if (type === 'website') {
+            this.props.deleteWebsite(this.props.websiteData.filter(task => task.title !== name));
+        }
     }
     render() {
-        const { value, checkedBoxes, bugsData, websiteData, serverData } = this.state;
+        const { value, checkedBoxes } = this.state;
+        const { bugsData, websiteData, serverData } = this.props;
         // Task Variables
         const bugs = bugsData.map((task, i) => {
             return (
@@ -84,7 +84,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={e => this.deleteTask(e,i,task.type)} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e, task.type, task.title)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -100,7 +100,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={e => this.deleteTask(e,i,task.type)} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e, task.type, task.title)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -116,7 +116,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={e => this.deleteTask(e,i,task.type)} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e, task.type, task.title)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -140,13 +140,18 @@ class Tasks extends Component {
 }
 
 Tasks.propTypes = {
-    addTask: PropTypes.func.isRequired,
-    deleteTask: PropTypes.func.isRequired,
-    tasks: PropTypes.object.isRequired,
+    bugsData: PropTypes.array.isRequired,
+    serverData: PropTypes.array.isRequired,
+    websiteData: PropTypes.array.isRequired,
+    deleteBug: PropTypes.func.isRequired,
+    deleteServer: PropTypes.func.isRequired,
+    deleteWebsite: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    tasks: state.siteData.tasks
+    bugsData: state.siteData.bugsData,
+    serverData: state.siteData.serverData,
+    websiteData: state.siteData.websiteData
 });
 
-export default connect(mapStateToProps, { addTask, deleteTask })(Tasks);
+export default connect(mapStateToProps, { deleteBug, deleteServer, deleteWebsite })(Tasks);

@@ -1,34 +1,133 @@
 @import './variables';
 
+#task-modal {
+    .content {
+        outline: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        width: 50%;
+        min-width: 300px;
+        .form {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 1.5rem;
+            div {
+                margin: 0;
+            }
+            label[for="task-name"] {
+                top: -2px;
+            }
+            #task-option {
+                padding: 15px 15px 15px 0;
+                background: none !important;
+            }
+            #task-name {
+                padding: 1rem;
+            }
+            #submit-task {
+                max-width: 250px;
+                min-width: 150px;
+                max-height: 50px;
+
+            }
+        }
+    }
+}
+
+#add-task-btn {
+    background: $primary;
+    box-shadow: 0 1px 4px 0 rgb(153, 153, 153);
+    outline: none;
+    cursor: pointer;
+    height: 75px;
+    width: 75px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        box-shadow: 0 1px 20px 0 rgb(223, 223, 223);
+        background: darken($primary, 5%);
+    }
+    svg {
+        fill: white;
+    }
+}
+
 #tasks-page {
+    .title {
+        font-size: 1.5rem;
+        color: $darkGrey;
+        padding: 2rem 0 0 2rem;
+    }
+    margin-bottom: 1.5rem;
     .container {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 1.5rem;
+        padding: 2rem;
         .task-group {
             background: white;
             max-width: 300px;
             border-radius: 0.5rem;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+            min-height: 200px;
+            max-height: 300px;
+            overflow: scroll;
+            .tasks-empty {
+                height: 135px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                span {
+                    color: #ebebeb;
+                    font-size: 1.5rem;
+                }
+            }
             header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 font-size: 1.2rem;
-                margin-bottom: 0.5rem;
                 p {
                     padding: 1rem;
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    border-bottom: 1px solid black;
-                    span {
-
-                    }
+                    border-bottom: 1px solid #ececec;
+                    color: $darkGrey;
                 }
             }
             .task {
-                padding: 0.5rem 1rem;
+                padding: 1rem 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                overflow-x: hidden;
+                cursor: default;
+                p {
+                    max-width: 300px;
+                }
+                .delete-task-icon {
+                    transform: translate3d(10px, 0, 0);
+                    transition: transform 0.4s ease-in-out;
+                    svg {
+                        fill: $darkGrey;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        svg {
+                            fill: rgb(255, 60, 60);
+                        }
+                    }
+                }
                 &:last-of-type {
                     padding-bottom: 1rem;
                 }
@@ -44,6 +143,45 @@
             }
             header {
 
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #task-modal {
+        .content {
+            width: 80%;
+            .form {
+                grid-template-columns: 1fr;
+
+                #task-option {
+                    padding: 15px 15px 15px 0;
+                    background: none !important;
+                }
+
+                #task-name {
+                    padding: 1rem;
+                }
+
+                #submit-task {
+                    max-width: 250px;
+                    min-width: 150px;
+                    max-height: 50px;
+
+                }
+            }
+        }
+    }
+    #tasks-page {
+        .title {
+            padding: 1.5rem 0 0 1.5rem;
+        }
+        .container {
+            grid-template-columns: 1fr;
+            padding: 1.5rem;
+            .task-group {
+                max-width: 100%;
             }
         }
     }

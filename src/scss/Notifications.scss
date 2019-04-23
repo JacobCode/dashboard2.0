@@ -1,15 +1,44 @@
 @import './variables';
 
+#noti-task-divider {
+    margin-bottom: 2.5rem;
+}
+
 #notifications {
+    .noti-title {
+        margin: 0;
+        padding: 2rem 0 0 2rem;
+    }
     h1 {
         font-size: 1.5rem;
         color: $darkGrey;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        span {
+            margin-left: 0.5rem;
+            font-size: 1rem;
+            padding: 0.25rem 1.25rem;
+            border-radius: 3rem;
+            &.work-value {
+                color: #FEBB04;
+                background: #FEF8E4;
+            }
+            &.school-value {
+                color: #886CFF;
+                background: #F3F1FF;
+            }
+            &.personal-value {
+                color: #27a0f0;
+                background: #e1f1fe;
+            }
+        }
     }
     .notifications-content {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 2.5rem;
+        padding: 2rem;
         .section {
             min-height: 275px;
             min-width: 275px;
@@ -17,6 +46,19 @@
             box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
             background: white;
             padding: 1.5rem;
+            .noti {
+                margin-bottom: 1.5rem;
+                padding-bottom: 1.5rem;
+                border-bottom: 1px solid #f0f0f0;
+                display: flex;
+                justify-content: space-between;
+                .noti-info {
+                    
+                }
+                .noti-date {
+
+                }
+            }
         }
     }
 }
@@ -34,7 +76,14 @@
     }
 }
 @media screen and (max-width: 768px) {
-
+    #notifications {
+        .noti-title {
+            padding: 1.5rem 0 0 1.5rem;
+        }
+        .notifications-content {
+            padding: 1.5rem;
+        }
+    }
 }
 @media screen and (max-width: 480px) {
 

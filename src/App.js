@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import store from './redux/store';
 import routes from './routes';
 
@@ -22,14 +22,14 @@ import Footer from './components/dashboard/layout/Footer';
 // MUI
 import { createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import red from '@material-ui/core/colors/red';
+import purple from '@material-ui/core/colors/deepPurple';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const theme = createMuiTheme({
   palette: {
     primary: blue,
-    secondary: red,
+    secondary: purple,
   },
   typography: {
     useNextVariants: true,

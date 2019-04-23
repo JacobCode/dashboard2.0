@@ -1,7 +1,11 @@
 import {
   UPDATE_USER_INFO,
-  ADD_TASK,
-  DELETE_TASK,
+  ADD_WEBSITE,
+  ADD_SERVER,
+  ADD_BUG,
+  DELETE_WEBSITE,
+  DELETE_SERVER,
+  DELETE_BUG,
   ADD_BOOKMARK,
   DELETE_BOOKMARK
 } from '../actions/types';
@@ -20,20 +24,38 @@ const initialState = {
     {
       id: 1,
       type: 'work',
-      name: 'Notification 1',
-      date: '2/13',
+      name: 'Business proposal due',
+      date: '5/03'
     },
     {
       id: 2,
       type: 'school',
-      name: 'Notification 2',
-      date: '2/19',
+      name: 'Finish thesis project',
+      date: '5/9',
     },
     {
       id: 3,
       type: 'personal',
-      name: 'Notification 3',
-      date: '2/27',
+      name: 'Set up portfolio website',
+      date: '5/27',
+    },
+    {
+      id: 4,
+      type: 'work',
+      name: 'Edit and update store database',
+      date: '6/15'
+    },
+    {
+      id: 5,
+      type: 'school',
+      name: 'Complete PHP project',
+      date: '6/22'
+    },
+    {
+      id: 6,
+      type: 'school',
+      name: 'Present final project',
+      date: '6/25'
     }
   ],
   // Bookmarks
@@ -52,21 +74,15 @@ const initialState = {
     }
   ],
   // Tasks
-  tasks: {
-    bugsData: [
-      { title: 'Bug task one', type: 'bug' },
-      { title: 'Bug task two', type: 'bug' },
-      { title: 'Bug task three', type: 'bug' }
-    ],
-    websiteData: [
-      { title: 'Website task one', type: 'website' },
-      { title: 'Website task two', type: 'website' },
-    ],
-    serverData: [
-      { title: 'Server task one', type: 'server' },
-      { title: 'Server task two', type: 'server' },
-    ]
-  },
+  bugsData: [
+    { title: 'Fix loading error', type: 'bug' },
+    { title: 'Delete uneccessary variables', type: 'bug' }
+  ],
+  websiteData: [
+    { title: 'Fix navbar on mobile devices', type: 'website' },
+    { title: 'Remove horizontal scroll bar', type: 'website' }
+  ],
+  serverData: [],
   chart: {}
 };
 
@@ -77,10 +93,6 @@ export default ((state = initialState, action) => {
         ...state,
         user_info: action.payload
       };
-    case DELETE_TASK:
-      return {
-        ...state
-      }
     case ADD_BOOKMARK:
       return {
         ...state,
@@ -91,6 +103,36 @@ export default ((state = initialState, action) => {
         ...state,
         bookmarks: action.payload
       };
+    case ADD_BUG:
+      return {
+        ...state,
+        bugsData: action.payload
+      }
+    case ADD_SERVER:
+      return {
+        ...state,
+        serverData: action.payload
+      }
+    case ADD_WEBSITE:
+      return {
+        ...state,
+        websiteData: action.payload
+      }
+    case DELETE_BUG:
+      return {
+        ...state,
+        bugsData: action.payload
+      }
+    case DELETE_SERVER:
+      return {
+        ...state,
+        serverData: action.payload
+      }
+    case DELETE_WEBSITE:
+      return {
+        ...state,
+        websiteData: action.payload
+      }
     default:
       return state;
   }

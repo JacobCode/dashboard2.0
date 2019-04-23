@@ -3,6 +3,7 @@
 #widget-grid {
     display: grid;
     grid-gap: 2rem;
+    padding: 2rem;
     // background: red;
     .widget {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
@@ -55,6 +56,9 @@
                 }
                 .picky-date-time-calendar__table-cel.today {
                     color: $primary;
+                }
+                .picky-date-time-calendar__title-container {
+                    overflow: initial;
                 }
                 .picky-date-time-calendar__table-cel.picky-date-time-calendar__date-item {
                     height: 30px;
@@ -245,6 +249,7 @@
     #widget-grid {
         // background: pink;
         grid-template-columns: 1fr;
+        padding: 1.5rem;
         .widget {
             max-width: none !important;
             &#tasks {

@@ -10,42 +10,38 @@
     -webkit-box-shadow: 2px 0px 5px 0px rgba(65, 65, 65, 0.15);
     -moz-box-shadow: 2px 0px 5px 0px rgba(65, 65, 65, 0.15);
     box-shadow: 2px 0px 5px 0px rgba(65, 65, 65, 0.15);
-    #sidebar-brand {
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            min-height: 64px;
-            background: $secondary;
-            span {
-                color: white;
-                text-transform: capitalize;
-            }
-        }
-    }
-    #sidebar-links {
-        padding: 0;
-        a {
-            text-decoration: none;
-            div[role="button"] {
-                color: $darkGrey;
-            }
-            // &[aria-current="page"] {
-            //     div {
-            //         border-left: 5px solid $primary;
-            //     }
-            // }
-            div {
-                border-left: 0px solid transparent;
-                transition: all 0.4s ease-in-out;
-                div {
-                    border: none !important
-                }
-            }
-        }
-    }
+}
 
+#sidebar-brand {
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        min-height: 64px;
+        background: $primary;
+        span {
+            color: white;
+            text-transform: capitalize;
+        }
+    }
+}
+#sidebar-links {
+    padding: 0;
+    a {
+        text-decoration: none;
+        line-height: 1.5;
+        div[role="button"] {
+            color: $darkGrey;
+        }
+        div {
+            border-left: 0px solid transparent;
+            transition: all 0.4s ease-in-out;
+            div {
+                border: none !important
+            }
+        }
+    }
 }
 
 #dashboard {
@@ -71,7 +67,7 @@
         .content {
             // border: 2px solid red;
             max-width: 1200px;
-            padding: 2rem;
+            // padding: 2rem;
             min-height: calc(100vh - 123px);
         }
     }
@@ -87,7 +83,7 @@
         #main-panel {
             width: 100% !important;
             .content {
-                padding: 1.5rem;
+                // padding: 1.5rem;
             }
         }
     }
