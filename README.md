@@ -1,9 +1,11 @@
 ## Desktop 💻
 
-![IMG 1](https://i.postimg.cc/bvKdtQX4/Screen-Shot-2019-03-17-at-6-04-00-PM.png)
+![IMG 1](https://i.postimg.cc/7Y5gycQg/dashboard1-large.png)
+
+![IMG 2](https://i.postimg.cc/fyLYygWQ/dashboard2-large.png)
 
 ## Mobile 📱
 
-![IMG 2](https://i.postimg.cc/yNJkxLGF/Screen-Shot-2019-03-17-at-6-07-05-PM.png)
+![IMG 3](https://i.postimg.cc/j5RH0SG5/dashboard-mobile1.png)
 
-![IMG 3](https://i.postimg.cc/nhSXny3F/Screen-Shot-2019-03-17-at-6-11-51-PM.png)
+![IMG 4](https://i.postimg.cc/0QZp8qsC/dashboard-mobile2.png)
