@@ -52,11 +52,13 @@
                 border-bottom: 1px solid #f0f0f0;
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
                 .noti-info {
                     
                 }
                 .noti-date {
-
+                    font-size: 0.825rem;
+                    color: #c0c0c0;
                 }
             }
         }
