@@ -77,31 +77,32 @@ class Tasks extends Component {
                 aria-describedby="simple-modal-description"
                 open={this.state.open}
                 onClose={this.handleClose}>
-                    <ClickAwayListener onClickAway={this.toggleForm}>
-                        <div className="content">
+                    <div className="content">
+                        <ClickAwayListener onClickAway={this.toggleForm}>
                             <div className="form">
-                                <TextField id="task-option"
-                                select
-                                value={this.state.chosenTaskOption}
-                                onChange={this.handleTaskOption}
-                                SelectProps={{ native: true }}>
-                                {taskOptions.map(option => (
-                                    <option key={option} value={option}>
-                                        {option}
-                                    </option>
-                                ))}
-                                </TextField>
                                 <TextField id="task-name"
-                                    label="Add task name"
+                                    label="Task Name"
                                     value={this.state.chosenTaskName}
                                     onChange={this.handleTaskName}
                                     margin="normal"
                                     variant="outlined"
                                 />
+                                <TextField id="task-option"
+                                select
+                                value={this.state.chosenTaskOption}
+                                onChange={this.handleTaskOption}
+                                variant="outlined"
+                                SelectProps={{ native: true }}>
+                                    {taskOptions.map(option => (
+                                        <option key={option} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </TextField>
                                 <Button id="submit-task" variant="contained" type="submit" onClick={this.state.chosenTaskName.length < 1 ? this.toggleForm : this.handleNewTask} color={this.state.chosenTaskName.length < 1 ? 'secondary' : 'primary'}>{this.state.chosenTaskName.length < 1 ? 'Close' : 'Add Task'}</Button>
                             </div>
-                        </div>
-                    </ClickAwayListener>
+                        </ClickAwayListener>
+                    </div>
                 </Modal>
                 <div className="container">
                     <div className="task-group bugs">

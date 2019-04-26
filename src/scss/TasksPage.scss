@@ -10,6 +10,7 @@
         background: white;
         width: 50%;
         min-width: 300px;
+        max-width: 600px;
         .form {
             padding: 1.5rem;
             display: grid;
@@ -22,17 +23,15 @@
                 top: -2px;
             }
             #task-option {
-                padding: 15px 15px 15px 0;
+                padding: 1rem;
                 background: none !important;
             }
             #task-name {
                 padding: 1rem;
             }
             #submit-task {
-                max-width: 250px;
                 min-width: 150px;
                 max-height: 50px;
-
             }
         }
     }
@@ -156,8 +155,6 @@
                 grid-template-columns: 1fr;
 
                 #task-option {
-                    padding: 15px 15px 15px 0;
-                    background: none !important;
                 }
 
                 #task-name {

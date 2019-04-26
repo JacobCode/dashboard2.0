@@ -52,7 +52,7 @@ class Notifications extends Component {
             newDate.shift();
             return `${parseInt(newDate[0], 10)}/${newDate[1]}`;
         }
-        var newId = this.props.notifications[this.props.notifications.length - 1].id + 1;
+        var newId = (this.props.notifications.length === 0 ? 0 : this.props.notifications[this.props.notifications.length - 1].id + 1);
         var newNoti = {
             id: newId,
             type: this.state.chosenNotificationOption.toLowerCase(),
@@ -60,6 +60,7 @@ class Notifications extends Component {
             date: format(this.state.chosenNotificationDate)
         }
         this.props.addNotification([...this.props.notifications, newNoti]);
+        this.setState({ chosenNotificationName: '' })
     }
     deleteNotification() {
 
@@ -85,11 +86,11 @@ class Notifications extends Component {
                 aria-describedby="simple-modal-description"
                 open={this.state.open}
                 onClose={this.handleClose}>
-                    <ClickAwayListener onClickAway={this.toggleForm}>
-                        <div className="content">
+                    <div className="content">
+                        <ClickAwayListener onClickAway={this.toggleForm}>
                             <div className="form">
                                 <TextField id="notification-name"
-                                    label="Add Notification Name"
+                                    label="Notification Name"
                                     value={this.state.chosenNotificationName}
                                     onChange={this.handleNotificationName}
                                     margin="normal"
@@ -99,6 +100,7 @@ class Notifications extends Component {
                                 select
                                 value={this.state.chosenNotificationOption}
                                 onChange={this.handleNotificationOption}
+                                label="Type"
                                 SelectProps={{ native: true }}>
                                 {notificationOptions.map(option => (
                                     <option key={option} value={option}>
@@ -118,8 +120,8 @@ class Notifications extends Component {
                                 />
                                 <Button id="submit-notification" variant="contained" onClick={this.state.chosenNotificationName.length < 1 ? this.toggleForm : this.addNotification} color={this.state.chosenNotificationName.length < 1 ? 'secondary' : 'primary'}>{this.state.chosenNotificationName.length < 1 ? 'Close' : 'Add Notification'}</Button>
                             </div>
-                        </div>
-                    </ClickAwayListener>
+                        </ClickAwayListener>
+                    </div>
                 </Modal>
                 <div className="notifications-content">
                     <div id="work" className="section">

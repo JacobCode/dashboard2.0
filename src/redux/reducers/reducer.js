@@ -27,37 +27,25 @@ const initialState = {
       id: 1,
       type: 'work',
       name: 'Business proposal due',
-      date: '5/03'
-    },
-    {
-      id: 2,
-      type: 'school',
-      name: 'Finish thesis project',
-      date: '5/9',
+      date: '4/29'
     },
     {
       id: 3,
       type: 'personal',
       name: 'Set up portfolio website',
-      date: '5/27',
+      date: '5/02',
     },
     {
       id: 4,
       type: 'work',
       name: 'Edit and update store database',
-      date: '6/15'
+      date: '5/11'
     },
     {
       id: 5,
       type: 'school',
       name: 'Complete PHP project',
-      date: '6/22'
-    },
-    {
-      id: 6,
-      type: 'school',
-      name: 'Present final project',
-      date: '6/25'
+      date: '5/17'
     }
   ],
   // Bookmarks
@@ -85,6 +73,7 @@ const initialState = {
     { title: 'Remove horizontal scroll bar', type: 'website' }
   ],
   serverData: [],
+  // Chart
   chart: {}
 };
 
