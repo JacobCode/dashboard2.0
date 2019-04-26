@@ -88,6 +88,7 @@ class NavbarLinks extends Component {
                                 return (
                                   <MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
                                     <Link to={`/notifications/#${notification.type}`}>{notification.name}</Link>
+                                    <span className="notification-date">{notification.date}</span>
                                   </MenuItem>
                                 )
                               })}

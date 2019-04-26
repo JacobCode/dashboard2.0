@@ -7,9 +7,12 @@ import {
     DELETE_SERVER,
     DELETE_BUG,
     ADD_BOOKMARK,
-    DELETE_BOOKMARK
+    DELETE_BOOKMARK,
+    ADD_NOTIFICATION,
+    DELETE_NOTIFICATION
 } from './types';
 
+// User Info
 export const updateUserInfo = (user_info) => dispatch => {
     console.log(user_info);
     dispatch({
@@ -18,22 +21,19 @@ export const updateUserInfo = (user_info) => dispatch => {
     })
 }
 
-// Add Task Functions
-
+// Add Tasks
 export const addBug = (arr) => dispatch => {
     dispatch({
         type: ADD_BUG,
         payload: arr
     })
 }
-
 export const addServer = (arr) => dispatch => {
     dispatch({
         type: ADD_SERVER,
         payload: arr
     })
 }
-
 export const addWebsite = (arr) => dispatch => {
     dispatch({
         type: ADD_WEBSITE,
@@ -41,8 +41,7 @@ export const addWebsite = (arr) => dispatch => {
     })
 }
 
-// Manage Bookmarks Functions
-
+// Manage Bookmarks
 export const addBookmark = (bookmarks) => dispatch => {
     dispatch({
         type: ADD_BOOKMARK,
@@ -50,18 +49,31 @@ export const addBookmark = (bookmarks) => dispatch => {
     })
     console.log(bookmarks);
 }
-
-export const deleteBookmark = (initial, id) => dispatch => {
-    console.log(initial);
-    console.log(id);
+export const deleteBookmark = (bookmarks) => dispatch => {
+    console.log(bookmarks);
     // dispatch({
     //     type: DELETE_BOOKMARK,
     //     payload: bookmarks
     // })
 }
 
-// Delete Task Functions
+// Manage Notifications
+export const addNotification = (notifications) => dispatch => {
+    console.log(notifications);
+    dispatch({
+        type: ADD_NOTIFICATION,
+        payload: notifications
+    })
+}
+export const deleteNotification = (notifications) => dispatch => {
+    console.log(notifications);
+    dispatch({
+        type: DELETE_NOTIFICATION,
+        payload: notifications
+    })
+}
 
+// Delete Tasks
 export const deleteBug = tasks => dispatch => {
     console.log(tasks);
     dispatch({
@@ -69,14 +81,12 @@ export const deleteBug = tasks => dispatch => {
         payload: tasks
     })
 }
-
 export const deleteWebsite = tasks => dispatch => {
     dispatch({
         type: DELETE_WEBSITE,
         payload: tasks
     })
 }
-
 export const deleteServer = tasks => dispatch => {
     dispatch({
         type: DELETE_SERVER,

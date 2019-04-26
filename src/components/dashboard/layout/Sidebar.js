@@ -11,10 +11,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 
 const Sidebar = ({ ...props }) => {
-  // function activeRoute(routeName) {
-  //   return props.location.pathname.indexOf(routeName) > -1 ? true : false;
-  // }
-
   const { routes, closeDrawer, user_info } = props;
 
   var links = (
@@ -23,7 +19,7 @@ const Sidebar = ({ ...props }) => {
         return (
           <NavLink onClick={closeDrawer}
             to={prop.path}
-            activeClassName="active"
+            activeClassName={null}
             key={key}>
             <ListItem button>
               {typeof prop.icon === "string" ? (
@@ -54,7 +50,6 @@ const Sidebar = ({ ...props }) => {
   
   return (
     <div id="sidebar">
-    
       <Hidden mdUp implementation="css">
         <Drawer
           id="sidebar1"
@@ -72,7 +67,6 @@ const Sidebar = ({ ...props }) => {
           </div>
         </Drawer>
       </Hidden>
-
       <Hidden smDown implementation="css">
         <Drawer
           id="sidebar2"
@@ -83,7 +77,6 @@ const Sidebar = ({ ...props }) => {
           <div>{links}</div>
         </Drawer>
       </Hidden>
-
     </div>
   );
 };

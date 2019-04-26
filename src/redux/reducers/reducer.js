@@ -7,7 +7,9 @@ import {
   DELETE_SERVER,
   DELETE_BUG,
   ADD_BOOKMARK,
-  DELETE_BOOKMARK
+  DELETE_BOOKMARK,
+  ADD_NOTIFICATION,
+  DELETE_NOTIFICATION
 } from '../actions/types';
 
 // Initial State
@@ -132,6 +134,11 @@ export default ((state = initialState, action) => {
       return {
         ...state,
         websiteData: action.payload
+      }
+    case ADD_NOTIFICATION:
+      return {
+        ...state,
+        notifications: action.payload
       }
     default:
       return state;
