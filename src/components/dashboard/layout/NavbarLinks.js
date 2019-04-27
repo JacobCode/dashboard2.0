@@ -43,7 +43,7 @@ class NavbarLinks extends Component {
       <div id="links">
 
         {/* Dashboard */}
-        <Link to="/">
+        <Link to="/main">
           <Button
           aria-label="Dashboard">
             <DashboardIcon />

@@ -23,7 +23,7 @@ export default class Navbar extends Component {
             <AppBar id="navbar" color="primary">
                 <Toolbar id="toolbar">
                     <div className="title">
-                        <Button color="inherit" href="/">Dashboard</Button>
+                        <Button color="inherit" href="/main">Dashboard</Button>
                     </div>
                     <Hidden smDown implementation="css">
                         <NavbarLinks />
