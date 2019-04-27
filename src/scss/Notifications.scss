@@ -56,13 +56,12 @@
 #notifications {
     margin-bottom: 3rem;
     .noti-title {
-        margin: 0;
+        font-size: 1.5rem;
+        color: $darkGrey;
         padding: 2rem 0 0 2rem;
+        font-weight: 300;
     }
-    h1 > .work-value {
-        color: #886CFF;
-    }
-    h1 {
+    h2 {
         font-size: 1.5rem;
         color: $darkGrey;
         font-weight: 300;

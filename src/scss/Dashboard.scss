@@ -1,5 +1,17 @@
 @import './variables';
 
+#error-page {
+    padding: 2rem;
+    h1 {
+        font-size: 1.5rem;
+        color: $darkGrey;
+        font-weight: 300;
+        a {
+            color: $primary;
+        }
+    }
+}
+
 .MuiDrawer-paperAnchorLeft-19,
 .jss30.jss48.jss18.jss19,
 .jss30.jss32.jss18.jss19.jss23 {
@@ -71,9 +83,7 @@
         background: $lightGrey;
         // border: 2px solid blue;
         .content {
-            // border: 2px solid red;
-            max-width: 1200px;
-            // padding: 2rem;
+            max-width: 1500px;
             min-height: calc(100vh - 123px);
         }
     }
@@ -96,6 +106,9 @@
 }
 
 @media screen and (max-width: 480px) {
+    #error-page {
+        padding: 1.5rem;
+    }
     .MuiPaper-root-30.MuiPaper-elevation16-48.MuiDrawer-paper-18.MuiDrawer-paperAnchorLeft-19 {
         width: 180px;
         #sidebar-brand {

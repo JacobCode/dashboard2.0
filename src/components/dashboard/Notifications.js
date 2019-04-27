@@ -127,9 +127,9 @@ class Notifications extends Component {
                 </Modal>
                 <div className="notifications-content">
                     <div id="work" className="section">
-                        <h1 className="work-value">Work 
+                        <h2 className="work-value">Work 
                             <span>{notifications.filter(type => type.type === 'work').length}</span>
-                        </h1>
+                        </h2>
                         {notifications.filter((noti => noti.type === 'work')).map((noti, i) => {
                             return (
                                 <Grid className="noti" container spacing={24} key={i}>
@@ -147,9 +147,9 @@ class Notifications extends Component {
                         })}
                     </div>
                     <div id="school" className="section">
-                        <h1 className="school-value">School
+                        <h2 className="school-value">School
                             <span>{notifications.filter(type => type.type === 'school').length}</span>
-                        </h1>
+                        </h2>
                         {notifications.filter((noti => noti.type === 'school')).map((noti, i) => {
                             return (
                                 <Grid className="noti" container spacing={24} key={i}>
@@ -167,9 +167,9 @@ class Notifications extends Component {
                         })}
                     </div>
                     <div id="personal" className="section">
-                        <h1 className="personal-value">Personal
+                        <h2 className="personal-value">Personal
                             <span>{notifications.filter(type => type.type === 'personal').length}</span>
-                        </h1>
+                        </h2>
                         {notifications.filter((noti => noti.type === 'personal')).map((noti, i) => {
                             return (
                                 <Grid className="noti" container spacing={24} key={i}>

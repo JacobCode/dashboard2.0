@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import Fade from '@material-ui/core/Fade';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 // SCSS
 import '../../scss/Widgets.scss';
@@ -9,22 +9,31 @@ import '../../scss/Widgets.scss';
 import Tasks from './widgets/Tasks';
 import Calendar from './widgets/Calendar';
 import Bookmarks from './widgets/Bookmarks';
-// import PieChart from './widgets/PieChart';
+import Weather from './widgets/Weather';
 import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
 
-export default class Main extends Component {
+class Main extends Component {
     render() {
         return (
-            <Fade in={true}>
-                <div id="widget-grid">
-                    <Tasks />
-                    <Clock />
-                    <LineChart />
-                    <Calendar />
-                    <Bookmarks />
-                </div>
-            </Fade>
+            <div id="widget-grid">
+                {Boolean(this.props.activeWidgets.tasks) === true ? <Tasks /> : null}
+                {Boolean(this.props.activeWidgets.calendar) === true ? <Calendar /> : null}
+                {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
+                {Boolean(this.props.activeWidgets.clock) === true ? <Clock /> : null}
+                {Boolean(this.props.activeWidgets.chart) === true ? <LineChart /> : null}
+                {Boolean(this.props.activeWidgets.weather) === true ? <Weather /> : null}
+            </div>
         )
     }
 }
+
+Main.propTypes = {
+    activeWidgets: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+    activeWidgets: state.siteData.activeWidgets,
+});
+
+export default connect(mapStateToProps)(Main);

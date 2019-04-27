@@ -9,6 +9,9 @@ import {
     ADD_BOOKMARK,
     DELETE_BOOKMARK,
     UPDATE_NOTIFICATIONS,
+    SET_FORECAST,
+    SET_CURRENT_WEATHER,
+    SET_WIDGETS
 } from './types';
 
 // User Info
@@ -82,5 +85,31 @@ export const deleteServer = tasks => dispatch => {
     dispatch({
         type: DELETE_SERVER,
         payload: tasks
+    })
+}
+
+// Weather (Current Day)
+export const getWeather = weather => dispatch => {
+    console.log(weather);
+    dispatch({
+        type: SET_CURRENT_WEATHER,
+        payload: weather
+    })
+}
+
+// Weather (Forecast)
+export const getForecast = forecast => dispatch => {
+    console.log(forecast)
+    dispatch({
+        type: SET_FORECAST,
+        payload: forecast
+    })
+}
+
+// Set Widgets
+export const setWidgets = widgets => dispatch => {
+    dispatch({
+        type: SET_WIDGETS,
+        payload: widgets
     })
 }

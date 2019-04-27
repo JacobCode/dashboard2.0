@@ -1,0 +1,64 @@
+@import './variables';
+
+#manage-widgets {
+    .title {
+        font-size: 1.5rem;
+        color: $darkGrey;
+        padding: 2rem 0 0 2rem;
+        font-weight: 300;
+    }
+    .content {
+        padding: 2rem;
+        .widgets {
+            max-width: 600px;
+            background: white;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+            .widget {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                &.weather {
+                    span:first-of-type {
+                        cursor: not-allowed
+                    }
+                }
+                h1 {
+                    text-transform: capitalize;
+                    color: $darkGrey;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #manage-widgets {
+        .title {
+            font-size: 1.5rem;
+            color: $darkGrey;
+            padding: 1.5rem 0 0 1.5rem;
+            font-weight: 300;
+        }
+        .content {
+            padding: 1.5rem;
+            .widgets {
+                max-width: 600px;
+                background: white;
+                box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+                padding-left: 1rem;
+                margin-bottom: 2rem;
+                .widget {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    h1 {
+                        text-transform: capitalize;
+                        color: $darkGrey;
+                    }
+                }
+            }
+        }
+    }
+}

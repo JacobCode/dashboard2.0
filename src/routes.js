@@ -3,6 +3,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import TasksIcon from '@material-ui/icons/Create';
+import WidgetIcon from '@material-ui/icons/DragIndicator';
 
 const dashboardRoutes = [
     {
@@ -24,6 +25,11 @@ const dashboardRoutes = [
         path: "/tasks",
         name: "Tasks",
         icon: TasksIcon
+    },
+    {
+        path: "/manage",
+        name: "Manage",
+        icon: WidgetIcon
     }
 ];
 

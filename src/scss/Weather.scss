@@ -1,0 +1,28 @@
+@import './variables';
+
+#weather {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h1 {
+        font-size: 1.5rem;
+        color: $darkGrey;
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+    }
+    .results {
+        .temp {
+            .temp-current {
+
+            }
+            .temp-other {
+                span {
+
+                }
+            }
+        }
+    }
+    button {
+        margin: 0 auto;
+    }
+}

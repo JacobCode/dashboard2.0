@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import store from './redux/store';
-import routes from './routes';
+import dashBoardRoutes from './routes';
 
 // Pages
 import Main from './components/dashboard/Main';
 import Profile from './components/dashboard/Profile';
 import Notifications from './components/dashboard/Notifications';
 import Tasks from './components/dashboard/Tasks';
+import ManageWidgets from './components/dashboard/ManageWidgets';
+import Error from './components/dashboard/Error';
 
 // SCSS
 import './scss/reset.scss';
@@ -30,12 +32,15 @@ const theme = createMuiTheme({
   palette: {
     primary: blue,
     secondary: deepPurple,
+  },
+  typography: {
+    useNextVariants: true,
   }
 });
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       mobileOpen: false,
       loading: false,
@@ -60,11 +65,10 @@ class App extends Component {
     const { loading, checked } = this.state;
     return (
       <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <BrowserRouter>
-          {/* <MuiThemeProvider theme={theme}> */}
-            <div id="dashboard">
-              <Sidebar routes={routes}
+      <BrowserRouter>
+        <MuiThemeProvider theme={theme}>
+            <div className="App" id="dashboard">
+              <Sidebar routes={dashBoardRoutes}
               handleDrawerToggle={this.handleDrawerToggle}
               closeDrawer={this.closeDrawer}
               open={this.state.mobileOpen} />
@@ -75,20 +79,21 @@ class App extends Component {
                   </div>
                   <div className="content">
                     <div className="container">
-                      <Switch>
-                        <Route path='/' component={Main} loading={loading} exact />
-                        <Route path='/profile' component={Profile} loading={loading} exact />
-                        <Route path='/notifications' component={Notifications} loading={loading} exact />
-                        <Route path='/tasks' component={Tasks} loading={loading} exact />
-                      </Switch>
+                        <Switch>
+                          <Route path='/' component={Main} exact />
+                          <Route path='/profile' component={Profile} exact />
+                          <Route path='/notifications' component={Notifications} exact />
+                          <Route path='/tasks' component={Tasks} exact />
+                          <Route path='/manage' component={ManageWidgets} exact />
+                          <Route component={Error} exact />
+                        </Switch>
+                      </div>
                     </div>
-                  </div>
-                  <Footer />
+                    <Footer />
+                </div>
               </div>
-            </div>
-          {/* </MuiThemeProvider> */}
+          </MuiThemeProvider>
         </BrowserRouter>
-        </MuiThemeProvider>
       </Provider>
     );
   }

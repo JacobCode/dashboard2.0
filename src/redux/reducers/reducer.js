@@ -9,6 +9,9 @@ import {
   ADD_BOOKMARK,
   DELETE_BOOKMARK,
   UPDATE_NOTIFICATIONS,
+  SET_FORECAST,
+  SET_CURRENT_WEATHER,
+  SET_WIDGETS
 } from '../actions/types';
 
 // Initial State
@@ -73,7 +76,20 @@ const initialState = {
   ],
   serverData: [],
   // Chart
-  chart: {}
+  chart: {},
+  // Weather (Current Day)
+  weather: {},
+  // Weather (Forecast)
+  forecast: [],
+  // Active widgets on dashboard
+  activeWidgets: { 
+    tasks: true,
+    clock: true,
+    chart: true,
+    calendar: true,
+    bookmarks: true,
+    weather: false
+  }
 };
 
 export default ((state = initialState, action) => {
@@ -128,7 +144,21 @@ export default ((state = initialState, action) => {
         ...state,
         notifications: action.payload
       }
-    default:
-      return state;
+    case SET_CURRENT_WEATHER:
+      return {
+        ...state,
+        weather: action.payload
+      }
+    case SET_FORECAST:
+      return {
+        ...state,
+        forecast: action.payload
+      }
+    case SET_WIDGETS:
+      return {
+        ...state,
+        activeWidgets: action.payload
+      }
+    default: return state;
   }
 })
