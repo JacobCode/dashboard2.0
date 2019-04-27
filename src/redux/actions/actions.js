@@ -8,8 +8,7 @@ import {
     DELETE_BUG,
     ADD_BOOKMARK,
     DELETE_BOOKMARK,
-    ADD_NOTIFICATION,
-    DELETE_NOTIFICATION
+    UPDATE_NOTIFICATIONS,
 } from './types';
 
 // User Info
@@ -58,17 +57,9 @@ export const deleteBookmark = (bookmarks) => dispatch => {
 }
 
 // Manage Notifications
-export const addNotification = (notifications) => dispatch => {
-    console.log(notifications);
+export const updateNotification = (notifications) => dispatch => {
     dispatch({
-        type: ADD_NOTIFICATION,
-        payload: notifications
-    })
-}
-export const deleteNotification = (notifications) => dispatch => {
-    console.log(notifications);
-    dispatch({
-        type: DELETE_NOTIFICATION,
+        type: UPDATE_NOTIFICATIONS,
         payload: notifications
     })
 }

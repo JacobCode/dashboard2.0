@@ -25,10 +25,14 @@ class Profile extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     firstNameInput(e) {
-        this.setState({ first_name: e.target.value })
+        if (e.target.value.length < 13) {
+            this.setState({ first_name: e.target.value })
+        }
     }
     lastNameInput(e) {
-        this.setState({ last_name: e.target.value })
+        if (e.target.value.length < 13) {
+            this.setState({ last_name: e.target.value })
+        }
     }
     emailInput(e) {
         this.setState({ email: e.target.value })

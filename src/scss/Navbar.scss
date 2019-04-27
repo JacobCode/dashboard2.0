@@ -21,8 +21,9 @@
             a {
                 text-transform: capitalize;
                 font-size: 1.2rem;
+                font-weight: 300;
                 &:hover {
-                    background: none;
+                    // background: none;
                 }
             }
             text-transform: capitalize !important;
@@ -30,6 +31,17 @@
         }
         #links {
             display: flex;
+            #notifications-dropdown {
+                button {
+                    span {
+                        span {
+                            span {
+                                background: #ff5555;
+                            }
+                        }
+                    }
+                }
+            }
             button {
                 color: $darkGrey;
                 min-width: 50px;
@@ -46,7 +58,8 @@
                     margin: 0;
                 }
                 .notification-date {
-
+                    color: #8a8a8a;
+                    font-size: 0.825rem;
                 }
             }
             li {
@@ -54,15 +67,15 @@
                 justify-content: space-between;
                 a {
                     text-decoration: none;
-                    color: $secondary;
+                    color: $darkGrey;
                     margin: 0 0.5rem;
                     max-width: 300px;
                     padding-right: 1rem;
                 }
                 &:hover {
-                    background: $secondaryLight;
+                    background: #fafafa;
                     a {
-                        color: $secondary;
+                        color: #ff5555;
                     }
                 }
             }

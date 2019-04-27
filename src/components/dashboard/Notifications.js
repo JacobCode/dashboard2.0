@@ -10,12 +10,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 
 // SCSS
 import '../../scss/Notifications.scss';
 
-import { addNotification, deleteNotification } from '../../redux/actions/actions';
+import { updateNotification } from '../../redux/actions/actions';
 
 const notificationOptions = ['Work', 'School', 'Personal'];
 
@@ -33,6 +34,7 @@ class Notifications extends Component {
         this.handleNotificationName = this.handleNotificationName.bind(this);
         this.handleNotificationsDate = this.handleNotificationsDate.bind(this);
         this.addNotification = this.addNotification.bind(this);
+        this.deleteNotification = this.deleteNotification.bind(this);
     }
     toggleForm() {
         this.setState({ open: !this.state.open })
@@ -59,11 +61,11 @@ class Notifications extends Component {
             name: this.state.chosenNotificationName,
             date: format(this.state.chosenNotificationDate)
         }
-        this.props.addNotification([...this.props.notifications, newNoti]);
+        this.props.updateNotification([...this.props.notifications, newNoti]);
         this.setState({ chosenNotificationName: '' })
     }
-    deleteNotification() {
-
+    deleteNotification(e, id) {
+        this.props.updateNotification(this.props.notifications.filter((noti) => noti.id !== id));
     }
     componentWillMount() {
         var d = new Date();
@@ -125,48 +127,63 @@ class Notifications extends Component {
                 </Modal>
                 <div className="notifications-content">
                     <div id="work" className="section">
-                        <h1>Work - 
-                            <span className="work-value">{notifications.filter(type => type.type === 'work').length}</span>
+                        <h1 className="work-value">Work 
+                            <span>{notifications.filter(type => type.type === 'work').length}</span>
                         </h1>
-                        {notifications.map((noti, i) => {
-                            if (noti.type === 'work') {
-                                return (
-                                    <div key={i} className="noti">
+                        {notifications.filter((noti => noti.type === 'work')).map((noti, i) => {
+                            return (
+                                <Grid className="noti" container spacing={24} key={i}>
+                                    <Grid className="text" item sm={6}>
                                         <p className="noti-info">&bull; {noti.name}</p>
+                                    </Grid>
+                                    <Grid className="text center" item sm={3}>
                                         <span className="noti-date">{noti.date}</span>
-                                    </div>
-                                )
-                            } else { return null }
+                                    </Grid>
+                                    <Grid className="text end" item sm={3}>
+                                        <DeleteIcon onClick={e => this.deleteNotification(e, noti.id)} />
+                                    </Grid>
+                                </Grid>
+                            )
                         })}
                     </div>
                     <div id="school" className="section">
-                        <h1>School - 
-                            <span className="school-value">{notifications.filter(type => type.type === 'school').length}</span>
+                        <h1 className="school-value">School
+                            <span>{notifications.filter(type => type.type === 'school').length}</span>
                         </h1>
-                        {notifications.map((noti, i) => {
-                            if (noti.type === 'school') {
-                                return (
-                                    <div key={i} className="noti">
+                        {notifications.filter((noti => noti.type === 'school')).map((noti, i) => {
+                            return (
+                                <Grid className="noti" container spacing={24} key={i}>
+                                    <Grid className="text" item sm={6}>
                                         <p className="noti-info">&bull; {noti.name}</p>
+                                    </Grid>
+                                    <Grid className="text center" item sm={3}>
                                         <span className="noti-date">{noti.date}</span>
-                                    </div>
-                                )
-                            } else { return null }
+                                    </Grid>
+                                    <Grid className="text end" item sm={3}>
+                                        <DeleteIcon onClick={e => this.deleteNotification(e, noti.id)} />
+                                    </Grid>
+                                </Grid>
+                            )
                         })}
                     </div>
                     <div id="personal" className="section">
-                        <h1>Personal - 
-                            <span className="personal-value">{notifications.filter(type => type.type === 'personal').length}</span>
+                        <h1 className="personal-value">Personal
+                            <span>{notifications.filter(type => type.type === 'personal').length}</span>
                         </h1>
-                        {notifications.map((noti, i) => {
-                            if (noti.type === 'personal') {
-                                return (
-                                    <div key={i} className="noti">
+                        {notifications.filter((noti => noti.type === 'personal')).map((noti, i) => {
+                            return (
+                                <Grid className="noti" container spacing={24} key={i}>
+                                    <Grid className="text" item sm={6}>
                                         <p className="noti-info">&bull; {noti.name}</p>
+                                    </Grid>
+                                    <Grid className="text center" item sm={3}>
                                         <span className="noti-date">{noti.date}</span>
-                                    </div>
-                                )
-                            } else { return null }
+                                    </Grid>
+                                    <Grid className="text end" item sm={3}>
+                                        <DeleteIcon onClick={e => this.deleteNotification(e, noti.id)} />
+                                    </Grid>
+                                </Grid>
+                            )
                         })}
                     </div>
                     <Tooltip onClick={this.toggleForm} title="Add Notification" aria-label="Add Notification">
@@ -182,12 +199,11 @@ class Notifications extends Component {
 
 Notifications.propTypes = {
     notifications: PropTypes.array.isRequired,
-    addNotification: PropTypes.func.isRequired,
-    deleteNotification: PropTypes.func.isRequired
+    updateNotification: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     notifications: state.siteData.notifications
 });
 
-export default connect(mapStateToProps, { addNotification, deleteNotification })(Notifications);
+export default connect(mapStateToProps, { updateNotification })(Notifications);

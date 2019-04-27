@@ -64,6 +64,7 @@
         font-size: 1.5rem;
         color: $darkGrey;
         padding: 2rem 0 0 2rem;
+        font-weight: 300;
     }
     margin-bottom: 1.5rem;
     .container {
@@ -73,7 +74,7 @@
         padding: 2rem;
         .task-group {
             background: white;
-            max-width: 300px;
+            width: 100%;
             border-radius: 0.5rem;
             box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
             min-height: 200px;
@@ -101,7 +102,8 @@
                     align-items: center;
                     justify-content: space-between;
                     border-bottom: 1px solid #ececec;
-                    color: $darkGrey;
+                    color: $secondary;
+                    font-weight: 300;
                 }
             }
             .task {
@@ -111,6 +113,7 @@
                 justify-content: space-between;
                 overflow-x: hidden;
                 cursor: default;
+                border-bottom: 1px solid #ececec;
                 p {
                     max-width: 300px;
                 }

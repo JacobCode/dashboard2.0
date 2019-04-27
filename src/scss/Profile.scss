@@ -15,6 +15,7 @@
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
             color: $darkGrey;
+            font-weight: 300;
         }
         form {
             display: grid;
@@ -52,7 +53,7 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 2rem;
         }
         .username {
             margin-bottom: 0.5rem;
@@ -63,6 +64,7 @@
         .full-name {
             font-size: 1.5rem;
             text-transform: capitalize;
+            font-weight: 300;
         }
     }
 }

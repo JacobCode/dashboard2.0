@@ -54,12 +54,12 @@ class NavbarLinks extends Component {
         </Link>
 
         {/* Notifications */}
-        <div>
+        <div id="notifications-dropdown">
           <Button
             aria-owns={this.state.openNoti ? "menu-list-grow" : null}
             aria-haspopup="true"
             onClick={this.handleToggles}>
-            <Badge badgeContent={notifications.length} color="secondary">
+            <Badge badgeContent={notifications.length} color="primary">
               <NotificationsIcon />
             </Badge>
             <Hidden mdUp implementation="css">

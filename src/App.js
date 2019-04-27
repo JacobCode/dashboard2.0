@@ -21,18 +21,15 @@ import Footer from './components/dashboard/layout/Footer';
 
 // MUI
 import { createMuiTheme } from '@material-ui/core/styles';
-import red from '@material-ui/core/colors/red';
 import blue from '@material-ui/core/colors/blue';
+import deepPurple from '@material-ui/core/colors/deepPurple';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const theme = createMuiTheme({
   palette: {
     primary: blue,
-    secondary: red,
-  },
-  typography: {
-    useNextVariants: true,
+    secondary: deepPurple,
   }
 });
 
@@ -63,8 +60,9 @@ class App extends Component {
     const { loading, checked } = this.state;
     return (
       <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
         <BrowserRouter>
-          <MuiThemeProvider theme={theme}>
+          {/* <MuiThemeProvider theme={theme}> */}
             <div id="dashboard">
               <Sidebar routes={routes}
               handleDrawerToggle={this.handleDrawerToggle}
@@ -77,17 +75,20 @@ class App extends Component {
                   </div>
                   <div className="content">
                     <div className="container">
-                      <Route path='/' component={Main} loading={loading} exact />
-                      <Route path='/profile' component={Profile} loading={loading} />
-                      <Route path='/notifications' component={Notifications} loading={loading} />
-                      <Route path='/tasks' component={Tasks} loading={loading} />
+                      <Switch>
+                        <Route path='/' component={Main} loading={loading} exact />
+                        <Route path='/profile' component={Profile} loading={loading} exact />
+                        <Route path='/notifications' component={Notifications} loading={loading} exact />
+                        <Route path='/tasks' component={Tasks} loading={loading} exact />
+                      </Switch>
                     </div>
                   </div>
                   <Footer />
               </div>
             </div>
-          </MuiThemeProvider>
+          {/* </MuiThemeProvider> */}
         </BrowserRouter>
+        </MuiThemeProvider>
       </Provider>
     );
   }
