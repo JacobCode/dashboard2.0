@@ -64,18 +64,35 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
         <BrowserRouter>
-            <Switch>
-              <Route path='/' component={Main} exact />
-              <Route path='/profile' component={Profile} exact />
-              <Route path='/notifications' component={Notifications} exact />
-              <Route path='/tasks' component={Tasks} exact />
-              <Route path='/manage' component={ManageWidgets} exact />
-              <Route component={Error} exact />
-            </Switch>
-          </BrowserRouter>
-        </MuiThemeProvider>
+          <MuiThemeProvider theme={theme}>
+            <div id="dashboard" className="App">
+              <Sidebar routes={dashBoardRoutes}
+              handleDrawerToggle={this.handleDrawerToggle}
+              closeDrawer={this.closeDrawer}
+              open={this.state.mobileOpen} />
+              <div id="main-panel">
+              <Navbar handleDrawerToggle={this.handleDrawerToggle} />
+              <div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
+                <CircularProgress />
+              </div>
+              <div className="content">
+                <div className="container">
+                  <Switch>
+                    <Route path={process.env.PUBLIC_URL + '/'} component={Main} exact />
+                    <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} exact />
+                    <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
+                    <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} exact />
+                    <Route path={process.env.PUBLIC_URL + '/manage'} component={ManageWidgets} exact />
+                    <Route component={Error} exact />
+                  </Switch>
+                </div>
+              </div>
+              <Footer />
+              </div>
+            </div>
+          </MuiThemeProvider>
+        </BrowserRouter>
       </Provider>
     );
   }
