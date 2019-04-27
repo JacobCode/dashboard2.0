@@ -42,7 +42,7 @@ const Sidebar = ({ ...props }) => {
 
   var brand = (
     <div id="sidebar-brand">
-      <a href="/main">
+      <a href="/">
         <span>{`${user_info.first_name} ${user_info.last_name}`}</span>
       </a>
     </div>

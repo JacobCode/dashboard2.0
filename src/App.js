@@ -66,32 +66,15 @@ class App extends Component {
       <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <BrowserRouter>
-          <div className="App" id="dashboard">
-            <Sidebar routes={dashBoardRoutes}
-            handleDrawerToggle={this.handleDrawerToggle}
-            closeDrawer={this.closeDrawer}
-            open={this.state.mobileOpen} />
-            <div id="main-panel">
-              <Navbar handleDrawerToggle={this.handleDrawerToggle} />
-              <div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
-                <CircularProgress />
-              </div>
-              <div className="content">
-                <div className="container">
-                  <Switch>
-                    <Route path='/main' component={Main} exact />
-                    <Route path='/profile' component={Profile} exact />
-                    <Route path='/notifications' component={Notifications} exact />
-                    <Route path='/tasks' component={Tasks} exact />
-                    <Route path='/manage' component={ManageWidgets} exact />
-                    <Route component={Error} exact />
-                  </Switch>
-                </div>
-              </div>
-              <Footer />
-              </div>
-            </div>
-        </BrowserRouter>
+            <Switch>
+              <Route path='/' component={Main} exact />
+              <Route path='/profile' component={Profile} exact />
+              <Route path='/notifications' component={Notifications} exact />
+              <Route path='/tasks' component={Tasks} exact />
+              <Route path='/manage' component={ManageWidgets} exact />
+              <Route component={Error} exact />
+            </Switch>
+          </BrowserRouter>
         </MuiThemeProvider>
       </Provider>
     );
