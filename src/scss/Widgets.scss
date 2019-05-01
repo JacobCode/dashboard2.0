@@ -33,8 +33,8 @@
             justify-content: center;
         }
         &#weather {
-            min-width: 300px;
-            min-height: 200px;
+            min-width: 450px;
+            min-height: 100px;
         }
         // CALENDAR
         &#calendar {
@@ -161,7 +161,7 @@
                         }
                         // 12, 3, 6, 9 hour indicators
                         .picky-date-time-clock__clock-minute--five.picky-date-time-clock__clock-minute--quarter {
-                            background: $secondary;
+                            background: #ff2e2e;
                         }
                         // General minute indicators
                         .picky-date-time-clock__clock-minute {
@@ -244,7 +244,7 @@
             &#clock {
                 grid-row: 3 / 4;
                 grid-column: 1 / 2;
-                margin: 0 0 2rem 0;
+                // margin: 0 0 2rem 0;
             }
         }
     }
@@ -278,6 +278,9 @@
 
             &#clock {
                 // margin: 0 auto;
+            }
+            &#weather {
+                min-width: 300px;
             }
         }
     }

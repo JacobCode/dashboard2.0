@@ -7,7 +7,6 @@ import {
     DELETE_SERVER,
     DELETE_BUG,
     ADD_BOOKMARK,
-    DELETE_BOOKMARK,
     UPDATE_NOTIFICATIONS,
     SET_FORECAST,
     SET_CURRENT_WEATHER,
@@ -90,7 +89,6 @@ export const deleteServer = tasks => dispatch => {
 
 // Weather (Current Day)
 export const getWeather = weather => dispatch => {
-    console.log(weather);
     dispatch({
         type: SET_CURRENT_WEATHER,
         payload: weather
@@ -99,7 +97,6 @@ export const getWeather = weather => dispatch => {
 
 // Weather (Forecast)
 export const getForecast = forecast => dispatch => {
-    console.log(forecast)
     dispatch({
         type: SET_FORECAST,
         payload: forecast

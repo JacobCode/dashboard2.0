@@ -6,7 +6,7 @@ import BookmarkIcon from "@material-ui/icons/NoteAdd";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { addBookmark, deleteBookmark } from '../../../redux/actions/actions';
+import { addBookmark } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';

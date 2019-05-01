@@ -10,7 +10,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
-import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 
 // SCSS
@@ -132,17 +131,17 @@ class Notifications extends Component {
                         </h2>
                         {notifications.filter((noti => noti.type === 'work')).map((noti, i) => {
                             return (
-                                <Grid className="noti" container spacing={24} key={i}>
-                                    <Grid className="text" item sm={6}>
+                                <div className="noti" spacing={24} key={i}>
+                                    <div className="text left" sm={6}>
                                         <p className="noti-info">&bull; {noti.name}</p>
-                                    </Grid>
-                                    <Grid className="text center" item sm={3}>
+                                    </div>
+                                    <div className="text center" sm={3}>
                                         <span className="noti-date">{noti.date}</span>
-                                    </Grid>
-                                    <Grid className="text end" item sm={3}>
+                                    </div>
+                                    <div className="text end" sm={3}>
                                         <DeleteIcon onClick={e => this.deleteNotification(e, noti.id)} />
-                                    </Grid>
-                                </Grid>
+                                    </div>
+                                </div>
                             )
                         })}
                     </div>
@@ -152,17 +151,17 @@ class Notifications extends Component {
                         </h2>
                         {notifications.filter((noti => noti.type === 'school')).map((noti, i) => {
                             return (
-                                <Grid className="noti" container spacing={24} key={i}>
-                                    <Grid className="text" item sm={6}>
+                                <div className="noti" spacing={24} key={i}>
+                                    <div className="text left" sm={6}>
                                         <p className="noti-info">&bull; {noti.name}</p>
-                                    </Grid>
-                                    <Grid className="text center" item sm={3}>
+                                    </div>
+                                    <div className="text center" sm={3}>
                                         <span className="noti-date">{noti.date}</span>
-                                    </Grid>
-                                    <Grid className="text end" item sm={3}>
+                                    </div>
+                                    <div className="text end" sm={3}>
                                         <DeleteIcon onClick={e => this.deleteNotification(e, noti.id)} />
-                                    </Grid>
-                                </Grid>
+                                    </div>
+                                </div>
                             )
                         })}
                     </div>
@@ -172,17 +171,17 @@ class Notifications extends Component {
                         </h2>
                         {notifications.filter((noti => noti.type === 'personal')).map((noti, i) => {
                             return (
-                                <Grid className="noti" container spacing={24} key={i}>
-                                    <Grid className="text" item sm={6}>
+                                <div className="noti" spacing={24} key={i}>
+                                    <div className="text left" sm={6}>
                                         <p className="noti-info">&bull; {noti.name}</p>
-                                    </Grid>
-                                    <Grid className="text center" item sm={3}>
+                                    </div>
+                                    <div className="text center" sm={3}>
                                         <span className="noti-date">{noti.date}</span>
-                                    </Grid>
-                                    <Grid className="text end" item sm={3}>
+                                    </div>
+                                    <div className="text end" sm={3}>
                                         <DeleteIcon onClick={e => this.deleteNotification(e, noti.id)} />
-                                    </Grid>
-                                </Grid>
+                                    </div>
+                                </div>
                             )
                         })}
                     </div>

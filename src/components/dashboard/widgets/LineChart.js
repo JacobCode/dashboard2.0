@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ChartistGraph from "react-chartist";
-import Chartist from 'chartist';
 
 // SCSS
 import '../../../scss/Graph.scss';

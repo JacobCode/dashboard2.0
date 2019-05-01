@@ -85,10 +85,10 @@ const initialState = {
   activeWidgets: { 
     tasks: true,
     clock: true,
-    chart: true,
+    chart: false,
     calendar: true,
     bookmarks: true,
-    weather: false
+    weather: true
   }
 };
 

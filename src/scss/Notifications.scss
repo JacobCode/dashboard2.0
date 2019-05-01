@@ -112,10 +112,12 @@
             .noti {
                 width: 100%;
                 margin: 0;
+                display: flex;
                 .text {
                     display: flex;
                     align-items: center;
                     border-bottom: 1px solid #ebebeb;
+                    padding: 1rem;
                     p {
                         line-height: 1.2;
                     }
@@ -130,11 +132,16 @@
                             fill: #ff3131;
                         }
                     }
+                    &.left {
+                        width: 70%;
+                    }
                     &.center {
                         justify-content: center;
+                        width: 15%
                     }
                     &.end {
                         justify-content: flex-end;
+                        width: 15%
                     }
                 }
             }

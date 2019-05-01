@@ -46,6 +46,8 @@ class ManageWidgets extends Component {
             case 'weather':
                 this.setState({ weather: !this.state.weather });
                 break;
+            default: 
+                break;
         }
     }
     updateWidgets() {
@@ -81,7 +83,6 @@ class ManageWidgets extends Component {
                                     }
                                     onChange={e => this.handleToggle(e, widget)}
                                     color="primary"
-                                    disabled={widget === 'weather' ? true : false}
                                     />
                                 </div>
                             )

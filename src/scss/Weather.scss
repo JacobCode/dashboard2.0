@@ -11,18 +11,111 @@
         font-weight: 300;
     }
     .results {
+        width: 100%;
         .temp {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
             .temp-current {
-
+                font-size: 2rem;
+                display: flex;
+                font-weight: 300;
+                span {
+                    font-size: 0.825rem;
+                    font-weight: 400;
+                    margin-left: 0.25rem;
+                }
             }
             .temp-other {
+                display: flex;
+                flex-direction: column;
+                p {
+                    font-weight: 300;
+                    width: 60px;
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: row;
+                    span {
+                        
+                    }
+                }
+            }
+        }
+        .location {
+            margin-bottom: 1rem;
+            span {
+                display: flex;
+                flex-direction: column;
+                color: $primary;
+                font-size: 2rem;
+                font-weight: 300;
+            }
+        }
+        .week {
+            display: flex;
+            margin-top: 1.5rem;
+            justify-content: space-evenly;
+            .day {
+                width: 16.666%;
+                text-align: center;
+                text-transform: capitalize;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                padding: 0 0.5rem;
                 span {
-
+                    color: $darkGrey;
+                    &:last-of-type {
+                        font-weight: 300;
+                    }
+                }
+                img {
+                    max-width: 50px;
+                    max-height: 50px;
+                    margin: 0.5rem 0;
                 }
             }
         }
     }
     button {
         margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #weather {
+        padding: 1rem !important;
+        .results {
+            .temp {
+                .temp-current {
+                    span {
+
+                    }
+                }
+                .temp-other {
+
+                }
+            }
+            .week {
+                display: flex;
+                margin-top: 1.5rem;
+                justify-content: space-evenly;
+
+                .day {
+                    width: 16.666%;
+                    text-align: center;
+                    text-transform: capitalize;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    padding: 0 0.5rem;
+
+                    img {
+                        max-width: 35px;
+                        max-height: 35px;
+                    }
+                }
+            }
+        }
     }
 }
