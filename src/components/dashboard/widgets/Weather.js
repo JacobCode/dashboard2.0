@@ -20,7 +20,7 @@ class Weather extends Component {
             lat: '',
             lon: '',
             units: 'i',
-            api_key: window.location.hostname === 'localhost' ? '84943a6dbebd4dfdb01b18356ee4024f' : process.env.API_KEY,
+            api_key: '84943a6dbebd4dfdb01b18356ee4024f',
             showWeather: false,
             forecast: []
         }
