@@ -56,6 +56,16 @@
             .notification-item {
                 a {
                     margin: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    align-items: center;
+                    span {
+                        &:first-of-type {
+                            max-width: 70%;
+                            margin-right: 1.5rem;
+                        }
+                    }
                 }
                 .notification-date {
                     color: #8a8a8a;

@@ -34,7 +34,7 @@ class NavbarLinks extends Component {
     }
   }
   handleClose() {
-    this.setState({ open: false });
+    this.setState({ openNoti: false });
   }
 
   render() {
@@ -87,8 +87,7 @@ class NavbarLinks extends Component {
                               {notifications.length === 0 ? <MenuItem>No Notifications</MenuItem> : notifications.map((notification, index) => {
                                 return (
                                   <MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
-                                    <Link to={`/notifications/#${notification.type}`}>{notification.name}</Link>
-                                    <span className="notification-date">{notification.date}</span>
+                                    <Link to={`/notifications/#${notification.type}`}><span>{notification.name}</span> <span className="notification-date">{notification.date}</span></Link>
                                   </MenuItem>
                                 )
                               })}

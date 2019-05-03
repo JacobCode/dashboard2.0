@@ -19,11 +19,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                &.weather {
-                    span:first-of-type {
-                        cursor: not-allowed
-                    }
-                }
                 h1 {
                     text-transform: capitalize;
                     color: $darkGrey;

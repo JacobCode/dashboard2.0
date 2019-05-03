@@ -79,11 +79,11 @@ class Weather extends Component {
         this.props.setWidgets(obj);
     }
     componentDidMount() {
-        this.getLocation();
+        // this.getLocation();
     }
     render() {
         return (
-            <div id="weather" className="widget">
+            <div style={{maxHeight: `${this.props.forecast[0] === undefined ? '125px' : '275px'}`}} id="weather" className="widget">
                 <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
                 {this.state.showWeather === true && this.props.forecast[0] !== undefined ? 
                     <div className="results">
@@ -114,9 +114,12 @@ class Weather extends Component {
                         </div>
                     </div>
                 : 
-                <Button onClick={this.getLocation} variant="contained" color="primary">
-                    Allow Location Services
-                </Button>}
+                <div>
+                    <h1>Weather</h1>
+                    <Button onClick={this.getLocation} variant="contained" color="primary">
+                        Allow Location Services
+                    </Button>
+                </div>}
             </div>
         )
     }

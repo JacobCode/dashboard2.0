@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import PickyDateTime from 'react-picky-date-time';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Close from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
 
 const notificationOptions = ['Work', 'School', 'Personal'];
 
@@ -55,10 +56,10 @@ class Calendar extends Component {
         this.props.setWidgets(obj);
     }
     selectType(e) {
-        this.setState({ pickedType: e.target.value })
+        this.setState({ pickedType: e.target.value });
     }
     selectTitle(e) {
-        this.setState({ pickedTitle: e.target.value })
+        this.setState({ pickedTitle: e.target.value });
     }
     addReminder() {
         var newId = (this.props.notifications.length === 0 ? 0 : this.props.notifications[this.props.notifications.length - 1].id + 1);
@@ -70,7 +71,6 @@ class Calendar extends Component {
         }
         this.props.updateNotification([...this.props.notifications, newNoti]);
         this.setState({ pickedTitle: '' })
-        console.log(this.state.pickedDate);
     }
     hideForm() {
         this.setState({ showForm: false })
@@ -84,7 +84,9 @@ class Calendar extends Component {
                     <div id="add-reminder" style={{background: 'white'}}>
                         <ClickAwayListener onClickAway={this.hideForm}>
                             <div className="form">
+                                <h1>Add Reminder</h1>
                                 <TextField
+                                    id="pick-date"
                                     label="Date"
                                     defaultValue={this.state.pickedDate}
                                     InputProps={{
@@ -92,6 +94,7 @@ class Calendar extends Component {
                                     }}
                                 />
                                 <TextField
+                                    id="pick-type"
                                     select
                                     value={this.state.pickedType}
                                     onChange={this.selectType}
@@ -104,12 +107,14 @@ class Calendar extends Component {
                                     ))}
                                 </TextField>
                                 <TextField
+                                    autoFocus
+                                    id="pick-title"
                                     label="Title"
-                                    placeholder="Enter Reminder"
                                     onChange={this.selectTitle}
+                                    value={this.state.pickedTitle}
                                 />
                                 <Button onClick={this.addReminder} variant="contained" color="primary">
-                                    Add Reminder
+                                    <AddIcon />
                                 </Button>
                             </div>
                         </ClickAwayListener>
