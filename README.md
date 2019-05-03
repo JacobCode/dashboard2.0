@@ -1,8 +1,26 @@
+# Developer Dashboard
+
+Dashboard for developers who need to keep track of different tasks, important dates, and more!
+
+## Run Locally
+
+```
+npm i
+npm start
+```
+
+## Built With
+
+* React
+* Redux
+* SCSS
+* Axios
+* Material UI
+
 ## Desktop 💻
 
-![IMG 1](https://i.postimg.cc/7Y5gycQg/dashboard1-large.png)
+![IMG 1](https://i.postimg.cc/KjxRhwTj/Screen-Shot-2019-05-03-at-10-03-18-AM.png)
 
-![IMG 2](https://i.postimg.cc/fyLYygWQ/dashboard2-large.png)
 
 ## Mobile 📱
 
