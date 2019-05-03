@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { setWidgets } from '../../../redux/actions/actions';
+
 import PickyDateTime from 'react-picky-date-time';
+import Close from '@material-ui/icons/Close';
 
 class Clock extends Component {
     constructor() {
@@ -13,6 +19,7 @@ class Clock extends Component {
         }
         this.startTime = this.startTime.bind(this);
         this.getDate = this.getDate.bind(this);
+        this.hideWidget = this.hideWidget.bind(this);
     }
     getDate() {
         var d = new Date();
@@ -34,6 +41,18 @@ class Clock extends Component {
         this.setState({ time: `${hour}:${minute}` })
         setTimeout(this.startTime, 500);
     }
+    hideWidget() {
+        // Hide clock widget
+        var obj = {
+            bookmarks: this.props.activeWidgets.bookmarks,
+            calendar: this.props.activeWidgets.calendar,
+            chart: this.props.activeWidgets.chart,
+            clock: false,
+            tasks: this.props.activeWidgets.tasks,
+            weather: this.props.activeWidgets.weather
+        }
+        this.props.setWidgets(obj);
+    }
     componentDidMount() {
         this.getDate();
         this.startTime();
@@ -45,6 +64,7 @@ class Clock extends Component {
         const { showPickyDateTime, time, date } = this.state
         return (
             <div id="clock" className="widget">
+                <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
                 <PickyDateTime
                 size="xs"
                 mode={2}
@@ -64,4 +84,13 @@ class Clock extends Component {
     }
 }
 
-export default Clock;
+Clock.propTypes = {
+    setWidgets: PropTypes.func.isRequired,
+    activeWidgets: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    activeWidgets: state.siteData.activeWidgets
+});
+
+export default connect(mapStateToProps, { setWidgets })(Clock);

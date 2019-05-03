@@ -84,7 +84,7 @@ class App extends Component {
                     <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
                     <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} exact />
                     <Route path={process.env.PUBLIC_URL + '/manage'} component={ManageWidgets} exact />
-                    <Route component={Error} exact />
+                    <Route component={Error} />
                   </Switch>
                 </div>
               </div>

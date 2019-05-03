@@ -28,7 +28,7 @@ const dashboardRoutes = [
     },
     {
         path: "/manage",
-        name: "Manage",
+        name: "Widgets",
         icon: WidgetIcon
     }
 ];

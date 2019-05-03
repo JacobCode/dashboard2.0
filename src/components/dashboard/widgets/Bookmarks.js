@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import BookmarkIcon from "@material-ui/icons/NoteAdd";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Close from '@material-ui/icons/Close';
 
-import { addBookmark } from '../../../redux/actions/actions';
+import { addBookmark, setWidgets } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';
@@ -24,6 +25,7 @@ class Bookmarks extends Component {
         this.toggleForm = this.toggleForm.bind(this);
         this.handleNameInput = this.handleNameInput.bind(this);
         this.handleUrlInput = this.handleUrlInput.bind(this);
+        this.hideWidget = this.hideWidget.bind(this);
     }
     toggleForm() {
         this.setState({
@@ -53,10 +55,23 @@ class Bookmarks extends Component {
             this.setState({ showBookmarkForm: false })
         }
     }
+    hideWidget() {
+        // Hide bookmarks widget
+        var obj = {
+            bookmarks: false,
+            calendar: this.props.activeWidgets.calendar,
+            chart: this.props.activeWidgets.chart,
+            clock: this.props.activeWidgets.clock,
+            tasks: this.props.activeWidgets.tasks,
+            weather: this.props.activeWidgets.weather
+        }
+        this.props.setWidgets(obj);
+    }
     render() {
         const { bookmarks } = this.props;
         return (
             <div id="bookmarks" className="widget">
+                <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
                 {this.state.showBookmarkForm === false ?
                     <div className="header" onClick={this.toggleForm}>
                         <div className="title">
@@ -105,10 +120,13 @@ class Bookmarks extends Component {
 Bookmarks.propTypes = {
     addBookmark: PropTypes.func.isRequired,
     bookmarks: PropTypes.array.isRequired,
+    setWidgets: PropTypes.func.isRequired,
+    activeWidgets: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    bookmarks: state.siteData.bookmarks
+    bookmarks: state.siteData.bookmarks,
+    activeWidgets: state.siteData.activeWidgets
 });
 
-export default connect(mapStateToProps, { addBookmark })(Bookmarks);
+export default connect(mapStateToProps, { addBookmark, setWidgets })(Bookmarks);

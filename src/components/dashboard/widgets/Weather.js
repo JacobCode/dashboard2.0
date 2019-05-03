@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import Divider from '@material-ui/core/Divider';
+import Close from '@material-ui/icons/Close';
 
-import { getWeather, getForecast } from '../../../redux/actions/actions';
+import { getWeather, getForecast, setWidgets } from '../../../redux/actions/actions';
 
 import Button from '@material-ui/core/Button';
 
@@ -24,11 +25,8 @@ class Weather extends Component {
             showWeather: false,
             forecast: []
         }
-        this.changeUnits = this.changeUnits.bind(this);
         this.getLocation = this.getLocation.bind(this);
-    }
-    changeUnits() {
-        this.setState({ units: 'm' })
+        this.hideWidget = this.hideWidget.bind(this);
     }
     componentWillReceiveProps(props) {
         if (props.forecast[0] !== undefined) {
@@ -68,9 +66,25 @@ class Weather extends Component {
                 }
         })
     }
+    hideWidget() {
+        // Hide weather widget
+        var obj = {
+            bookmarks: this.props.activeWidgets.bookmarks,
+            calendar: this.props.activeWidgets.calendar,
+            chart: this.props.activeWidgets.chart,
+            clock: this.props.activeWidgets.clock,
+            tasks: this.props.activeWidgets.tasks,
+            weather: false
+        }
+        this.props.setWidgets(obj);
+    }
+    componentDidMount() {
+        this.getLocation();
+    }
     render() {
         return (
             <div id="weather" className="widget">
+                <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
                 {this.state.showWeather === true && this.props.forecast[0] !== undefined ? 
                     <div className="results">
                         <div className="temp">
@@ -112,12 +126,15 @@ Weather.propTypes = {
     weather: PropTypes.object.isRequired,
     forecast: PropTypes.array.isRequired,
     getWeather: PropTypes.func.isRequired,
-    getForecast: PropTypes.func.isRequired
+    getForecast: PropTypes.func.isRequired,
+    setWidgets: PropTypes.func.isRequired,
+    activeWidgets: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
     forecast: state.siteData.forecast,
     weather: state.siteData.weather,
+    activeWidgets: state.siteData.activeWidgets
 });
 
-export default connect(mapStateToProps, { getWeather, getForecast })(Weather);
+export default connect(mapStateToProps, { getWeather, getForecast, setWidgets })(Weather);

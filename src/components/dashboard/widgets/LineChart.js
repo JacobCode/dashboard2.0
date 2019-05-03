@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { setWidgets } from '../../../redux/actions/actions';
+
 import ChartistGraph from "react-chartist";
+import Close from '@material-ui/icons/Close';
 
 // SCSS
 import '../../../scss/Graph.scss';
@@ -28,9 +34,26 @@ const lineChart = {
 };
 
 class LineChart extends Component {
+    constructor() {
+        super();
+        this.hideWidget = this.hideWidget.bind(this);
+    }
+    hideWidget() {
+        // Hide chart widget
+        var obj = {
+            bookmarks: this.props.activeWidgets.bookmarks,
+            calendar: this.props.activeWidgets.calendar,
+            chart: false,
+            clock: this.props.activeWidgets.clock,
+            tasks: this.props.activeWidgets.tasks,
+            weather: this.props.activeWidgets.weather
+        }
+        this.props.setWidgets(obj);
+    }
     render() {
         return (
             <div id="line-chart" className="widget">
+                <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
                 <div className="chart-container">
                     <ChartistGraph
                     className="ct-chart"
@@ -45,4 +68,13 @@ class LineChart extends Component {
     }
 }
 
-export default LineChart;
+LineChart.propTypes = {
+    setWidgets: PropTypes.func.isRequired,
+    activeWidgets: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    activeWidgets: state.siteData.activeWidgets
+});
+
+export default connect(mapStateToProps, { setWidgets })(LineChart);

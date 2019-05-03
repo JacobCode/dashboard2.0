@@ -19,10 +19,10 @@ class Main extends Component {
             <div id="widget-grid">
                 {Boolean(this.props.activeWidgets.tasks) === true ? <Tasks /> : null}
                 {Boolean(this.props.activeWidgets.calendar) === true ? <Calendar /> : null}
-                {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
                 {Boolean(this.props.activeWidgets.clock) === true ? <Clock /> : null}
-                {Boolean(this.props.activeWidgets.chart) === true ? <LineChart /> : null}
                 {Boolean(this.props.activeWidgets.weather) === true ? <Weather /> : null}
+                {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
+                {Boolean(this.props.activeWidgets.chart) === true ? <LineChart /> : null}
             </div>
         )
     }

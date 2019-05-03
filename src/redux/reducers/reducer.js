@@ -32,19 +32,19 @@ const initialState = {
       date: '4/29'
     },
     {
-      id: 3,
+      id: 2,
       type: 'personal',
       name: 'Set up portfolio website',
       date: '5/02',
     },
     {
-      id: 4,
+      id: 3,
       type: 'work',
       name: 'Edit and update store database',
       date: '5/11'
     },
     {
-      id: 5,
+      id: 4,
       type: 'school',
       name: 'Complete PHP project',
       date: '5/17'

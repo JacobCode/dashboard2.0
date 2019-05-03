@@ -7,9 +7,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import Close from '@material-ui/icons/Close';
 
 import deleteIcon from '../../../images/delete-icon.svg';
-import { deleteBug, deleteServer, deleteWebsite } from '../../../redux/actions/actions';
+import { deleteBug, deleteServer, deleteWebsite, setWidgets } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Tasks.scss';
@@ -46,6 +47,7 @@ class Tasks extends Component {
         }
         this.handleCheck = this.handleCheck.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
+        this.hideWidget = this.hideWidget.bind(this);
     };
     handleCheck(e, x) {
         this.setState(state => ({
@@ -67,6 +69,18 @@ class Tasks extends Component {
         if (type === 'website') {
             this.props.deleteWebsite(this.props.websiteData.filter(task => task.title !== name));
         }
+    }
+    hideWidget() {
+        // Hide tasks widget
+        var obj = {
+            bookmarks: this.props.activeWidgets.bookmarks,
+            calendar: this.props.activeWidgets.calendar,
+            chart: this.props.activeWidgets.chart,
+            clock: this.props.activeWidgets.clock,
+            tasks: false,
+            weather: this.props.activeWidgets.weather
+        }
+        this.props.setWidgets(obj);
     }
     render() {
         const { value, checkedBoxes } = this.state;
@@ -122,6 +136,7 @@ class Tasks extends Component {
         });
         return (
             <div id="tasks" className="widget">
+                <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
                 <AppBar position="static" color="secondary">
                     <Tabs className="tabs" value={value} onChange={this.handleChange}>
                         <Tab label="Bugs" />
@@ -145,13 +160,16 @@ Tasks.propTypes = {
     websiteData: PropTypes.array.isRequired,
     deleteBug: PropTypes.func.isRequired,
     deleteServer: PropTypes.func.isRequired,
-    deleteWebsite: PropTypes.func.isRequired
+    deleteWebsite: PropTypes.func.isRequired,
+    setWidgets: PropTypes.func.isRequired,
+    activeWidgets: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
     bugsData: state.siteData.bugsData,
     serverData: state.siteData.serverData,
-    websiteData: state.siteData.websiteData
+    websiteData: state.siteData.websiteData,
+    activeWidgets: state.siteData.activeWidgets
 });
 
-export default connect(mapStateToProps, { deleteBug, deleteServer, deleteWebsite })(Tasks);
+export default connect(mapStateToProps, { deleteBug, deleteServer, deleteWebsite, setWidgets })(Tasks);
