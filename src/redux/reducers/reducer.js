@@ -61,8 +61,8 @@ const initialState = {
       name: 'Stack Overflow'
     },
     {
-      url: 'https://www.awwwards.com/',
-      name: 'Awwwards'
+      url: 'https://modern-dashboard.netlify.com',
+      name: 'Dashboard'
     }
   ],
   // Tasks
