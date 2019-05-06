@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import store from './redux/store';
 import dashBoardRoutes from './routes';
 
@@ -10,7 +10,6 @@ import Profile from './components/dashboard/Profile';
 import Notifications from './components/dashboard/Notifications';
 import Tasks from './components/dashboard/Tasks';
 import ManageWidgets from './components/dashboard/ManageWidgets';
-import Error from './components/dashboard/Error';
 
 // SCSS
 import './scss/reset.scss';
@@ -60,6 +59,7 @@ class App extends Component {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 1000)
+    console.log(window);
   }
   render() {
     return (
@@ -67,28 +67,25 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={theme}>
             <div id="dashboard" className="App">
-              <Sidebar routes={dashBoardRoutes}
-              handleDrawerToggle={this.handleDrawerToggle}
-              closeDrawer={this.closeDrawer}
-              open={this.state.mobileOpen} />
+              <Sidebar routes={dashBoardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
               <div id="main-panel">
-              <Navbar handleDrawerToggle={this.handleDrawerToggle} />
-              <div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
-                <CircularProgress />
-              </div>
-              <div className="content">
-                <div className="container">
-                  <Switch>
-                    <Route path={process.env.PUBLIC_URL + '/'} component={Main} exact />
-                    <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} exact />
-                    <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
-                    <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} exact />
-                    <Route path={process.env.PUBLIC_URL + '/manage'} component={ManageWidgets} exact />
-                    <Route component={Error} />
-                  </Switch>
+                <Navbar handleDrawerToggle={this.handleDrawerToggle} />
+                <div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
+                  <CircularProgress />
                 </div>
-              </div>
-              <Footer />
+                <div className="content">
+                  <div className="container">
+                    <Switch>
+                      <Route path={process.env.PUBLIC_URL + '/'} component={Main} exact />
+                      <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} exact />
+                      <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
+                      <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} exact />
+                      <Route path={process.env.PUBLIC_URL + '/manage'} component={ManageWidgets} exact />
+                      <Redirect from="/*" to="/" />
+                    </Switch>
+                  </div>
+                </div>
+                <Footer />
               </div>
             </div>
           </MuiThemeProvider>
