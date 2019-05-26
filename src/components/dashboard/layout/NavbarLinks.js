@@ -40,7 +40,7 @@ class NavbarLinks extends Component {
 		localStorage.clear();
 		setTimeout(() => {
 			window.location.pathname = '/';
-		})
+		}, 1000);
 	}
 	render() {
 		const { notifications } = this.props.user;

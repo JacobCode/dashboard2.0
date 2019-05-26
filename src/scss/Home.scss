@@ -1,37 +1,5 @@
 @import './variables';
 
-#error-snackbar {
-	background: #ff2d2d;
-	border-radius: 4px;
-}
-
-#success-snackbar {
-	background: #12af27;
-	border-radius: 4px;
-}
-
-.sn-bar {
-	div:first-of-type {
-		width: 100% !important;
-	}
-	span {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		font-size: 1.1rem;
-		svg {
-			margin-left: 1rem
-		}
-	}
-}
-
-.fixed-snackbar {
-	position: fixed !important;
-	bottom: 1.5rem !important;
-	right: 1.5rem !important;
-	left: initial !important;
-}
-
 #home {
 	height: 100vh;
 	min-height: 100vh;

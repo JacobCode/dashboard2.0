@@ -172,5 +172,13 @@
     }
 }
 @media screen and (max-width: 480px) {
+	#notifications {
+		.noti-title {
+			padding: 2rem 0 1rem 1rem;
+		}
 
+		.notifications-content {
+			padding: 1rem;
+		}
+	}
 }

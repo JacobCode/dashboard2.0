@@ -10,8 +10,8 @@ import {
 
 import axios from 'axios';
 
-// Deployed URL: https://modern-dashboard.herokuapp.com
-const API_URL = 'https://modern-dashboard.herokuapp.com';
+// https://modern-dashboard.herokuapp.com
+const API_URL = '';
 
 // Login User
 export const loginUser = (user) => dispatch => {
@@ -21,9 +21,7 @@ export const loginUser = (user) => dispatch => {
 	})
 }
 
-// ---------------------------------------------------
-
-// ADD TASKS ✅
+// Add Task
 export const addTask = (tasks, userId, user, type) => dispatch => {
 	user[type] = tasks;
 	axios.post(`${API_URL}/user/${userId}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
@@ -37,7 +35,7 @@ export const addTask = (tasks, userId, user, type) => dispatch => {
 		.catch((err) => console.log(err.response));
 }
 
-// DELETE TASKS ✅
+// Delete Task
 export const deleteTask = (userId, tasks, user, type) => dispatch => {
 	user[type] = tasks;
 	axios.post(`${API_URL}/user/${userId}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, {
@@ -54,15 +52,11 @@ export const deleteTask = (userId, tasks, user, type) => dispatch => {
 
 }
 
-// ---------------------------------------------------
-
-
-// Update Bookmarks ✅
+// Add Bookmark ✅
 export const addBookmark = (bookmarks, userId, user) => dispatch => {
 	user.bookmarks = bookmarks;
 	axios.post(`${API_URL}/user/${userId}/bookmarks`, { bookmarks })
 		.then((res) => {
-			console.log(res);
 			localStorage.setItem('user', JSON.stringify(user));
 			dispatch({
 				type: UPDATE_BOOKMARKS,
@@ -72,13 +66,11 @@ export const addBookmark = (bookmarks, userId, user) => dispatch => {
 
 }
 
-// Update Notifications
+// Update Notifications (add & delete)
 export const updateNotifications = (notifications, userId, user) => dispatch => {
-	console.log(notifications);
 	user.notifications = notifications;
 	axios.post(`${API_URL}/user/${userId}/notifications`, { notifications })
 		.then((res) => {
-			console.log(res);
 			localStorage.setItem('user', JSON.stringify(user));
 			dispatch({
 				type: UPDATE_NOTIFICATIONS,
