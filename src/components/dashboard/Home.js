@@ -14,7 +14,7 @@ import { loginUser } from '../../redux/actions/actions';
 
 import '../../scss/Home.scss';
 
-const API_URL = '';
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 class Home extends Component {
 	constructor() {
