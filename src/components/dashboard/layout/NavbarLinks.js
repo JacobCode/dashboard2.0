@@ -38,12 +38,12 @@ class NavbarLinks extends Component {
   }
 
   render() {
-    const { notifications } = this.props;
+	const { notifications } = this.props.user;
     return (
       <div id="links">
 
         {/* Dashboard */}
-        <Link to="/">
+        <Link to="/dashboard">
           <Button
           aria-label="Dashboard">
             <DashboardIcon />
@@ -87,7 +87,7 @@ class NavbarLinks extends Component {
                               {notifications.length === 0 ? <MenuItem>No Notifications</MenuItem> : notifications.map((notification, index) => {
                                 return (
                                   <MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
-                                    <Link to={`/notifications/#${notification.type}`}><span>{notification.name}</span> <span className="notification-date">{notification.date}</span></Link>
+                                    <Link to={`/dashboard/notifications/#${notification.type}`}><span>{notification.name}</span> <span className="notification-date">{notification.date}</span></Link>
                                   </MenuItem>
                                 )
                               })}
@@ -100,7 +100,7 @@ class NavbarLinks extends Component {
         </div>
 
         {/* Profile */}
-        <Link to="/profile">
+        <Link to="/dashboard/profile">
           <Button>
             <Person />
           </Button>
@@ -112,11 +112,11 @@ class NavbarLinks extends Component {
 }
 
 NavbarLinks.propTypes = {
-    notifications: PropTypes.array.isRequired,
+	user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    notifications: state.siteData.notifications
+	user: state.siteData.user
 });
 
 export default connect(mapStateToProps)(NavbarLinks);

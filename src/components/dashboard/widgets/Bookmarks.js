@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Close from '@material-ui/icons/Close';
 
-import { addBookmark, setWidgets } from '../../../redux/actions/actions';
+import { setWidgets } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';
@@ -68,7 +68,7 @@ class Bookmarks extends Component {
         this.props.setWidgets(obj);
     }
     render() {
-        const { bookmarks } = this.props;
+        const { bookmarks } = this.props.user;
         return (
             <div id="bookmarks" className="widget">
                 <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
@@ -118,15 +118,14 @@ class Bookmarks extends Component {
 }
 
 Bookmarks.propTypes = {
-    addBookmark: PropTypes.func.isRequired,
-    bookmarks: PropTypes.array.isRequired,
     setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired
+	activeWidgets: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    bookmarks: state.siteData.bookmarks,
-    activeWidgets: state.siteData.activeWidgets
+	activeWidgets: state.siteData.activeWidgets,
+	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { addBookmark, setWidgets })(Bookmarks);
+export default connect(mapStateToProps, { setWidgets })(Bookmarks);

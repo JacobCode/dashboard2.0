@@ -1,0 +1,110 @@
+@import './variables';
+
+#home {
+	height: 100vh;
+	min-height: 100vh;
+	width: 100vw;
+	background: white;
+	header {
+		display: flex;
+		width: calc(50% - 1.5rem);
+		justify-content: space-between;
+		margin-bottom: 1.5rem;
+		position: absolute;
+		color: $secondary;
+		.toggle {
+			cursor: pointer;
+		}
+	}
+	.sides {
+		display: flex;
+		min-height: 100%;
+		.left {
+			width: 50%;
+			padding: 1.5rem;
+			// Signin Form
+			#signin {
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				p.welcome {
+					color: #a5a5a5;
+					max-width: 600px;
+					margin: 0 auto 1rem;
+					padding: 0 2rem;
+				}
+
+				h1 {
+					font-size: 2rem;
+					max-width: 600px;
+					margin: 0 auto 2.5rem;
+					font-weight: 600;
+					padding: 0 2rem;
+					color: #333333;
+					line-height: 1.2;
+				}
+
+				form {
+					display: grid;
+					grid-template-columns: 1fr;
+					grid-row-gap: 2rem;
+					max-width: 600px;
+					margin: 0 auto 1.5rem;
+					padding: 0 2rem;
+					button {
+						margin-top: 1.5rem;
+						width: 200px;
+						height: 50px;
+						border-radius: 2rem;
+					}
+				}
+			}
+			// Signup Form
+			#signup {
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				h1 {
+					font-size: 2rem;
+					max-width: 600px;
+					margin: 0 auto 2.5rem;
+					font-weight: 600;
+					padding: 0 2rem;
+					color: #333333;
+					line-height: 1.2;
+				}
+				form {
+					display: grid;
+					grid-template-columns: 1fr;
+					grid-row-gap: 3rem;
+					max-width: 600px;
+					margin: 0 auto;
+					padding: 0 2rem;
+					button {
+						margin-top: 1.5rem;
+						width: 200px;
+						height: 50px;
+						border-radius: 2rem;
+					}
+				}
+			}
+		}
+		.right {
+			width: 50%;
+			background-color: #ffffff;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' %3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='0' y1='0' y2='1' gradientTransform='rotate(342,0.5,0.5)'%3E%3Cstop offset='0' stop-color='%23970fff'/%3E%3Cstop offset='1' stop-color='%234083ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpattern id='b' width='24' height='24' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='%23ffffff' cx='12' cy='12' r='12'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23a)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23b)' fill-opacity='0.1'/%3E%3C/svg%3E");
+			background-attachment: fixed;
+			background-size: cover;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			img {
+				width: 60%;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 992px) {
+
+}

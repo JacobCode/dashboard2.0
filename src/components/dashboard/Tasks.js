@@ -12,8 +12,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
-import { addBug, addServer, addWebsite, deleteBug, deleteServer, deleteWebsite  } from '../../redux/actions/actions';
-
 import '../../scss/TasksPage.scss';
 
 const taskOptions = ['Bug', 'Server', 'Website'];
@@ -68,7 +66,7 @@ class Tasks extends Component {
         }
     }
     render() {
-        const { bugsData, serverData, websiteData } = this.props;
+        const { bugsData, serverData, websiteData } = this.props.user;
         return (
             <div id="tasks-page">
                 <h1 className="title">Tasks</h1>
@@ -159,18 +157,11 @@ class Tasks extends Component {
 }
 
 Tasks.propTypes = {
-    bugsData: PropTypes.array.isRequired,
-    serverData: PropTypes.array.isRequired,
-    websiteData: PropTypes.array.isRequired,
-    deleteBug: PropTypes.func.isRequired,
-    deleteServer: PropTypes.func.isRequired,
-    deleteWebsite: PropTypes.func.isRequired
+	user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    bugsData: state.siteData.bugsData,
-    serverData: state.siteData.serverData,
-    websiteData: state.siteData.websiteData
+	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { addBug, addServer, addWebsite, deleteBug, deleteServer, deleteWebsite })(Tasks);
+export default connect(mapStateToProps)(Tasks);

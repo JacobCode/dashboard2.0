@@ -5,6 +5,7 @@ import store from './redux/store';
 import dashBoardRoutes from './routes';
 
 // Pages
+import Home from './components/dashboard/Home';
 import Main from './components/dashboard/Main';
 import Profile from './components/dashboard/Profile';
 import Notifications from './components/dashboard/Notifications';
@@ -59,14 +60,15 @@ class App extends Component {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 1000)
-    console.log(window);
   }
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <MuiThemeProvider theme={theme}>
-            <div id="dashboard" className="App">
+		  	{/* If Signed In */}
+            {localStorage.user !== undefined ? 
+			<div id="dashboard" className="App">
               <Sidebar routes={dashBoardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
               <div id="main-panel">
                 <Navbar handleDrawerToggle={this.handleDrawerToggle} />
@@ -76,18 +78,25 @@ class App extends Component {
                 <div className="content">
                   <div className="container">
                     <Switch>
-                      <Route path={process.env.PUBLIC_URL + '/'} component={Main} exact />
-                      <Route path={process.env.PUBLIC_URL + '/profile'} component={Profile} exact />
-                      <Route path={process.env.PUBLIC_URL + '/notifications'} component={Notifications} exact />
-                      <Route path={process.env.PUBLIC_URL + '/tasks'} component={Tasks} exact />
-                      <Route path={process.env.PUBLIC_URL + '/manage'} component={ManageWidgets} exact />
-                      <Redirect from="/*" to="/" />
+                      <Route path={process.env.PUBLIC_URL + '/dashboard'} component={Main} exact />
+                      <Route path={process.env.PUBLIC_URL + '/dashboard/profile'} component={Profile} exact />
+                      <Route path={process.env.PUBLIC_URL + '/dashboard/notifications'} component={Notifications} exact />
+                      <Route path={process.env.PUBLIC_URL + '/dashboard/tasks'} component={Tasks} exact />
+                      <Route path={process.env.PUBLIC_URL + '/dashboard/manage'} component={ManageWidgets} exact />
+                      <Redirect from="/*" to="/dashboard" />
                     </Switch>
                   </div>
                 </div>
                 <Footer />
               </div>
             </div>
+			:
+			<div>
+				<Switch>
+					<Route path={process.env.PUBLIC_URL + '/'} component={Home} exact />
+					<Redirect from="/*" to="/" />
+                </Switch>
+			</div>}
           </MuiThemeProvider>
         </BrowserRouter>
       </Provider>

@@ -15,8 +15,6 @@ import Fab from '@material-ui/core/Fab';
 // SCSS
 import '../../scss/Notifications.scss';
 
-import { updateNotification } from '../../redux/actions/actions';
-
 const notificationOptions = ['Work', 'School', 'Personal'];
 
 class Notifications extends Component {
@@ -53,18 +51,17 @@ class Notifications extends Component {
             newDate.shift();
             return `${parseInt(newDate[0], 10)}/${newDate[1]}`;
         }
-        var newId = (this.props.notifications.length === 0 ? 0 : this.props.notifications[this.props.notifications.length - 1].id + 1);
+        var newId = (this.props.user.notifications.length === 0 ? 0 : this.props.user.notifications[this.props.user.notifications.length - 1].id + 1);
         var newNoti = {
             id: newId,
             type: this.state.chosenNotificationOption.toLowerCase(),
             name: this.state.chosenNotificationName,
             date: format(this.state.chosenNotificationDate)
         }
-        this.props.updateNotification([...this.props.notifications, newNoti]);
         this.setState({ chosenNotificationName: '' })
     }
     deleteNotification(e, id) {
-        this.props.updateNotification(this.props.notifications.filter((noti) => noti.id !== id));
+        // this.props.updateNotification(this.props.user.notifications.filter((noti) => noti.id !== id));
     }
     componentWillMount() {
         var d = new Date();
@@ -78,7 +75,7 @@ class Notifications extends Component {
         this.setState({ chosenNotificationDate: `${year}-${month}-${date}` })
     }
     render() {
-        const { notifications } = this.props;
+        const { notifications } = this.props.user;
         return (
             <div id="notifications">
                 <h1 className="noti-title">Notifications</h1>
@@ -197,12 +194,11 @@ class Notifications extends Component {
 }
 
 Notifications.propTypes = {
-    notifications: PropTypes.array.isRequired,
-    updateNotification: PropTypes.func.isRequired
+	user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    notifications: state.siteData.notifications
+	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { updateNotification })(Notifications);
+export default connect(mapStateToProps)(Notifications);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setWidgets, updateNotification } from '../../../redux/actions/actions';
+import { setWidgets } from '../../../redux/actions/actions';
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -69,7 +69,7 @@ class Calendar extends Component {
             name: this.state.pickedTitle,
             date: this.state.pickedDate
         }
-        this.props.updateNotification([...this.props.notifications, newNoti]);
+        // this.props.updateNotification([...this.props.notifications, newNoti]);
         this.setState({ pickedTitle: '' })
     }
     hideForm() {
@@ -144,14 +144,11 @@ class Calendar extends Component {
 
 Calendar.propTypes = {
     setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired,
-    updateNotification: PropTypes.func.isRequired,
-    notifications: PropTypes.array.isRequired
+    activeWidgets: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    activeWidgets: state.siteData.activeWidgets,
-    notifications: state.siteData.notifications
+    activeWidgets: state.siteData.activeWidgets
 });
 
-export default connect(mapStateToProps, { setWidgets, updateNotification })(Calendar);
+export default connect(mapStateToProps, { setWidgets })(Calendar);

@@ -12,6 +12,7 @@ import Bookmarks from './widgets/Bookmarks';
 import Weather from './widgets/Weather';
 import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
+import Crypto from './widgets/Crypto';
 
 class Main extends Component {
     render() {
@@ -23,6 +24,8 @@ class Main extends Component {
                 {Boolean(this.props.activeWidgets.weather) === true ? <Weather /> : null}
                 {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
                 {Boolean(this.props.activeWidgets.chart) === true ? <LineChart /> : null}
+				{/* {Boolean(this.props.activeWidgets.chart) === true ? <Crypto /> : null} */}
+				<Crypto />
             </div>
         )
     }

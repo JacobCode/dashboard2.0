@@ -10,7 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
 
 import deleteIcon from '../../../images/delete-icon.svg';
-import { deleteBug, deleteServer, deleteWebsite, setWidgets } from '../../../redux/actions/actions';
+
+import { setWidgets } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Tasks.scss';
@@ -84,7 +85,7 @@ class Tasks extends Component {
     }
     render() {
         const { value, checkedBoxes } = this.state;
-        const { bugsData, websiteData, serverData } = this.props;
+        const { bugsData, websiteData, serverData } = this.props.user;
         // Task Variables
         const bugs = bugsData.map((task, i) => {
             return (
@@ -155,21 +156,14 @@ class Tasks extends Component {
 }
 
 Tasks.propTypes = {
-    bugsData: PropTypes.array.isRequired,
-    serverData: PropTypes.array.isRequired,
-    websiteData: PropTypes.array.isRequired,
-    deleteBug: PropTypes.func.isRequired,
-    deleteServer: PropTypes.func.isRequired,
-    deleteWebsite: PropTypes.func.isRequired,
     setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired
+	activeWidgets: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    bugsData: state.siteData.bugsData,
-    serverData: state.siteData.serverData,
-    websiteData: state.siteData.websiteData,
-    activeWidgets: state.siteData.activeWidgets
+	activeWidgets: state.siteData.activeWidgets,
+	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { deleteBug, deleteServer, deleteWebsite, setWidgets })(Tasks);
+export default connect(mapStateToProps, { setWidgets })(Tasks);

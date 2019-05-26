@@ -7,27 +7,27 @@ import WidgetIcon from '@material-ui/icons/DragIndicator';
 
 const dashboardRoutes = [
     {
-        path: "/",
+        path: "/dashboard",
         name: "Dashboard",
         icon: DashboardIcon
     },
     {
-        path: "/profile",
+        path: "/dashboard/profile",
         name: "Edit Profile",
         icon: PersonIcon
     },
     {
-        path: "/notifications",
+        path: "/dashboard/notifications",
         name: "Notifications",
         icon: NotificationsIcon
     },
     {
-        path: "/tasks",
+        path: "/dashboard/tasks",
         name: "Tasks",
         icon: TasksIcon
     },
     {
-        path: "/manage",
+        path: "/dashboard/manage",
         name: "Widgets",
         icon: WidgetIcon
     }

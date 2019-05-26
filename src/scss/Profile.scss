@@ -1,5 +1,9 @@
 @import './variables';
 
+.fixed-snackbar {
+	position: fixed;
+}
+
 #profile {
     display: grid;
     grid-template-columns: 1fr 1fr;

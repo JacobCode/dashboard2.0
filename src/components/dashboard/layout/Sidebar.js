@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 
 const Sidebar = ({ ...props }) => {
-  const { routes, closeDrawer, user_info } = props;
+  const { routes, closeDrawer, user } = props;
 
   var links = (
     <List id="sidebar-links">
@@ -42,8 +42,8 @@ const Sidebar = ({ ...props }) => {
 
   var brand = (
     <div id="sidebar-brand">
-      <a href="/">
-        <span>{`${user_info.first_name} ${user_info.last_name}`}</span>
+      <a href="/dashboard">
+        <span>{`${user.first_name} ${user.last_name}`}</span>
       </a>
     </div>
   );
@@ -82,11 +82,11 @@ const Sidebar = ({ ...props }) => {
 };
 
 Sidebar.propTypes = {
-  user_info: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user_info: state.siteData.user_info
+  user: state.siteData.user
 });
 
 export default connect(mapStateToProps)(Sidebar);
