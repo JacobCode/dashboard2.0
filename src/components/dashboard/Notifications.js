@@ -26,7 +26,8 @@ class Notifications extends Component {
             open: false,
             chosenNotificationOption: 'Work',
             chosenNotificationName: '',
-            chosenNotificationDate: '2019-04-26'
+			chosenNotificationDate: '2019-04-26',
+			notifications: []
         }
         this.toggleForm = this.toggleForm.bind(this);
         this.handleNotificationOption = this.handleNotificationOption.bind(this);
@@ -61,9 +62,10 @@ class Notifications extends Component {
             date: format(this.state.chosenNotificationDate)
 		}
 		this.props.updateNotifications([...this.props.user.notifications, newNoti], this.props.user._id, this.props.user);
-        this.setState({ chosenNotificationName: '' })
+        this.setState({ chosenNotificationName: '', notifications: this.props.user.notifications });
     }
     deleteNotification(e, id) {
+		this.setState({ notifications: this.props.user.notifications.filter((noti) => noti.id !== id) });
         this.props.updateNotifications(this.props.user.notifications.filter((noti) => noti.id !== id), this.props.user._id, this.props.user);
     }
     componentWillMount() {
@@ -75,10 +77,11 @@ class Notifications extends Component {
         var month = (m < 10) ? ("0" + m) : m;
         var date = (dt < 10) ? ("0" + dt) : dt;
         // Set current date
-        this.setState({ chosenNotificationDate: `${year}-${month}-${date}` })
+        this.setState({ chosenNotificationDate: `${year}-${month}-${date}`, notifications: this.props.user.notifications })
     }
     render() {
-        const { notifications } = this.props.user;
+		// const { notifications } = this.props.user;
+		const notifications = this.state.notifications;
         return (
             <div id="notifications">
                 <h1 className="noti-title">Notifications</h1>
@@ -130,6 +133,7 @@ class Notifications extends Component {
                             <span>{notifications.filter(type => type.type === 'work').length}</span>
                         </h2>
                         {notifications.filter((noti => noti.type === 'work')).map((noti, i) => {
+							console.log(noti);
                             return (
                                 <div className="noti" spacing={24} key={i}>
                                     <div className="text left" sm={6}>

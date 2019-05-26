@@ -24,7 +24,10 @@ class Tasks extends Component {
         this.state = {
             open: false,
             chosenTaskOption: 'Bug',
-            chosenTaskName: ''
+			chosenTaskName: '',
+			bugsData: [],
+			websiteData: [],
+			serverData: []
         }
         this.toggleForm = this.toggleForm.bind(this);
         this.handleTaskOption = this.handleTaskOption.bind(this);
@@ -58,15 +61,25 @@ class Tasks extends Component {
     }
     deleteTask(e, type, name) {
         if (type === 'bug') {
+			this.setState({ bugsData: this.props.user.bugsData.filter(task => task.title !== name) });
             this.props.deleteTask(this.props.user._id, this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
+			this.setState({ serverData: this.props.user.serverData.filter(task => task.title !== name) });
             this.props.deleteTask(this.props.user._id, this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
+			this.setState({ websiteData: this.props.user.websiteData.filter(task => task.title !== name) });
 			this.props.deleteTask(this.props.user._id, this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
-    }
+	}
+	componentWillMount() {
+		this.setState({
+			bugsData: this.props.user.bugsData,
+			serverData: this.props.user.serverData,
+			websiteData: this.props.user.websiteData
+		});
+	}
     render() {
         const { bugsData, serverData, websiteData } = this.props.user;
         return (

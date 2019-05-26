@@ -332,10 +332,11 @@
 @media screen and (max-width: 480px) {
     #widget-grid {
         justify-content: center;
-        align-items: center;
+		align-items: center;
+		padding: 1rem;
         .widget {
             max-width: none !important;
-            margin: 0 0 3rem !important;
+            margin: 0 0 2rem !important;
             &#tasks {
                 width: 100%;
             }
