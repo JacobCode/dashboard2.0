@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setWidgets } from '../../../redux/actions/actions';
+import { setWidgets, updateNotifications } from '../../../redux/actions/actions';
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -62,14 +62,14 @@ class Calendar extends Component {
         this.setState({ pickedTitle: e.target.value });
     }
     addReminder() {
-        // var newId = (this.props.notifications.length === 0 ? 0 : this.props.notifications[this.props.notifications.length - 1].id + 1);
-        // var newNoti = {
-        //     id: newId,
-        //     type: this.state.pickedType.toLowerCase(),
-        //     name: this.state.pickedTitle,
-        //     date: this.state.pickedDate
-        // }
-        // this.props.updateNotification([...this.props.notifications, newNoti]);
+        var newId = (this.props.user.notifications.length === 0 ? 0 : this.props.user.notifications[this.props.user.notifications.length - 1].id + 1);
+        var newNoti = {
+            id: newId,
+            type: this.state.pickedType.toLowerCase(),
+            name: this.state.pickedTitle,
+            date: this.state.pickedDate
+        }
+        this.props.updateNotifications([...this.props.user.notifications, newNoti], this.props.user._id, this.props.user);
         this.setState({ pickedTitle: '' })
     }
     hideForm() {
@@ -144,11 +144,13 @@ class Calendar extends Component {
 
 Calendar.propTypes = {
     setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired
+	activeWidgets: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    activeWidgets: state.siteData.activeWidgets
+	activeWidgets: state.siteData.activeWidgets,
+	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { setWidgets })(Calendar);
+export default connect(mapStateToProps, { setWidgets, updateNotifications })(Calendar);

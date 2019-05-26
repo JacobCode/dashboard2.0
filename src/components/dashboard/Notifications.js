@@ -12,6 +12,8 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
+import { updateNotifications } from '../../redux/actions/actions';
+
 // SCSS
 import '../../scss/Notifications.scss';
 
@@ -46,22 +48,23 @@ class Notifications extends Component {
         this.setState({ chosenNotificationDate: e.target.value });
     }
     addNotification() {
-        // var format = (date) => {
-        //     var newDate = date.split('-');
-        //     newDate.shift();
-        //     return `${parseInt(newDate[0], 10)}/${newDate[1]}`;
-        // }
-        // var newId = (this.props.user.notifications.length === 0 ? 0 : this.props.user.notifications[this.props.user.notifications.length - 1].id + 1);
-        // var newNoti = {
-        //     id: newId,
-        //     type: this.state.chosenNotificationOption.toLowerCase(),
-        //     name: this.state.chosenNotificationName,
-        //     date: format(this.state.chosenNotificationDate)
-        // }
+        var format = (date) => {
+            var newDate = date.split('-');
+            newDate.shift();
+            return `${parseInt(newDate[0], 10)}/${newDate[1]}`;
+        }
+        var newId = (this.props.user.notifications.length === 0 ? 0 : this.props.user.notifications[this.props.user.notifications.length - 1].id + 1);
+        var newNoti = {
+            id: newId,
+            type: this.state.chosenNotificationOption.toLowerCase(),
+            name: this.state.chosenNotificationName,
+            date: format(this.state.chosenNotificationDate)
+		}
+		this.props.updateNotifications([...this.props.user.notifications, newNoti], this.props.user._id, this.props.user);
         this.setState({ chosenNotificationName: '' })
     }
     deleteNotification(e, id) {
-        // this.props.updateNotification(this.props.user.notifications.filter((noti) => noti.id !== id));
+        this.props.updateNotifications(this.props.user.notifications.filter((noti) => noti.id !== id), this.props.user._id, this.props.user);
     }
     componentWillMount() {
         var d = new Date();
@@ -194,11 +197,12 @@ class Notifications extends Component {
 }
 
 Notifications.propTypes = {
-	user: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	updateNotifications: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
 	user: state.siteData.user
 });
 
-export default connect(mapStateToProps)(Notifications);
+export default connect(mapStateToProps, { updateNotifications })(Notifications);

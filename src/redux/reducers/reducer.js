@@ -1,5 +1,8 @@
 import {
 	LOGIN_USER,
+	UPDATE_TASKS,
+	UPDATE_BOOKMARKS,
+	UPDATE_NOTIFICATIONS,
 	SET_FORECAST,
 	SET_CURRENT_WEATHER,
 	SET_WIDGETS
@@ -43,6 +46,21 @@ export default ((state = initialState, action) => {
 				...state,
 				user: action.payload
 			};
+		case UPDATE_TASKS:
+			return {
+				...state,
+				user: action.payload
+			}
+		case UPDATE_BOOKMARKS:
+			return {
+				...state,
+				user: action.payload
+			}
+		case UPDATE_NOTIFICATIONS:
+			return {
+				...state,
+				user: action.payload
+			}
 		case SET_CURRENT_WEATHER:
 			return {
 				...state,

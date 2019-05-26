@@ -14,7 +14,9 @@ import Fab from '@material-ui/core/Fab';
 
 import '../../scss/TasksPage.scss';
 
-const taskOptions = ['Bug', 'Server', 'Website'];
+import { addTask, deleteTask } from '../../redux/actions/actions';
+
+const taskOptions = ['Bug', 'Website', 'Server'];
 
 class Tasks extends Component {
     constructor() {
@@ -43,26 +45,26 @@ class Tasks extends Component {
         if (this.state.chosenTaskName.length > 1) {
             const newTask = { title: this.state.chosenTaskName, type: this.state.chosenTaskOption.toLowerCase() };
             if (this.state.chosenTaskOption === 'Bug') {
-                this.props.addBug([...this.props.bugsData, newTask]);
+                this.props.addTask([...this.props.user.bugsData, newTask], this.props.user._id, this.props.user, 'bugsData');
             }
             if (this.state.chosenTaskOption === 'Server') {
-                this.props.addServer([...this.props.serverData, newTask]);
+                this.props.addTask([...this.props.user.serverData, newTask], this.props.user._id, this.props.user, 'serverData');
             }
             if (this.state.chosenTaskOption === 'Website') {
-                this.props.addWebsite([...this.props.websiteData, newTask]);
+                this.props.addTask([...this.props.user.websiteData, newTask], this.props.user._id, this.props.user, 'websiteData');
             }
             this.setState({ chosenTaskName: '' });
         }
     }
     deleteTask(e, type, name) {
         if (type === 'bug') {
-            this.props.deleteBug(this.props.bugsData.filter(task => task.title !== name));
+            this.props.deleteTask(this.props.user._id, this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
-            this.props.deleteServer(this.props.serverData.filter(task => task.title !== name));
+            this.props.deleteTask(this.props.user._id, this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
-            this.props.deleteWebsite(this.props.websiteData.filter(task => task.title !== name));
+			this.props.deleteTask(this.props.user._id, this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
     }
     render() {
@@ -109,8 +111,8 @@ class Tasks extends Component {
                             return (
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
-                                    <div onClick={e => this.deleteTask(e, task.type, task.title)} className="delete-task-icon">
-                                        <DeleteIcon />
+                                    <div className="delete-task-icon">
+                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.title)} />
                                     </div>
                                 </div>
                             )
@@ -123,8 +125,8 @@ class Tasks extends Component {
                             return (
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
-                                    <div onClick={e => this.deleteTask(e, task.type, task.title)} className="delete-task-icon">
-                                        <DeleteIcon />
+                                    <div className="delete-task-icon">
+                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.title)} />
                                     </div>
                                 </div>
                             )
@@ -137,8 +139,8 @@ class Tasks extends Component {
                             return (
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
-                                    <div onClick={e => this.deleteTask(e, task.type, task.title)} className="delete-task-icon">
-                                        <DeleteIcon />
+                                    <div className="delete-task-icon">
+                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.title)} />
                                     </div>
                                 </div>
                             )
@@ -157,11 +159,13 @@ class Tasks extends Component {
 }
 
 Tasks.propTypes = {
-	user: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	addTask: PropTypes.func.isRequired,
+	deleteTask: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	user: state.siteData.user
 });
 
-export default connect(mapStateToProps)(Tasks);
+export default connect(mapStateToProps, { addTask, deleteTask })(Tasks);

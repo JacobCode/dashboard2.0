@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Close from '@material-ui/icons/Close';
 
-import { setWidgets } from '../../../redux/actions/actions';
+import { setWidgets, addBookmark } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';
@@ -45,12 +45,12 @@ class Bookmarks extends Component {
     addBookmark(e) {
         e.preventDefault();
         if (this.state.url.length > 0 && this.state.name.length > 0) {
-            this.setState({ showBookmarkForm: false })
             const bookmark = {
                 url: this.state.url,
                 name: this.state.name
             }
-            this.props.addBookmark([...this.state.bookmarks, bookmark]);
+			this.props.addBookmark([...this.props.user.bookmarks, bookmark], this.props.user._id, this.props.user);
+			this.setState({ name: '', url: '', showBookmarkForm: false });
         } else {
             this.setState({ showBookmarkForm: false })
         }
@@ -120,6 +120,7 @@ class Bookmarks extends Component {
 Bookmarks.propTypes = {
     setWidgets: PropTypes.func.isRequired,
 	activeWidgets: PropTypes.object.isRequired,
+	addBookmark: PropTypes.func.isRequired,
 	user: PropTypes.object.isRequired
 };
 
@@ -128,4 +129,4 @@ const mapStateToProps = state => ({
 	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { setWidgets })(Bookmarks);
+export default connect(mapStateToProps, { setWidgets, addBookmark })(Bookmarks);

@@ -11,7 +11,7 @@ import Close from '@material-ui/icons/Close';
 
 import deleteIcon from '../../../images/delete-icon.svg';
 
-import { setWidgets } from '../../../redux/actions/actions';
+import { setWidgets, deleteTask } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Tasks.scss';
@@ -62,13 +62,13 @@ class Tasks extends Component {
     };
     deleteTask(e, type, name) {
         if (type === 'bug') {
-            this.props.deleteBug(this.props.bugsData.filter(task => task.title !== name));
+        	this.props.deleteTask(this.props.user._id, this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
-            this.props.deleteServer(this.props.serverData.filter(task => task.title !== name));
+        	this.props.deleteTask(this.props.user._id, this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
-            this.props.deleteWebsite(this.props.websiteData.filter(task => task.title !== name));
+        	this.props.deleteTask(this.props.user._id, this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
     }
     hideWidget() {
@@ -158,6 +158,7 @@ class Tasks extends Component {
 Tasks.propTypes = {
     setWidgets: PropTypes.func.isRequired,
 	activeWidgets: PropTypes.object.isRequired,
+	deleteTask: PropTypes.func.isRequired,
 	user: PropTypes.object.isRequired
 };
 
@@ -166,4 +167,4 @@ const mapStateToProps = state => ({
 	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { setWidgets })(Tasks);
+export default connect(mapStateToProps, { setWidgets, deleteTask })(Tasks);

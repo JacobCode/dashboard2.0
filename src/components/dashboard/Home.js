@@ -6,9 +6,9 @@ import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
+import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 import { loginUser } from '../../redux/actions/actions';
 

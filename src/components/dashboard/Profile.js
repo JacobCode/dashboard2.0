@@ -19,16 +19,10 @@ class Profile extends Component {
     constructor() {
         super();
         this.state = {
-			user: '',
+			user_name: '',
             first_name: '',
             last_name: '',
-			user_name: '',
 			password: '',
-			registerUsername: '',
-			registerPassword: '',
-			registerConfirm: '',
-			registerFName: '',
-			registerLName: '',
 			message: '',
 			error: ''
         }

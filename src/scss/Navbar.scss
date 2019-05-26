@@ -30,7 +30,8 @@
             color: $darkGrey;
         }
         #links {
-            display: flex;
+			display: flex;
+			align-items: center;
             #notifications-dropdown {
                 button {
                     span {

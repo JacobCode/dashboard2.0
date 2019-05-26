@@ -11,12 +11,16 @@
 }
 
 .sn-bar {
+	div:first-of-type {
+		width: 100% !important;
+	}
 	span {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		font-size: 1.1rem;
 		svg {
-			margin-left: 1rem;
+			margin-left: 1rem
 		}
 	}
 }
@@ -105,7 +109,7 @@
 				form {
 					display: grid;
 					grid-template-columns: 1fr;
-					grid-row-gap: 3rem;
+					grid-row-gap: 2rem;
 					max-width: 600px;
 					margin: 0 auto;
 					padding: 0 2rem;

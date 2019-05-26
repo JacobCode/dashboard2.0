@@ -1,5 +1,0 @@
-Weather API Key: 84943a6dbebd4dfdb01b18356ee4024f
-
-NOTES
-
-- Only 6 digits after '.' in longitude and latitude
