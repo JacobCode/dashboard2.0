@@ -5,10 +5,6 @@ import {
     SET_WIDGETS
 } from './types';
 
-import axios from 'axios';
-
-const API_URL = '/';
-
 // Login User
 export const loginUser = (user) => dispatch => {
 	dispatch({

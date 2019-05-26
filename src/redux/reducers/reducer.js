@@ -5,20 +5,22 @@ import {
 	SET_WIDGETS
 } from '../actions/types';
 
+const initial = {
+	first_name: 'Guest',
+	last_name: 'User',
+	email: 'example@domain.com',
+	username: 'guestuser1',
+	notifications: [],
+	bookmarks: [],
+	bugsData: [],
+	websiteData: [],
+	serverData: [],
+}
+
 // Initial State
 const initialState = {
 	// User Info
-	user: localStorage.user !== undefined ? JSON.parse(localStorage.user) : {
-		first_name: 'Guest',
-		last_name: 'User',
-		email: 'example@domain.com',
-		username: 'guestuser1',
-		notifications: [],
-		bookmarks: [],
-		bugsData: [],
-		websiteData: [],
-		serverData: [],
-	},
+	user: localStorage.user !== undefined ? JSON.parse(localStorage.user) : initial,
 	// Weather (Current Day)
 	weather: {},
 	// Weather (Forecast)

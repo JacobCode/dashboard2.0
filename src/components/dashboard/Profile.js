@@ -15,10 +15,6 @@ import { loginUser } from '../../redux/actions/actions';
 // SCSS
 import '../../scss/Profile.scss';
 
-import axios from 'axios';
-
-const API_URL = 'http://localhost:3001';
-
 class Profile extends Component {
     constructor() {
         super();

@@ -46,18 +46,18 @@ class Notifications extends Component {
         this.setState({ chosenNotificationDate: e.target.value });
     }
     addNotification() {
-        var format = (date) => {
-            var newDate = date.split('-');
-            newDate.shift();
-            return `${parseInt(newDate[0], 10)}/${newDate[1]}`;
-        }
-        var newId = (this.props.user.notifications.length === 0 ? 0 : this.props.user.notifications[this.props.user.notifications.length - 1].id + 1);
-        var newNoti = {
-            id: newId,
-            type: this.state.chosenNotificationOption.toLowerCase(),
-            name: this.state.chosenNotificationName,
-            date: format(this.state.chosenNotificationDate)
-        }
+        // var format = (date) => {
+        //     var newDate = date.split('-');
+        //     newDate.shift();
+        //     return `${parseInt(newDate[0], 10)}/${newDate[1]}`;
+        // }
+        // var newId = (this.props.user.notifications.length === 0 ? 0 : this.props.user.notifications[this.props.user.notifications.length - 1].id + 1);
+        // var newNoti = {
+        //     id: newId,
+        //     type: this.state.chosenNotificationOption.toLowerCase(),
+        //     name: this.state.chosenNotificationName,
+        //     date: format(this.state.chosenNotificationDate)
+        // }
         this.setState({ chosenNotificationName: '' })
     }
     deleteNotification(e, id) {

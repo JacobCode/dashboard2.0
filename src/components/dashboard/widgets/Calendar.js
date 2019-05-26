@@ -62,13 +62,13 @@ class Calendar extends Component {
         this.setState({ pickedTitle: e.target.value });
     }
     addReminder() {
-        var newId = (this.props.notifications.length === 0 ? 0 : this.props.notifications[this.props.notifications.length - 1].id + 1);
-        var newNoti = {
-            id: newId,
-            type: this.state.pickedType.toLowerCase(),
-            name: this.state.pickedTitle,
-            date: this.state.pickedDate
-        }
+        // var newId = (this.props.notifications.length === 0 ? 0 : this.props.notifications[this.props.notifications.length - 1].id + 1);
+        // var newNoti = {
+        //     id: newId,
+        //     type: this.state.pickedType.toLowerCase(),
+        //     name: this.state.pickedTitle,
+        //     date: this.state.pickedDate
+        // }
         // this.props.updateNotification([...this.props.notifications, newNoti]);
         this.setState({ pickedTitle: '' })
     }

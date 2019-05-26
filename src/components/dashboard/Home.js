@@ -99,13 +99,13 @@ class Home extends Component {
 			}
 			if (res.status === 201) {
 				this.setState({ error: res.data });
-				setTimeout(() => { this.setState({ error: '' }) }, 2000);
+				setTimeout(() => { this.setState({ error: '' }) }, 5500);
 			}
 		}).catch((err) => {
 			if (typeof (err.response) === 'object') {
 				if (err.response.status === 429) {
 					this.setState({ error: err.response.data });
-					setTimeout(() => { this.setState({ error: '' }) }, 2000);
+					setTimeout(() => { this.setState({ error: '' }) }, 5500);
 				}
 				if (err.response.status === 404) {
 					this.setState({ message: 'Registration Successful!' });
@@ -134,11 +134,18 @@ class Home extends Component {
 						window.location.pathname = '/dashboard'
 					}, 750);
 				}
+				if (res.status === 201) {
+					this.setState({ error: res.data });
+					setTimeout(() => {
+						this.setState({ error: '' });
+					}, 5500);
+				}
 			}).catch((err) => {
 				if (err.response !== undefined) {
-					this.setState({
-						error: 'Too many attempts, please try again later'
-					});
+					this.setState({ error: 'Too many attempts, please try again later' });
+					setTimeout(() => {
+						this.setState({ error: '' });
+					}, 5500)
 				}
 			});
 	}
@@ -217,12 +224,11 @@ class Home extends Component {
 							horizontal: 'right',
 						}}
 						open={this.state.error.length > 0 ? true : false}
-						autoHideDuration={6000}
 					>
-						<SnackbarContent
+						<SnackbarContent className="sn-bar" id="error-snackbar"
 							aria-describedby="error-snackbar"
 							message={
-								<span id="error-snackbar">
+								<span>
 									{this.state.error}
 									<ErrorIcon />
 								</span>
@@ -236,12 +242,11 @@ class Home extends Component {
 							horizontal: 'right',
 						}}
 						open={this.state.message.length > 0 ? true : false}
-						autoHideDuration={6000}
 					>
-						<SnackbarContent
+						<SnackbarContent className="sn-bar" id="success-snackbar"
 							aria-describedby="success-snackbar"
 							message={
-								<span id="success-snackbar">
+								<span>
 									{this.state.message}
 									<CheckCircleIcon />
 								</span>
