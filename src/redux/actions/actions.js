@@ -10,8 +10,7 @@ import {
 
 import axios from 'axios';
 
-// https://modern-dashboard.herokuapp.com
-const API_URL = '';
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 // Login User
 export const loginUser = (user) => dispatch => {

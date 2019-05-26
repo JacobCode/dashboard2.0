@@ -18,7 +18,7 @@ import { loginUser } from '../../redux/actions/actions';
 import '../../scss/Profile.scss';
 import axios from 'axios';
 
-const API_URL = '';
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 class Profile extends Component {
     constructor() {
