@@ -107,12 +107,6 @@ class Profile extends Component {
 				}, 3500);
 			});
 	}
-	logout() {
-		localStorage.clear();
-		setTimeout(() => {
-			window.location.pathname = '/';
-		}, 1000);
-	}
     render() {
         const { user } = this.props;
         return (
@@ -196,8 +190,6 @@ class Profile extends Component {
 								<Button disabled={this.props.user._id === '5ceacc65e852d006964341f2' ? true : false} type="submit" color="primary" variant="contained">Delete Account</Button>
 							</form>
 						</div>
-
-						<div id="logout-profile" onClick={this.logout}>Sign Out</div>
 					</div>
 
 					{/* Error Snackbar */}

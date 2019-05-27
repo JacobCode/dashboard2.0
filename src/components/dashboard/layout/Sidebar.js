@@ -9,9 +9,17 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
+import Divider from '@material-ui/core/Divider';
 
 const Sidebar = ({ ...props }) => {
   const { routes, closeDrawer, user } = props;
+
+  const logout = () => {
+  	localStorage.clear();
+  	setTimeout(() => {
+  		window.location.pathname = '/';
+  	}, 500);
+  }
 
   var links = (
     <List id="sidebar-links">
@@ -19,7 +27,7 @@ const Sidebar = ({ ...props }) => {
         return (
           <NavLink onClick={closeDrawer}
             to={prop.path}
-            activeClassName={null}
+            activeClassName='active'
             key={key}>
             <ListItem button>
               {typeof prop.icon === "string" ? (
@@ -37,6 +45,15 @@ const Sidebar = ({ ...props }) => {
           </NavLink>
         );
       })}
+	  <Divider />
+		<NavLink id="sidebar-logout" onClick={logout} to="/">
+			<ListItem>
+				<ListItemText
+					primary="Sign Out"
+					disableTypography={true}
+				/>
+			</ListItem>
+		</NavLink>
     </List>
   );
 

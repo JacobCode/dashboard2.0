@@ -12,6 +12,10 @@
     }
 }
 
+#sidebar-logout {
+	color: #ff4848;
+}
+
 .MuiDrawer-paperAnchorLeft-19,
 .jss30.jss48.jss18.jss19,
 .jss30.jss32.jss18.jss19.jss23 {
@@ -32,7 +36,6 @@
         text-decoration: none;
         min-height: 64px;
         background: $secondary;
-        
         span {
             color: #F3F1FF;
             text-transform: capitalize;
@@ -46,11 +49,6 @@
         line-height: 1.5;
         div[role="button"] {
             color: $darkGrey;
-        }
-        &.acitve {
-            div[role="button"] {
-                color: red;
-            }
         }
         div {
             border-left: 0px solid transparent;
