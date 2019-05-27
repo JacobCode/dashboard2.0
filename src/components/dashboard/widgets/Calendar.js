@@ -70,7 +70,7 @@ class Calendar extends Component {
             date: this.state.pickedDate
         }
         this.props.updateNotifications([...this.props.user.notifications, newNoti], this.props.user._id, this.props.user);
-        this.setState({ pickedTitle: '' })
+        this.setState({ pickedTitle: '', showForm: false });
     }
     hideForm() {
         this.setState({ showForm: false })

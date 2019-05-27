@@ -133,7 +133,6 @@ class Notifications extends Component {
                             <span>{notifications.filter(type => type.type === 'work').length}</span>
                         </h2>
                         {notifications.filter((noti => noti.type === 'work')).map((noti, i) => {
-							console.log(noti);
                             return (
                                 <div className="noti" spacing={24} key={i}>
                                     <div className="text left" sm={6}>

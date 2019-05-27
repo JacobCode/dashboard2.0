@@ -187,7 +187,7 @@ class Profile extends Component {
 									}
 									label="Delete your account?"
 								/>
-								<Button disabled={this.props.user._id === '5ceacc65e852d006964341f2' ? true : false} type="submit" color="primary" variant="contained">Delete Account</Button>
+								<Button disabled={this.props.user._id === '5ceacc65e852d006964341f2' ? true : false} type="submit" color="primary" variant="contained">Delete Profile</Button>
 							</form>
 						</div>
 					</div>

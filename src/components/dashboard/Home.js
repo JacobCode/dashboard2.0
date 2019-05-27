@@ -46,6 +46,7 @@ class Home extends Component {
 		this.handleLogin = this.handleLogin.bind(this);
 		this.registerFName = this.registerFName.bind(this);
 		this.registerLName = this.registerLName.bind(this);
+		this.useDemo = this.useDemo.bind(this);
 	}
 	changeForm() {
 		this.setState({ showSignIn: !this.state.showSignIn });
@@ -117,7 +118,9 @@ class Home extends Component {
 		});
 	}
 	handleLogin(e) {
-		e.preventDefault();
+		if (e !== undefined) {
+			e.preventDefault();
+		}
 		const login = {
 			username: this.state.user_name.toLowerCase(),
 			password: this.state.password
@@ -149,6 +152,10 @@ class Home extends Component {
 				}
 			});
 	}
+	useDemo() {
+		this.setState({ user_name: 'guest', password: 'guest1' });
+		setTimeout(() => { this.handleLogin(); }, 500);
+	}
 	render() {
 		return (
 			<div id="home">
@@ -169,14 +176,17 @@ class Home extends Component {
 										label="Username"
 										required
 										type="text"
+										value={this.state.user_name}
 										onChange={this.userNameInput}
 									/>
 									<TextField
+										value={this.state.password}
 										onChange={this.passwordInput}
 										label="Password"
 										type="password"
 										required
 									/>
+									<p onClick={this.useDemo} className="demo">Use Demo Account</p>
 									<Button type="submit" color="secondary" variant="contained">Login</Button>
 								</form>
 							</div>

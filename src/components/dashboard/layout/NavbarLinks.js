@@ -90,12 +90,18 @@ class NavbarLinks extends Component {
 							<ClickAwayListener onClickAway={this.handleClose}>
 								<MenuList role="menu">
 									{/* If there are no notifications, display No Notifications */}
-									{notifications.length === 0 ? <MenuItem>No Notifications</MenuItem> : notifications.map((notification, index) => {
-									return (
-										<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
-										<Link to={`/dashboard/notifications/#${notification.type}`}><span>{notification.name}</span> <span className="notification-date">{notification.date}</span></Link>
-										</MenuItem>
-									)
+									{notifications.length === 0 ? 
+									<MenuItem>No Notifications</MenuItem>
+									:
+									notifications.map((notification, index) => {
+										return (
+											<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
+												<Link to={`/dashboard/notifications/#${notification.type}`}>
+													<p className={`type-color ${notification.type === 'work' ? 'red' : notification.type === 'school' ? 'purple' : notification.type === 'personal' ? 'blue' : ''}`}>&bull;</p>
+													<span>{notification.name}</span> <span className="notification-date">{notification.date}</span>
+												</Link>
+											</MenuItem>
+										)
 									})}
 								</MenuList>
 							</ClickAwayListener>
@@ -113,7 +119,7 @@ class NavbarLinks extends Component {
 			</Link>
 
 			{/* Logout */}
-			<div>
+			<div className="nav-logout">
 				<Button onClick={this.logout} style={{textTransform: 'capitalize'}}>
 				Sign Out
 				</Button>

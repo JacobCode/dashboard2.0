@@ -76,10 +76,10 @@
             border-radius: 3rem;
         }
         &.work-value {
-            color: #fe0404;
+            color: #fe9a04;
             span {
-                color: #fe0404;
-                background: rgb(254, 228, 228);
+                color: #fe9a04;
+                background: rgb(255, 240, 224);
             }
         }
 
@@ -119,7 +119,8 @@
                     border-bottom: 1px solid #ebebeb;
                     padding: 1rem;
                     p {
-                        line-height: 1.2;
+						line-height: 1.2;
+						color: #3a3a3a;
                     }
                     span {
                         color: #bdbdbd;
@@ -127,7 +128,8 @@
                     svg {
                         border-radius: 50%;
                         transition: all 0.4s ease-in-out;
-                        cursor: pointer;
+						cursor: pointer;
+						fill: #3a3a3a;
                         &:hover {
                             fill: #ff3131;
                         }
