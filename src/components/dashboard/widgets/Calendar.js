@@ -48,7 +48,7 @@ class Calendar extends Component {
         var obj = {
             bookmarks: this.props.activeWidgets.bookmarks,
             calendar: false,
-            chart: this.props.activeWidgets.chart,
+            crypto: this.props.activeWidgets.crypto,
             clock: this.props.activeWidgets.clock,
             tasks: this.props.activeWidgets.tasks,
             weather: this.props.activeWidgets.weather

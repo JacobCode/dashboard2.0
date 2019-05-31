@@ -16,7 +16,7 @@ export default class Footer extends Component {
                 <div className="copyright">
 					<a href="https://jacobcarver.net">
 						&copy; 2019
-						<img src={logo} alt="Jacob Carver" />
+						Jacob
 					</a>
                 </div>
             </div>

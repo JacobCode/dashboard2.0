@@ -1,12 +1,31 @@
 @import './variables';
 
-#pie-chart, #line-chart {
-    // background: $secondary !important;
-    .chart-container {
+#pie-chart, #line-chart, #crypto {
         max-width: 300px;
         margin: 0 auto;
         // Line Chart
         .ct-chart {
+			svg {
+				transform: translateX(-20px);
+			}
+			.ct-grid.ct-horizontal {
+				display: none;
+			}
+			.ct-bar {
+				stroke-width: 4px;
+				&:nth-of-type(1) {
+					stroke: #886CFF;
+				}
+				&:nth-of-type(2) {
+					stroke: #fe9a04;
+				}
+				&:nth-of-type(3) {
+					stroke: #27a0f0;
+				}
+				&:nth-of-type(4) {
+					stroke: #32c245;
+				}
+			}
             .ct-grid {
                 stroke: rgba(0, 0, 0, 0.2);
                 stroke-width: 1px;
@@ -30,14 +49,18 @@
             }
             .ct-labels {
                 span {
-                    color: $darkGrey;
+					color: $darkGrey;
+					text-align: center;
+					justify-content: center;
+					text-transform: capitalize
                 }
                 foreignObject {
                     span {
                         display: flex;
                         align-items: center;
                         &.ct-vertical {
-                            margin-left: 1rem;
+							margin-left: 1rem;
+							display: none;
                         }
                         &.ct-horizontal {
                         }
@@ -50,5 +73,4 @@
                 }
             }
         }
-    }
 }

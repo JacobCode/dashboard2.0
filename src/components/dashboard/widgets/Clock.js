@@ -46,7 +46,7 @@ class Clock extends Component {
         var obj = {
             bookmarks: this.props.activeWidgets.bookmarks,
             calendar: this.props.activeWidgets.calendar,
-            chart: this.props.activeWidgets.chart,
+            crypto: this.props.activeWidgets.crypto,
             clock: false,
             tasks: this.props.activeWidgets.tasks,
             weather: this.props.activeWidgets.weather

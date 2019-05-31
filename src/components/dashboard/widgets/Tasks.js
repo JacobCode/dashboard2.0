@@ -79,7 +79,7 @@ class Tasks extends Component {
         var obj = {
             bookmarks: this.props.activeWidgets.bookmarks,
             calendar: this.props.activeWidgets.calendar,
-            chart: this.props.activeWidgets.chart,
+            crypto: this.props.activeWidgets.crypto,
             clock: this.props.activeWidgets.clock,
             tasks: false,
             weather: this.props.activeWidgets.weather
