@@ -30,12 +30,12 @@ const initialState = {
 	forecast: [],
 	// Active widgets on dashboard
 	activeWidgets: { 
-	tasks: true,
-	clock: true,
-	chart: false,
-	calendar: true,
-	bookmarks: true,
-	weather: true
+		tasks: true,
+		clock: true,
+		calendar: true,
+		bookmarks: true,
+		weather: true,
+		crypto: true
 	}
 };
 

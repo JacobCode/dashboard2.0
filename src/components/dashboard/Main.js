@@ -24,7 +24,7 @@ class Main extends Component {
                 {Boolean(this.props.activeWidgets.weather) === true ? <Weather /> : null}
                 {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
                 {Boolean(this.props.activeWidgets.chart) === true ? <LineChart /> : null}
-				{/* {Boolean(this.props.activeWidgets.chart) === true ? <Crypto /> : null} */}
+				{Boolean(this.props.activeWidgets.crypto) === true ? <Crypto /> : null}
             </div>
         )
     }

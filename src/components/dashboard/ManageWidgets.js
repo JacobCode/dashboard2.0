@@ -10,7 +10,7 @@ import '../../scss/ManageWidgets.scss';
 
 import { setWidgets } from '../../redux/actions/actions';
 
-const widgets = ['tasks', 'clock', 'chart', 'calendar', 'bookmarks', 'weather'];
+const widgets = ['tasks', 'clock', 'crypto', 'calendar', 'bookmarks', 'weather'];
 
 class ManageWidgets extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class ManageWidgets extends Component {
         this.state = {
             tasks: props.activeWidgets.tasks,
             clock: props.activeWidgets.clock,
-            chart: props.activeWidgets.chart,
+            crypto: props.activeWidgets.crypto,
             calendar: props.activeWidgets.calendar,
             bookmarks: props.activeWidgets.bookmarks,
             weather: props.activeWidgets.weather
@@ -34,8 +34,8 @@ class ManageWidgets extends Component {
             case 'clock':
                 this.setState({ clock: !this.state.clock });
                 break;
-            case 'chart':
-                this.setState({ chart: !this.state.chart });
+            case 'crypto':
+                this.setState({ crypto: !this.state.crypto });
                 break;
             case 'calendar':
                 this.setState({ calendar: !this.state.calendar });
@@ -54,7 +54,7 @@ class ManageWidgets extends Component {
         var activeWidgets = {
             tasks: this.state.tasks,
             clock: this.state.clock,
-            chart: this.state.chart,
+            crypto: this.state.crypto,
             calendar: this.state.calendar,
             bookmarks: this.state.bookmarks,
             weather: this.state.weather,
@@ -62,7 +62,7 @@ class ManageWidgets extends Component {
         this.props.setWidgets(activeWidgets);
     }
     render() {
-        const { tasks, clock, chart, calendar, bookmarks, weather } = this.state;
+        const { tasks, clock, crypto, calendar, bookmarks, weather } = this.state;
         return (
             <div id="manage-widgets">
                 <h1 className="title">Manage Widgets</h1>
@@ -76,7 +76,7 @@ class ManageWidgets extends Component {
                                     checked={
                                         widget === 'tasks' ? tasks : 
                                         widget === 'clock' ? clock : 
-                                        widget === 'chart' ? chart : 
+                                        widget === 'crypto' ? crypto : 
                                         widget === 'calendar' ? calendar : 
                                         widget === 'bookmarks' ? bookmarks : 
                                         widget === 'weather' ? weather : null
