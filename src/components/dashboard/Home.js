@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Div100vh from 'react-div-100vh';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -158,7 +159,7 @@ class Home extends Component {
 	}
 	render() {
 		return (
-			<div id="home">
+			<Div100vh id="home">
 				<div className="sides">
 
 					<div className="left">
@@ -264,7 +265,7 @@ class Home extends Component {
 						/>
 					</Snackbar>
 				</div>
-			</div>
+			</Div100vh>
 		)
 	}
 }

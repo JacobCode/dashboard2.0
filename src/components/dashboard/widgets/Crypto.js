@@ -65,11 +65,11 @@ class Crypto extends Component {
 		// Hide clock widget
 		var obj = {
 			bookmarks: this.props.activeWidgets.bookmarks,
-			calendar: this.props.activeWidgets.calendar,
-			crypto: this.props.activeWidgets.crypto,
-			clock: false,
-			tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather
+            calendar: this.props.activeWidgets.calendar,
+            crypto: false,
+            clock: this.props.activeWidgets.clock,
+            tasks: this.props.activeWidgets.tasks,
+            weather: this.props.activeWidgets.weather
 		}
 		this.props.setWidgets(obj);
 	}
