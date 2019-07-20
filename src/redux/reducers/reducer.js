@@ -35,7 +35,7 @@ const initialState = {
 		calendar: true,
 		bookmarks: true,
 		weather: true,
-		crypto: true
+		crypto: false
 	}
 };
 
