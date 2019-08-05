@@ -21,6 +21,12 @@
 		.left {
 			width: 50%;
 			padding: 1.5rem;
+			#spinner {
+				position: absolute;
+				right: 0.5rem;
+				bottom: 0.5rem;
+				width: 60px;
+			}
 			// Signin Form
 			#signin {
 				position: relative;
@@ -103,7 +109,7 @@
 			align-items: center;
 			justify-content: center;
 			img {
-				width: 60%;
+				width: 80%;
 			}
 		}
 	}

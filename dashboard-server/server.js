@@ -18,7 +18,7 @@ app.enable("trust proxy");
 const User = require('./models/user');
 
 // DB Config
-const db = 'mongodb://jacob:jacob123@ds261486.mlab.com:61486/m-dashboard';
+const db = process.env.MONGO_URI;
 
 // Connect to Mongo
 mongoose.connect(db, {

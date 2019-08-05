@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import TextField from '@material-ui/core/TextField';
 
+import spinner from '../../images/spinner.svg';
+
 import { loginUser } from '../../redux/actions/actions';
 
 import '../../scss/Home.scss';
@@ -33,7 +35,8 @@ class Home extends Component {
 			registerFName: '',
 			registerLName: '',
 			message: '',
-			error: ''
+			error: '',
+			loading: false
 		}
 		this.changeForm = this.changeForm.bind(this);
 		this.firstNameInput = this.firstNameInput.bind(this);
@@ -85,7 +88,10 @@ class Home extends Component {
 		this.setState({ registerLName: e.target.value });
 	}
 	handleSignUp(e) {
-		e.preventDefault();
+		if (e !== undefined) {
+			e.preventDefault();
+		}
+		this.setState({ loading: true });
 		const newUser = {
 			first_name: this.state.registerFName,
 			last_name: this.state.registerLName,
@@ -94,13 +100,13 @@ class Home extends Component {
 		}
 		axios.post(`${API_URL}/register`, newUser).then((res) => {
 			if (res.status === 200) {
-				this.setState({ message: 'Registration Successful!' });
+				this.setState({ message: 'Registration Successful!', loading: false });
 				setTimeout(() => {
 					window.location.pathname = '/'
 				}, 750);
 			}
 			if (res.status === 201) {
-				this.setState({ error: res.data });
+				this.setState({ error: res.data, loading: false });
 				setTimeout(() => { this.setState({ error: '' }) }, 5500);
 			}
 		}).catch((err) => {
@@ -110,7 +116,7 @@ class Home extends Component {
 					setTimeout(() => { this.setState({ error: '' }) }, 5500);
 				}
 				if (err.response.status === 404) {
-					this.setState({ message: 'Registration Successful!' });
+					this.setState({ message: 'Registration Successful!', loading: false });
 					setTimeout(() => {
 						this.setState({ message: '' });
 					}, 750);
@@ -122,6 +128,7 @@ class Home extends Component {
 		if (e !== undefined) {
 			e.preventDefault();
 		}
+		this.setState({ loading: true });
 		const login = {
 			username: this.state.user_name.toLowerCase(),
 			password: this.state.password
@@ -130,23 +137,21 @@ class Home extends Component {
 			.then((res) => {
 				this.props.loginUser(res.data);
 				if (res.status === 200) {
-					this.setState({
-						message: `Welcome, ${res.data.username}`
-					});
+					this.setState({ message: `Welcome, ${res.data.username}`, loading: false});
 					localStorage.setItem('user', JSON.stringify(res.data));
 					setTimeout(() => {
 						window.location.pathname = '/dashboard'
 					}, 750);
 				}
 				if (res.status === 201) {
-					this.setState({ error: res.data });
+					this.setState({ error: res.data, loading: false});
 					setTimeout(() => {
 						this.setState({ error: '' });
 					}, 5500);
 				}
 			}).catch((err) => {
 				if (err.response !== undefined) {
-					this.setState({ error: 'Too many attempts, please try again later' });
+					this.setState({ error: 'Too many attempts, please try again later', loading: false });
 					setTimeout(() => {
 						this.setState({ error: '' });
 					}, 5500)
@@ -223,9 +228,11 @@ class Home extends Component {
 									<Button type="submit" color="secondary" variant="contained">Register</Button>
 								</form>
 							</div>}
+							{this.state.loading === true ? <img id="spinner" src={spinner} alt="Loading..." /> : null}
 					</div>
 
 					<div className="right">
+						<img src="https://i.postimg.cc/ncsYRQnW/dashboard-lg.png" alt="Dashboard Preview" />
 					</div>
 
 					{/* Error Snackbar */}
