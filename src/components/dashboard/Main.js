@@ -10,9 +10,9 @@ import Tasks from './widgets/Tasks';
 import Calendar from './widgets/Calendar';
 import Bookmarks from './widgets/Bookmarks';
 import Weather from './widgets/Weather';
-import LineChart from './widgets/LineChart';
 import Clock from './widgets/Clock';
 import Crypto from './widgets/Crypto';
+import Uploader from './widgets/Uploader';
 
 class Main extends Component {
     render() {
@@ -23,8 +23,8 @@ class Main extends Component {
                 {Boolean(this.props.activeWidgets.clock) === true ? <Clock /> : null}
                 {Boolean(this.props.activeWidgets.weather) === true ? <Weather /> : null}
                 {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
-                {Boolean(this.props.activeWidgets.chart) === true ? <LineChart /> : null}
 				{Boolean(this.props.activeWidgets.crypto) === true ? <Crypto /> : null}
+				{Boolean(this.props.activeWidgets.uploader) === true ? <Uploader /> : null}
             </div>
         )
     }

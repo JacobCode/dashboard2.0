@@ -24,7 +24,7 @@ class Profile extends Component {
     constructor() {
         super();
         this.state = {
-			user_name: '',
+			email: '',
 			password: '',
 			newPassword: '',
 			deletePassword: '',
@@ -32,7 +32,7 @@ class Profile extends Component {
 			error: '',
 			deleteAccount: false
         }
-		this.userNameInput = this.userNameInput.bind(this);
+		this.emailInput = this.emailInput.bind(this);
 		this.passwordInput = this.passwordInput.bind(this);
 		this.newPasswordInput = this.newPasswordInput.bind(this);
 		this.changePassword = this.changePassword.bind(this);
@@ -40,10 +40,10 @@ class Profile extends Component {
 		this.handleCheckBox = this.handleCheckBox.bind(this);
 		this.deleteAccount = this.deleteAccount.bind(this);
 	}
-	userNameInput(e) {
+	emailInput(e) {
 		if (e.target.value.length < 13) {
 			this.setState({
-				user_name: e.target.value
+				email: e.target.value
 			})
 		}
 	}
@@ -69,7 +69,7 @@ class Profile extends Component {
 		.then((res) => {
 			console.log(res);
 			if (res.status === 200) {
-				this.setState({ message: res.data, user_name: '', password: '', newPassword: '' });
+				this.setState({ message: res.data, email: '', password: '', newPassword: '' });
 				setTimeout(() => { this.setState({ message: '' }) }, 5500);
 			}
 		})
@@ -118,11 +118,11 @@ class Profile extends Component {
 							<h2>Change Password</h2>
 							<form onSubmit={this.changePassword}>
 								<TextField
-								label="Username"
-								value={this.props.user.username}
+								label="Email"
+								value={this.props.user.email}
 								InputProps={{readOnly: true}}
 								required
-								onChange={this.userNameInput}
+								onChange={this.emailInput}
 								type="text"
 								/>
 								<TextField
@@ -153,10 +153,10 @@ class Profile extends Component {
 								:
 								`${user.first_name.substr(0, 1).toUpperCase()}${this.props.user.last_name.substr(0, 1).toUpperCase()}`}
 							</div>
-							<span className="username">{user.username.length === 0 ?
-								`@${user.username}`
+							<span className="username">{user.email.length === 0 ?
+								`${user.email}`
 								:
-								`@${user.username}`}
+								`${user.email}`}
 							</span>
 							<span className="full-name">{user.first_name.length === 0 ?
 								`${user.first_name} ${user.last_name}`

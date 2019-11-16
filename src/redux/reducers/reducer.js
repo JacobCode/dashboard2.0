@@ -18,6 +18,7 @@ const initial = {
 	bugsData: [],
 	websiteData: [],
 	serverData: [],
+	files: []
 }
 
 // Initial State
@@ -35,7 +36,8 @@ const initialState = {
 		calendar: true,
 		bookmarks: true,
 		weather: true,
-		crypto: false
+		crypto: false,
+		uploader: true
 	}
 };
 

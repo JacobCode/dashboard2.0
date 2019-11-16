@@ -1,0 +1,83 @@
+@import './variables';
+
+#uploader {
+	position: relative;
+	color: $darkGrey;
+	width: 400px;
+	height: 400px;
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		h1 {
+			font-size: 1.5rem;
+			font-weight: 300;
+		}
+		h6 {
+			font-size: 0.925rem;
+			font-weight: 300;
+			cursor: pointer;
+			border-bottom: 1px solid $primary;
+			padding-bottom: 0.125rem;
+			color: $primary;
+		}
+	}
+	#file-uploads {
+		.files {
+			.no-files {
+				border: 1px solid red;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.file {
+
+			}
+		}
+	}
+	#file-drop {
+		.input {
+			display: flex;
+			width: 100%;
+			margin: 1.5rem 0;
+		}
+		h6 {
+			margin-bottom: 0.5rem;
+			color: #797979;
+		}
+		.dropzone {
+			display: flex;
+			height: 150px;
+			position: relative;
+			// hide default file input
+			input[type="file"] {
+				display: none;
+			}
+			// custom file browser button
+			button {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.file-drop-target {
+				border: 2px dashed $primary;
+				border-radius: 8px;
+				width: 100%;
+			}
+			// when user is dragging
+			h5 {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+			}
+		}
+		// When user starts dragging file into browser
+		.file-drop-target.file-drop-dragging-over-frame {
+			background: rgb(190, 190, 255);
+		}
+	}
+}

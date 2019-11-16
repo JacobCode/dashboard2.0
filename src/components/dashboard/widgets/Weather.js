@@ -74,7 +74,8 @@ class Weather extends Component {
             crypto: this.props.activeWidgets.crypto,
             clock: this.props.activeWidgets.clock,
             tasks: this.props.activeWidgets.tasks,
-            weather: false
+			weather: false,
+			uploader: this.props.activeWidgets.uploader
         }
         this.props.setWidgets(obj);
     }

@@ -51,7 +51,8 @@ class Calendar extends Component {
             crypto: this.props.activeWidgets.crypto,
             clock: this.props.activeWidgets.clock,
             tasks: this.props.activeWidgets.tasks,
-            weather: this.props.activeWidgets.weather
+			weather: this.props.activeWidgets.weather,
+			uploader: this.props.activeWidgets.uploader
         }
         this.props.setWidgets(obj);
     }

@@ -49,7 +49,8 @@ class Clock extends Component {
             crypto: this.props.activeWidgets.crypto,
             clock: false,
             tasks: this.props.activeWidgets.tasks,
-            weather: this.props.activeWidgets.weather
+			weather: this.props.activeWidgets.weather,
+			uploader: this.props.activeWidgets.uploader
         }
         this.props.setWidgets(obj);
     }

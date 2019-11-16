@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 // SCSS
 import '../../../scss/Footer.scss';
 
-import logo from '../../../images/logo.svg';
-
 export default class Footer extends Component {
     render() {
         return (

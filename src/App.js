@@ -62,7 +62,7 @@ class App extends Component {
     }, 1000)
   }
   render() {
-    return (
+	  return (
       <Provider store={store}>
         <BrowserRouter>
           <MuiThemeProvider theme={theme}>

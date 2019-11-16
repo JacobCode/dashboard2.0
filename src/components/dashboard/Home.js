@@ -17,7 +17,8 @@ import { loginUser } from '../../redux/actions/actions';
 
 import '../../scss/Home.scss';
 
-const API_URL = 'https://modern-dashboard.herokuapp.com';
+// const API_URL = 'https://modern-dashboard.herokuapp.com';
+const API_URL = 'http://localhost:3001';
 
 class Home extends Component {
 	constructor() {
@@ -27,9 +28,9 @@ class Home extends Component {
 			user: '',
 			first_name: '',
 			last_name: '',
-			user_name: '',
-			password: '',
-			registerUsername: '',
+			email: 'jacxbcarver@gmail.com',
+			password: 'jacob',
+			registerEmail: '',
 			registerPassword: '',
 			registerConfirm: '',
 			registerFName: '',
@@ -42,8 +43,8 @@ class Home extends Component {
 		this.firstNameInput = this.firstNameInput.bind(this);
 		this.lastNameInput = this.lastNameInput.bind(this);
 		this.passwordInput = this.passwordInput.bind(this);
-		this.userNameInput = this.userNameInput.bind(this);
-		this.registerUserNameInput = this.registerUserNameInput.bind(this);
+		this.emailInput = this.emailInput.bind(this);
+		this.registerEmailInput = this.registerEmailInput.bind(this);
 		this.registerPasswordInput = this.registerPasswordInput.bind(this);
 		this.registerFName = this.registerFName.bind(this);
 		this.handleSignUp = this.handleSignUp.bind(this);
@@ -56,27 +57,19 @@ class Home extends Component {
 		this.setState({ showSignIn: !this.state.showSignIn });
 	}
 	firstNameInput(e) {
-		if (e.target.value.length < 13) {
-			this.setState({ first_name: e.target.value })
-		}
+		this.setState({ first_name: e.target.value });
 	}
 	lastNameInput(e) {
-		if (e.target.value.length < 13) {
-			this.setState({ last_name: e.target.value })
-		}
+		this.setState({ last_name: e.target.value });
 	}
 	passwordInput(e) {
-		if (e.target.value.length < 13) {
-			this.setState({ password: e.target.value })
-		}
+		this.setState({ password: e.target.value });
 	}
-	userNameInput(e) {
-		if (e.target.value.length < 13) {
-			this.setState({ user_name: e.target.value })
-		}
+	emailInput(e) {
+		this.setState({ email: e.target.value });
 	}
-	registerUserNameInput(e) {
-		this.setState({ registerUsername: e.target.value });
+	registerEmailInput(e) {
+		this.setState({ registerEmail: e.target.value });
 	}
 	registerPasswordInput(e) {
 		this.setState({ registerPassword: e.target.value });
@@ -88,17 +81,27 @@ class Home extends Component {
 		this.setState({ registerLName: e.target.value });
 	}
 	handleSignUp(e) {
+		// Header
+		let config = {
+			headers: {
+				authorization: 'authorization',
+			}
+		}
+		// Prevent Default
 		if (e !== undefined) {
 			e.preventDefault();
 		}
+		// Set Loading
 		this.setState({ loading: true });
+		// New User Object
 		const newUser = {
 			first_name: this.state.registerFName,
 			last_name: this.state.registerLName,
-			username: this.state.registerUsername,
+			email: this.state.registerEmail,
 			password: this.state.registerPassword
 		}
-		axios.post(`${API_URL}/register`, newUser).then((res) => {
+		// Request
+		axios.post(`${API_URL}/account/register`, newUser, config).then((res) => {
 			if (res.status === 200) {
 				this.setState({ message: 'Registration Successful!', loading: false });
 				setTimeout(() => {
@@ -130,21 +133,27 @@ class Home extends Component {
 		}
 		this.setState({ loading: true });
 		const login = {
-			username: this.state.user_name.toLowerCase(),
+			email: this.state.email.toLowerCase(),
 			password: this.state.password
 		}
-		axios.post(`${API_URL}/login`, login)
+		axios.post(`${API_URL}/account/login`, login)
 			.then((res) => {
 				this.props.loginUser(res.data);
+				// If login successful
 				if (res.status === 200) {
-					this.setState({ message: `Welcome, ${res.data.username}`, loading: false});
-					localStorage.setItem('user', JSON.stringify(res.data));
+					this.setState({ message: `Welcome, ${res.data.email}`, loading: false});
+					try {
+						localStorage.setItem('user', JSON.stringify(res.data));
+					} catch(e) {
+						console.log("Please Enable Cookies");
+					}
 					setTimeout(() => {
 						window.location.pathname = '/dashboard'
 					}, 750);
 				}
+				// If login error
 				if (res.status === 201) {
-					this.setState({ error: res.data, loading: false});
+					this.setState({ error: res.data.error, loading: false});
 					setTimeout(() => {
 						this.setState({ error: '' });
 					}, 5500);
@@ -159,7 +168,7 @@ class Home extends Component {
 			});
 	}
 	useDemo() {
-		this.setState({ user_name: 'guest', password: 'guest1' });
+		this.setState({ email: 'guest', password: 'guest1' });
 		setTimeout(() => { this.handleLogin(); }, 500);
 	}
 	render() {
@@ -179,11 +188,11 @@ class Home extends Component {
 								<h1>Login To Your Account</h1>
 								<form onSubmit={this.handleLogin}>
 									<TextField
-										label="Username"
+										label="Email"
 										required
-										type="text"
-										value={this.state.user_name}
-										onChange={this.userNameInput}
+										type="email"
+										value={this.state.email}
+										onChange={this.emailInput}
 									/>
 									<TextField
 										value={this.state.password}
@@ -214,10 +223,10 @@ class Home extends Component {
 										required
 									/>
 									<TextField
-										label="Username"
+										label="Email"
 										required
-										type="texts"
-										onChange={this.registerUserNameInput}
+										type="text"
+										onChange={this.registerEmailInput}
 									/>
 									<TextField
 										onChange={this.registerPasswordInput}
