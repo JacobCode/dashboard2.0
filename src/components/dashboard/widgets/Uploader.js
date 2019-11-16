@@ -4,25 +4,40 @@ import { connect } from 'react-redux';
 import FileDrop from 'react-file-drop';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import axios from 'axios';
+import Close from '@material-ui/icons/Close';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import ErrorIcon from '@material-ui/icons/Error';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { setWidgets } from '../../../redux/actions/actions';
 
 import '../../../scss/Uploader.scss';
 
-import Close from '@material-ui/icons/Close';
+const API_URL = 'http://localhost:3001';
 
 class Uploader extends Component {
 	constructor() {
 		super();
 		this.state = {
 			showFiles: false,
-			isDragging: false
+			isDragging: false,
+			chosenFile: null,
+			fileName: 'File Name',
+			storage: 0,
+			error: '',
+			success: '',
+			progress: 0,
+			uploading: false
 		}
 		this.hideWidget = this.hideWidget.bind(this);
 		this.toggleView = this.toggleView.bind(this);
 		this.openFileBrowser = this.openFileBrowser.bind(this);
 		this.handleDragEnter = this.handleDragEnter.bind(this);
 		this.handleDragLeave = this.handleDragLeave.bind(this);
+		this.handleFileName = this.handleFileName.bind(this);
+		this.handleDrop = this.handleDrop.bind(this);
+		this.handleUpload = this.handleUpload.bind(this);
 	}
 	hideWidget() {
         // Hide Uploader widget
@@ -37,8 +52,16 @@ class Uploader extends Component {
         }
         this.props.setWidgets(obj);
 	}
-	handleDrop(files, event) {
-		console.log(files, event);
+	handleDrop(files, e) {
+		if (files.length > 1) {
+			this.setState({ error: 'Only One File At A Time', isDragging: false });
+			setTimeout(() => {
+				this.setState({ error: '' })
+			}, 5500);
+		}
+		if (files.length === 1) {
+			this.setState({ chosenFile: files[0]});
+		}
 	}
 	toggleView() {
 		this.setState({ showFiles: !this.state.showFiles });
@@ -54,6 +77,59 @@ class Uploader extends Component {
 	handleDragLeave() {
 		if (this.state.isDragging !== false) {
 			this.setState({ isDragging: false });
+		}
+	}
+	handleFileName(e) {
+		this.setState({ fileName: e.target.value });
+	}
+	handleUpload(e) {
+		e.preventDefault();
+		if (this.state.chosenFile !== null) {
+			this.setState({ uploading: true });
+			// If storage is more than 10MB (10000KB), prevent form submit and show error
+			const storage = this.state.storage / 1024;
+			const newFile = this.state.chosenFile.size / 1024;
+			// If storage with new file is more than 10MB limit
+			if (storage + newFile > 10000) {
+				this.setState({ error: 'No room in your storage, make room by deleting files' });
+				// Hide error after 3 seconds
+				setTimeout(() => { this.setState({ error: null }) }, 3500);
+			}
+			// If file is more than 3000kb (3mb), prevent form from submit and show error
+			if (newFile > 6000) {
+				this.setState({ error: 'File is too big, please choose another'});
+				// Hide error after 3 seconds
+				setTimeout(() => { this.setState({ error: null }) }, 3500);
+			}
+
+			let data = new FormData();
+			data.append('file', this.state.chosenFile, this.state.fileName);
+			data.append('id', this.props.user._id);
+			data.append('name', this.state.fileName);
+
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' },
+				onUploadProgress: (progressEvent) => {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					this.setState({ progress: percentCompleted });
+				}
+			}
+			axios.post(`${API_URL}/upload`, data, config)
+				.then((res) => {
+						if (res.status === 200) {
+							window.location.pathname = '/uploads';
+						}
+					})
+				.catch((err) => {
+					if (err.response) {
+						if (err.response.status === 429) {
+							this.setState({ error: err.response.data });
+							setTimeout(() => {
+								this.setState({ error: null, uploading: false, progress: 0 });
+							}, 3500)
+						}
+					}
+				});
 		}
 	}
 	render() {
@@ -79,18 +155,19 @@ class Uploader extends Component {
 						files.map((file, i) => {
 							return (
 								<div className="file" key={i}>
-
+									<h3>{file.metadata.name}</h3>
 								</div>
 							)
 						})}
 					</div>
 				</div> : 
-				<div id="file-drop">
+				<form id="file-drop" onSubmit={this.handleUpload} method="POST" encType="multipart/form-data">
 					<TextField
-					label="Outlined"
+					label="File Name"
 					margin="normal"
 					variant="outlined"
 					className="input"
+					onChange={this.handleFileName}
 					/>
 					<h6>Attach File</h6>
 					<FileDrop className="dropzone" onFrameDragEnter={this.handleDragEnter} onFrameDragLeave={this.handleDragLeave} onDrop={this.handleDrop}>
@@ -98,10 +175,51 @@ class Uploader extends Component {
 						<Button size="small" onClick={this.openFileBrowser} variant="contained" color="primary">
 							Choose File
 						</Button> : 
-						<h5>Drag Files Here</h5>}
+						<h5 className="drag">Drag File Here</h5>}
+						{this.state.chosenFile !== null ? <h5 className="name">{this.state.chosenFile.name}</h5> : null}
 						<input id="file-picker" type="file" />
 					</FileDrop>
-				</div>}
+					<Button type="submit" variant="contained" color="primary">
+						Upload
+					</Button>
+				</form>}
+
+				{/* Error Snackbar */}
+				<Snackbar className="fixed-snackbar"
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right',
+					}}
+					open={this.state.error.length > 0 ? true : false}
+				>
+					<SnackbarContent className="sn-bar" id="error-snackbar"
+						aria-describedby="error-snackbar"
+						message={
+							<span>
+								{this.state.error}
+								<ErrorIcon />
+							</span>
+						}
+					/>
+				</Snackbar>
+				{/* Success Snackbar */}
+				<Snackbar className="fixed-snackbar"
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right',
+					}}
+					open={this.state.success.length > 0 ? true : false}
+				>
+					<SnackbarContent className="sn-bar" id="success-snackbar"
+						aria-describedby="success-snackbar"
+						message={
+							<span>
+								{this.state.success}
+								<CheckCircleIcon />
+							</span>
+						}
+					/>
+				</Snackbar>
 			</div>
 		)
 	}

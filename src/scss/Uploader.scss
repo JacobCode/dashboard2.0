@@ -4,7 +4,7 @@
 	position: relative;
 	color: $darkGrey;
 	width: 400px;
-	height: 400px;
+	height: 450px;
 	.header {
 		display: flex;
 		align-items: center;
@@ -44,12 +44,13 @@
 		}
 		h6 {
 			margin-bottom: 0.5rem;
-			color: #797979;
+			color: #949494;
 		}
 		.dropzone {
 			display: flex;
 			height: 150px;
 			position: relative;
+			margin-bottom: 2rem;
 			// hide default file input
 			input[type="file"] {
 				display: none;
@@ -67,13 +68,29 @@
 				width: 100%;
 			}
 			// when user is dragging
-			h5 {
+			h5.drag {
 				position: absolute;
 				top: 50%;
 				left: 50%;
 				transform: translate(-50%, -50%);
 				color: white;
 			}
+			h5.name {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				line-height: 1;
+				display: inline-block;
+				width: 180px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+		button[type="submit"] {
+			display: flex;
+			width: 100%;
 		}
 		// When user starts dragging file into browser
 		.file-drop-target.file-drop-dragging-over-frame {
