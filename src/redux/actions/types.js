@@ -16,3 +16,6 @@ export const SET_CURRENT_WEATHER = 'SET_CURRENT_WEATHER';
 
 // Manage Widgets
 export const SET_WIDGETS = 'SET_WIDGETS';
+
+// Manage Files
+export const GET_USER_FILES = 'GET_USER_FILES';

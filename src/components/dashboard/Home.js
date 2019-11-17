@@ -142,11 +142,6 @@ class Home extends Component {
 				// If login successful
 				if (res.status === 200) {
 					this.setState({ message: `Welcome, ${res.data.email}`, loading: false});
-					try {
-						localStorage.setItem('user', JSON.stringify(res.data));
-					} catch(e) {
-						console.log("Please Enable Cookies");
-					}
 					setTimeout(() => {
 						window.location.pathname = '/dashboard'
 					}, 750);

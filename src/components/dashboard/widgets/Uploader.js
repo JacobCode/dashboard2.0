@@ -10,7 +10,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { setWidgets } from '../../../redux/actions/actions';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { setWidgets, getUserFiles } from '../../../redux/actions/actions';
 
 import '../../../scss/Uploader.scss';
 
@@ -23,7 +25,7 @@ class Uploader extends Component {
 			showFiles: false,
 			isDragging: false,
 			chosenFile: null,
-			fileName: 'File Name',
+			fileName: '',
 			storage: 0,
 			error: '',
 			success: '',
@@ -84,8 +86,7 @@ class Uploader extends Component {
 	}
 	handleUpload(e) {
 		e.preventDefault();
-		if (this.state.chosenFile !== null) {
-			this.setState({ uploading: true });
+		if (this.state.chosenFile !== null && this.state.fileName.length > 1) {// this.setState({ uploading: true });
 			// If storage is more than 10MB (10000KB), prevent form submit and show error
 			const storage = this.state.storage / 1024;
 			const newFile = this.state.chosenFile.size / 1024;
@@ -117,7 +118,8 @@ class Uploader extends Component {
 			axios.post(`${API_URL}/upload`, data, config)
 				.then((res) => {
 						if (res.status === 200) {
-							window.location.pathname = '/uploads';
+							this.setState({ chosenFile: null, fileName: '' });
+							window.location.pathname = '/dashboard';
 						}
 					})
 				.catch((err) => {
@@ -132,10 +134,25 @@ class Uploader extends Component {
 				});
 		}
 	}
+	// Convert bytes
+	convertBytes(bytes, num) {
+		var i = Math.floor(Math.log(bytes) / Math.log(1024)),
+			sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+		return `${(bytes / Math.pow(1024, i)).toFixed(num) * 1}${sizes[i]}`;
+	}
+	// Delete file by id
+	deleteFile(e, file) {
+		if (file) {
+			console.log(`Delete File: ${file}`);
+		}
+	}
+	UNSAFE_componentWillMount() {
+		this.props.getUserFiles(this.props.user, this.props.user._id);
+	}
 	render() {
 		const { files } = this.props.user;
 		const { showFiles } = this.state;
-		console.log(files);
 		return (
 			<div id="uploader" className="widget">
 				<div className="delete-widget" onClick={this.hideWidget}><Close /></div>
@@ -155,7 +172,9 @@ class Uploader extends Component {
 						files.map((file, i) => {
 							return (
 								<div className="file" key={i}>
-									<h3>{file.metadata.name}</h3>
+									<a href={`${API_URL}/user/files/download/${file.filename}/`} download="TEST">{file.metadata.name}</a>
+									<span>{this.convertBytes(file.length, 1)}</span>
+									<DeleteIcon onClick={e => this.deleteFile(e, file)} />
 								</div>
 							)
 						})}
@@ -167,6 +186,7 @@ class Uploader extends Component {
 					margin="normal"
 					variant="outlined"
 					className="input"
+					value={this.state.fileName}
 					onChange={this.handleFileName}
 					/>
 					<h6>Attach File</h6>
@@ -228,7 +248,8 @@ class Uploader extends Component {
 Uploader.propTypes = {
     setWidgets: PropTypes.func.isRequired,
 	activeWidgets: PropTypes.object.isRequired,
-	user: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	getUserFiles: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -236,4 +257,4 @@ const mapStateToProps = state => ({
 	user: state.siteData.user
 });
 
-export default connect(mapStateToProps, { setWidgets })(Uploader);
+export default connect(mapStateToProps, { setWidgets, getUserFiles })(Uploader);

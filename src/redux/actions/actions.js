@@ -5,12 +5,13 @@ import {
 	UPDATE_NOTIFICATIONS,
     SET_FORECAST,
     SET_CURRENT_WEATHER,
-    SET_WIDGETS
+	SET_WIDGETS,
+	GET_USER_FILES
 } from './types';
 
 import axios from 'axios';
 
-const API_URL = 'https://modern-dashboard.herokuapp.com';
+const API_URL = 'http://localhost:3001';
 
 // Login User
 export const loginUser = (user) => dispatch => {
@@ -25,7 +26,6 @@ export const addTask = (tasks, userId, user, type) => dispatch => {
 	user[type] = tasks;
 	axios.post(`${API_URL}/user/${userId}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
 		.then((res) => {
-			localStorage.setItem('user', JSON.stringify(user));
 			dispatch({
 				type: UPDATE_TASKS,
 				payload: user
@@ -41,7 +41,6 @@ export const deleteTask = (userId, tasks, user, type) => dispatch => {
 		tasks
 	})
 		.then((res) => {
-			localStorage.setItem('user', JSON.stringify(user));
 			dispatch({
 				type: UPDATE_TASKS,
 				payload: user
@@ -56,7 +55,6 @@ export const addBookmark = (bookmarks, userId, user) => dispatch => {
 	user.bookmarks = bookmarks;
 	axios.post(`${API_URL}/user/${userId}/bookmarks`, { bookmarks })
 		.then((res) => {
-			localStorage.setItem('user', JSON.stringify(user));
 			dispatch({
 				type: UPDATE_BOOKMARKS,
 				payload: user
@@ -70,7 +68,6 @@ export const updateNotifications = (notifications, userId, user) => dispatch => 
 	user.notifications = notifications;
 	axios.post(`${API_URL}/user/${userId}/notifications`, { notifications })
 		.then((res) => {
-			localStorage.setItem('user', JSON.stringify(user));
 			dispatch({
 				type: UPDATE_NOTIFICATIONS,
 				payload: user
@@ -100,4 +97,17 @@ export const setWidgets = widgets => dispatch => {
         type: SET_WIDGETS,
         payload: widgets
     })
+}
+
+// Get All User Files
+export const getUserFiles = (user, user_id) => dispatch => {
+	axios.get(`${API_URL}/user/files/${user_id}`)
+		.then((res) => {
+			user.files = res.data
+			dispatch({
+				type: GET_USER_FILES,
+				payload: user
+			})
+		})
+		.catch((err) => console.log(err));
 }

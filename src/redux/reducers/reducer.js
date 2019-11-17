@@ -5,14 +5,14 @@ import {
 	UPDATE_NOTIFICATIONS,
 	SET_FORECAST,
 	SET_CURRENT_WEATHER,
-	SET_WIDGETS
+	SET_WIDGETS,
+	GET_USER_FILES
 } from '../actions/types';
 
 const initial = {
-	first_name: 'Guest',
-	last_name: 'User',
-	email: 'example@domain.com',
-	username: 'guestuser1',
+	first_name: '',
+	last_name: '',
+	email: '',
 	notifications: [],
 	bookmarks: [],
 	bugsData: [],
@@ -24,7 +24,7 @@ const initial = {
 // Initial State
 const initialState = {
 	// User Info
-	user: localStorage.user !== undefined ? JSON.parse(localStorage.user) : initial,
+	user: {},
 	// Weather (Current Day)
 	weather: {},
 	// Weather (Forecast)
@@ -77,6 +77,11 @@ export default ((state = initialState, action) => {
 			return {
 				...state,
 				activeWidgets: action.payload
+			}
+		case GET_USER_FILES:
+			return {
+				...state,
+				user: action.payload
 			}
 		default: return state;
 	}
