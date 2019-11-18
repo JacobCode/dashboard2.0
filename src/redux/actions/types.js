@@ -1,5 +1,6 @@
 // Manage User Profile
 export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 // Manage Tasks
 export const UPDATE_TASKS = 'UPDATE_TASKS';
@@ -19,3 +20,5 @@ export const SET_WIDGETS = 'SET_WIDGETS';
 
 // Manage Files
 export const GET_USER_FILES = 'GET_USER_FILES';
+export const UPLOAD_FILE = 'UPLOAD_FILE';
+export const DELETE_FILE = 'DELETE_FILE';

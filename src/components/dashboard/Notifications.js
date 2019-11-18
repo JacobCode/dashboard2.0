@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 // Material UI
 import AddIcon from '@material-ui/icons/Add';
@@ -11,8 +9,6 @@ import Button from '@material-ui/core/Button';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
-
-import { updateNotifications } from '../../redux/actions/actions';
 
 // SCSS
 import '../../scss/Notifications.scss';
@@ -68,7 +64,7 @@ class Notifications extends Component {
 		this.setState({ notifications: this.props.user.notifications.filter((noti) => noti.id !== id) });
         this.props.updateNotifications(this.props.user.notifications.filter((noti) => noti.id !== id), this.props.user._id, this.props.user);
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         var d = new Date();
         var m = d.getMonth() + 1;
         var dt = d.getDate();
@@ -199,13 +195,4 @@ class Notifications extends Component {
     }
 }
 
-Notifications.propTypes = {
-	user: PropTypes.object.isRequired,
-	updateNotifications: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { updateNotifications })(Notifications);
+export default Notifications;

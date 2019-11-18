@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 // Material UI
 import Switch from '@material-ui/core/Switch';
@@ -8,9 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import '../../scss/ManageWidgets.scss';
 
-import { setWidgets } from '../../redux/actions/actions';
-
-const widgets = ['tasks', 'clock', 'crypto', 'calendar', 'bookmarks', 'weather'];
+const widgets = ['tasks', 'clock', 'crypto', 'calendar', 'bookmarks', 'weather', 'uploader'];
 
 class ManageWidgets extends Component {
     constructor(props) {
@@ -21,7 +17,8 @@ class ManageWidgets extends Component {
             crypto: props.activeWidgets.crypto,
             calendar: props.activeWidgets.calendar,
             bookmarks: props.activeWidgets.bookmarks,
-            weather: props.activeWidgets.weather
+			weather: props.activeWidgets.weather,
+			uploader: props.activeWidgets.uploader
         }
         this.handleToggle = this.handleToggle.bind(this);
         this.updateWidgets = this.updateWidgets.bind(this);
@@ -45,7 +42,10 @@ class ManageWidgets extends Component {
                 break;
             case 'weather':
                 this.setState({ weather: !this.state.weather });
-                break;
+				break;
+			case 'uploader':
+				this.setState({ uploader: !this.state.uploader });
+				break;
             default: 
                 break;
         }
@@ -57,12 +57,13 @@ class ManageWidgets extends Component {
             crypto: this.state.crypto,
             calendar: this.state.calendar,
             bookmarks: this.state.bookmarks,
-            weather: this.state.weather,
+			weather: this.state.weather,
+			uploader: this.state.uploader
         }
         this.props.setWidgets(activeWidgets);
     }
     render() {
-        const { tasks, clock, crypto, calendar, bookmarks, weather } = this.state;
+        const { tasks, clock, crypto, calendar, bookmarks, weather, uploader } = this.state;
         return (
             <div id="manage-widgets">
                 <h1 className="title">Manage Widgets</h1>
@@ -79,7 +80,8 @@ class ManageWidgets extends Component {
                                         widget === 'crypto' ? crypto : 
                                         widget === 'calendar' ? calendar : 
                                         widget === 'bookmarks' ? bookmarks : 
-                                        widget === 'weather' ? weather : null
+                                        widget === 'weather' ? weather :
+										widget === 'uploader' ? uploader : null
                                     }
                                     onChange={e => this.handleToggle(e, widget)}
                                     color="primary"
@@ -97,13 +99,4 @@ class ManageWidgets extends Component {
     }
 }
 
-ManageWidgets.propTypes = {
-    activeWidgets: PropTypes.object.isRequired,
-    setWidgets: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-    activeWidgets: state.siteData.activeWidgets,
-});
-
-export default connect(mapStateToProps, { setWidgets })(ManageWidgets);
+export default ManageWidgets;

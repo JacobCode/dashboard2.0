@@ -4,7 +4,7 @@
 	position: relative;
 	color: $darkGrey;
 	width: 400px;
-	height: 450px;
+	height: 475px;
 	.header {
 		display: flex;
 		align-items: center;
@@ -17,8 +17,6 @@
 			font-size: 0.925rem;
 			font-weight: 300;
 			cursor: pointer;
-			border-bottom: 1px solid $primary;
-			padding-bottom: 0.125rem;
 			color: $primary;
 		}
 	}
@@ -33,7 +31,7 @@
 			}
 			.file {
 				display: flex;
-				padding: 0.5rem 0;
+				padding: 1rem 0;
 				align-items: center;
 				justify-content: space-between;
 				border-bottom: 1px solid black;
@@ -83,25 +81,17 @@
 				border-radius: 8px;
 				width: 100%;
 			}
-			// when user is dragging
-			h5.drag {
+			h5 {
 				position: absolute;
-				top: 50%;
 				left: 50%;
-				transform: translate(-50%, -50%);
-				color: white;
-			}
-			h5.name {
-				position: absolute;
 				top: 50%;
-				left: 50%;
 				transform: translate(-50%, -50%);
-				line-height: 1;
-				display: inline-block;
-				width: 180px;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
+				width: 100%;
+				text-align: center;
+				span {
+					color: $primary;
+					cursor: pointer;
+				}
 			}
 		}
 		button[type="submit"] {
@@ -110,7 +100,12 @@
 		}
 		// When user starts dragging file into browser
 		.file-drop-target.file-drop-dragging-over-frame {
-			background: rgb(190, 190, 255);
+			background: rgb(233, 243, 255);
 		}
+	}
+	.storage {
+		position: absolute;
+		right: 1.5rem;
+		bottom: 1.5rem;
 	}
 }

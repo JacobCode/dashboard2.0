@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import { setWidgets } from '../../../redux/actions/actions';
 
 import PickyDateTime from 'react-picky-date-time';
 import Close from '@material-ui/icons/Close';
@@ -58,7 +54,7 @@ class Clock extends Component {
         this.getDate();
         this.startTime();
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({ showPickyDateTime: true })
     }
     render() {
@@ -85,13 +81,4 @@ class Clock extends Component {
     }
 }
 
-Clock.propTypes = {
-    setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-    activeWidgets: state.siteData.activeWidgets
-});
-
-export default connect(mapStateToProps, { setWidgets })(Clock);
+export default Clock;

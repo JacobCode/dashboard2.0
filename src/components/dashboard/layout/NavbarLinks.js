@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -37,14 +35,8 @@ class NavbarLinks extends Component {
 	handleClose() {
 		this.setState({ openNoti: false });
 	}
-	logout() {
-		localStorage.clear();
-		setTimeout(() => {
-			window.location.pathname = '/';
-		}, 1000);
-	}
 	render() {
-		const { notifications } = this.props.user;
+		const { notifications, logoutUser } = this.props;
 		return (
 			<div id="links">
 
@@ -120,8 +112,8 @@ class NavbarLinks extends Component {
 
 			{/* Logout */}
 			<div className="nav-logout">
-				<Button onClick={this.logout} style={{textTransform: 'capitalize'}}>
-				Sign Out
+				<Button onClick={logoutUser} style={{textTransform: 'capitalize'}}>
+					Sign Out
 				</Button>
 			</div>
 
@@ -130,12 +122,4 @@ class NavbarLinks extends Component {
 	}
 }
 
-NavbarLinks.propTypes = {
-	user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps)(NavbarLinks);
+export default NavbarLinks;

@@ -1,25 +1,16 @@
 import {
 	LOGIN_USER,
+	LOGOUT_USER,
 	UPDATE_TASKS,
 	UPDATE_BOOKMARKS,
 	UPDATE_NOTIFICATIONS,
 	SET_FORECAST,
 	SET_CURRENT_WEATHER,
 	SET_WIDGETS,
-	GET_USER_FILES
+	GET_USER_FILES,
+	UPLOAD_FILE,
+	DELETE_FILE
 } from '../actions/types';
-
-const initial = {
-	first_name: '',
-	last_name: '',
-	email: '',
-	notifications: [],
-	bookmarks: [],
-	bugsData: [],
-	websiteData: [],
-	serverData: [],
-	files: []
-}
 
 // Initial State
 const initialState = {
@@ -48,6 +39,11 @@ export default ((state = initialState, action) => {
 				...state,
 				user: action.payload
 			};
+		case LOGOUT_USER:
+			return {
+				...state,
+				user: action.payload
+			}
 		case UPDATE_TASKS:
 			return {
 				...state,
@@ -79,6 +75,16 @@ export default ((state = initialState, action) => {
 				activeWidgets: action.payload
 			}
 		case GET_USER_FILES:
+			return {
+				...state,
+				user: action.payload
+			}
+		case UPLOAD_FILE:
+			return {
+				...state,
+				user: action.payload
+			}
+		case DELETE_FILE:
 			return {
 				...state,
 				user: action.payload

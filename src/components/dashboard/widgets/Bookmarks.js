@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import BookmarkIcon from "@material-ui/icons/NoteAdd";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Close from '@material-ui/icons/Close';
-
-import { setWidgets, addBookmark } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Bookmarks.scss';
@@ -118,16 +114,4 @@ class Bookmarks extends Component {
     }
 }
 
-Bookmarks.propTypes = {
-    setWidgets: PropTypes.func.isRequired,
-	activeWidgets: PropTypes.object.isRequired,
-	addBookmark: PropTypes.func.isRequired,
-	user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-	activeWidgets: state.siteData.activeWidgets,
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { setWidgets, addBookmark })(Bookmarks);
+export default Bookmarks

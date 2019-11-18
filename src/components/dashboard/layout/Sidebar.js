@@ -1,7 +1,5 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -12,14 +10,7 @@ import Icon from "@material-ui/core/Icon";
 import Divider from '@material-ui/core/Divider';
 
 const Sidebar = ({ ...props }) => {
-  const { routes, closeDrawer, user } = props;
-
-  const logout = () => {
-  	localStorage.clear();
-  	setTimeout(() => {
-  		window.location.pathname = '/';
-  	}, 500);
-  }
+	const { routes, closeDrawer, user, logoutUser } = props;
 
   var links = (
     <List id="sidebar-links">
@@ -46,7 +37,7 @@ const Sidebar = ({ ...props }) => {
         );
       })}
 	  <Divider />
-		<NavLink id="sidebar-logout" onClick={logout} to="/">
+		<NavLink id="sidebar-logout" onClick={logoutUser} to="/">
 			<ListItem>
 				<ListItemText
 					primary="Sign Out"
@@ -79,7 +70,6 @@ const Sidebar = ({ ...props }) => {
           }}>
           {brand}
           <div>
-            {/* {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />} */}
             {links}
           </div>
         </Drawer>
@@ -98,12 +88,4 @@ const Sidebar = ({ ...props }) => {
   );
 };
 
-Sidebar.propTypes = {
-  user: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
-  user: state.siteData.user
-});
-
-export default connect(mapStateToProps)(Sidebar);
+export default Sidebar;

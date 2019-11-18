@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import Divider from '@material-ui/core/Divider';
 import Close from '@material-ui/icons/Close';
-
-import { getWeather, getForecast, setWidgets } from '../../../redux/actions/actions';
 
 import Button from '@material-ui/core/Button';
 
@@ -28,7 +24,7 @@ class Weather extends Component {
         this.getLocation = this.getLocation.bind(this);
         this.hideWidget = this.hideWidget.bind(this);
     }
-    componentWillReceiveProps(props) {
+    UNSAFE_componentWillReceiveProps(props) {
         if (props.forecast[0] !== undefined) {
             var d = new Date();
             var day = d.getDay();
@@ -126,19 +122,4 @@ class Weather extends Component {
     }
 }
 
-Weather.propTypes = {
-    weather: PropTypes.object.isRequired,
-    forecast: PropTypes.array.isRequired,
-    getWeather: PropTypes.func.isRequired,
-    getForecast: PropTypes.func.isRequired,
-    setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-    forecast: state.siteData.forecast,
-    weather: state.siteData.weather,
-    activeWidgets: state.siteData.activeWidgets
-});
-
-export default connect(mapStateToProps, { getWeather, getForecast, setWidgets })(Weather);
+export default Weather;

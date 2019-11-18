@@ -19,6 +19,7 @@ export default class Navbar extends Component {
         }
     }
     render() {
+		const { logoutUser, notifications } = this.props;
         return (
             <AppBar id="navbar" color="primary">
                 <Toolbar id="toolbar">
@@ -26,7 +27,7 @@ export default class Navbar extends Component {
                         <Button color="inherit" href="/">Dashboard</Button>
                     </div>
                     <Hidden smDown implementation="css">
-                        <NavbarLinks />
+                        <NavbarLinks logoutUser={logoutUser} notifications={notifications} />
                     </Hidden>
                     <Hidden mdUp implementation="css">
                         <IconButton

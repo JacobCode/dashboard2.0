@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import Div100vh from 'react-div-100vh';
 
@@ -10,10 +8,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import TextField from '@material-ui/core/TextField';
-
 import spinner from '../../images/spinner.svg';
-
-import { loginUser } from '../../redux/actions/actions';
 
 import '../../scss/Home.scss';
 
@@ -28,8 +23,8 @@ class Home extends Component {
 			user: '',
 			first_name: '',
 			last_name: '',
-			email: 'jacxbcarver@gmail.com',
-			password: 'jacob',
+			email: '',
+			password: '',
 			registerEmail: '',
 			registerPassword: '',
 			registerConfirm: '',
@@ -37,7 +32,8 @@ class Home extends Component {
 			registerLName: '',
 			message: '',
 			error: '',
-			loading: false
+			loading: false,
+			cookiesEnabled: false
 		}
 		this.changeForm = this.changeForm.bind(this);
 		this.firstNameInput = this.firstNameInput.bind(this);
@@ -104,9 +100,6 @@ class Home extends Component {
 		axios.post(`${API_URL}/account/register`, newUser, config).then((res) => {
 			if (res.status === 200) {
 				this.setState({ message: 'Registration Successful!', loading: false });
-				setTimeout(() => {
-					window.location.pathname = '/'
-				}, 750);
 			}
 			if (res.status === 201) {
 				this.setState({ error: res.data, loading: false });
@@ -138,14 +131,14 @@ class Home extends Component {
 		}
 		axios.post(`${API_URL}/account/login`, login)
 			.then((res) => {
-				this.props.loginUser(res.data);
 				// If login successful
 				if (res.status === 200) {
-					this.setState({ message: `Welcome, ${res.data.email}`, loading: false});
+					this.setState({ message: `Welcome, ${res.data.first_name}`, loading: false});
 					setTimeout(() => {
-						window.location.pathname = '/dashboard'
-					}, 750);
+						this.props.loginUser(res.data);
+					}, 1000);
 				}
+
 				// If login error
 				if (res.status === 201) {
 					this.setState({ error: res.data.error, loading: false});
@@ -163,8 +156,18 @@ class Home extends Component {
 			});
 	}
 	useDemo() {
-		this.setState({ email: 'guest', password: 'guest1' });
-		setTimeout(() => { this.handleLogin(); }, 500);
+		if (navigator.cookiesEnabled === true) {
+			this.setState({ email: 'guest@email.com', password: 'guest1' });
+			setTimeout(() => { this.handleLogin(); }, 500);
+		}
+	}
+	UNSAFE_componentWillMount() {
+		if (navigator.cookieEnabled === false) {
+			this.setState({ error: 'Please enable cookies', cookiesEnabled: false });
+		}
+		if (navigator.cookieEnabled === true) {
+			this.setState({ cookiesEnabled: true });
+		}
 	}
 	render() {
 		return (
@@ -197,7 +200,7 @@ class Home extends Component {
 										required
 									/>
 									<p onClick={this.useDemo} className="demo">Use Demo Account</p>
-									<Button type="submit" color="secondary" variant="contained">Login</Button>
+									<Button type="submit" color="secondary" variant="contained" disabled={!this.state.cookiesEnabled}>Login</Button>
 								</form>
 							</div>
 							:
@@ -229,7 +232,7 @@ class Home extends Component {
 										type="password"
 										required
 									/>
-									<Button type="submit" color="secondary" variant="contained">Register</Button>
+									<Button type="submit" color="secondary" variant="contained" disabled={!this.state.cookiesEnabled}>Register</Button>
 								</form>
 							</div>}
 							{this.state.loading === true ? <img id="spinner" src={spinner} alt="Loading..." /> : null}
@@ -247,7 +250,7 @@ class Home extends Component {
 						}}
 						open={this.state.error.length > 0 ? true : false}
 					>
-						<SnackbarContent className="sn-bar" id="error-snackbar"
+						<SnackbarContent className="sn-bar error-snackbar"
 							aria-describedby="error-snackbar"
 							message={
 								<span>
@@ -265,7 +268,7 @@ class Home extends Component {
 						}}
 						open={this.state.message.length > 0 ? true : false}
 					>
-						<SnackbarContent className="sn-bar" id="success-snackbar"
+						<SnackbarContent className="sn-bar success-snackbar"
 							aria-describedby="success-snackbar"
 							message={
 								<span>
@@ -281,13 +284,4 @@ class Home extends Component {
 	}
 }
 
-Home.propTypes = {
-	user: PropTypes.object.isRequired,
-	loginUser: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { loginUser })(Home);
+export default Home;

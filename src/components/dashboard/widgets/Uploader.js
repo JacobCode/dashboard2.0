@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import FileDrop from 'react-file-drop';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -11,8 +10,6 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-import { setWidgets, getUserFiles } from '../../../redux/actions/actions';
 
 import '../../../scss/Uploader.scss';
 
@@ -40,6 +37,7 @@ class Uploader extends Component {
 		this.handleFileName = this.handleFileName.bind(this);
 		this.handleDrop = this.handleDrop.bind(this);
 		this.handleUpload = this.handleUpload.bind(this);
+		this.updateStorage = this.updateStorage.bind(this);
 	}
 	hideWidget() {
         // Hide Uploader widget
@@ -86,7 +84,7 @@ class Uploader extends Component {
 	}
 	handleUpload(e) {
 		e.preventDefault();
-		if (this.state.chosenFile !== null && this.state.fileName.length > 1) {// this.setState({ uploading: true });
+		if (this.state.chosenFile !== null && this.state.fileName.length > 1) {
 			// If storage is more than 10MB (10000KB), prevent form submit and show error
 			const storage = this.state.storage / 1024;
 			const newFile = this.state.chosenFile.size / 1024;
@@ -115,23 +113,27 @@ class Uploader extends Component {
 					this.setState({ progress: percentCompleted });
 				}
 			}
-			axios.post(`${API_URL}/upload`, data, config)
+			axios.post(`${API_URL}/user/files/upload`, data, config)
 				.then((res) => {
 						if (res.status === 200) {
 							this.setState({ chosenFile: null, fileName: '' });
-							window.location.pathname = '/dashboard';
+							// window.location.pathname = '/dashboard';
 						}
 					})
-				.catch((err) => {
-					if (err.response) {
-						if (err.response.status === 429) {
-							this.setState({ error: err.response.data });
-							setTimeout(() => {
-								this.setState({ error: null, uploading: false, progress: 0 });
-							}, 3500)
+					.then(() => {
+						// this.props.uploadFile(this.props.user, [...this.props.user.files, this.state.chosenFile]);
+						this.props.getUserFiles(this.props.user);
+					})
+					.catch((err) => {
+						if (err.response) {
+							if (err.response.status === 429) {
+								this.setState({ error: err.response.data });
+								setTimeout(() => {
+									this.setState({ error: null, uploading: false, progress: 0 });
+								}, 3500)
+							}
 						}
-					}
-				});
+					});
 		}
 	}
 	// Convert bytes
@@ -141,17 +143,36 @@ class Uploader extends Component {
 
 		return `${(bytes / Math.pow(1024, i)).toFixed(num) * 1}${sizes[i]}`;
 	}
-	// Delete file by id
-	deleteFile(e, file) {
-		if (file) {
-			console.log(`Delete File: ${file}`);
+	// Update File Storage
+	updateStorage(files) {
+		if (files.length >= 1) {
+			const numbers = [];
+			files.forEach(file => {
+				numbers.push(file.length)
+			});
+			for (var i = 0; i <= files.length; i++) {
+				numbers.push(files.length);
+			}
+			const getSum = (total, num) => {
+				return total + num;
+			}
+			console.log(this.convertBytes(numbers.reduce(getSum), 2));
+			this.setState({ storage: this.convertBytes(numbers.reduce(getSum), 2) });
 		}
 	}
 	UNSAFE_componentWillMount() {
-		this.props.getUserFiles(this.props.user, this.props.user._id);
+		this.props.getUserFiles(this.props.user);
+	}
+	componentDidMount() {
+		if (this.props.user.files.length >= 1) {
+			this.updateStorage(this.props.user.files);
+		}
+	}
+	UNSAFE_componentWillReceiveProps() {
+		console.log("UPDATE");
 	}
 	render() {
-		const { files } = this.props.user;
+		const { user } = this.props;
 		const { showFiles } = this.state;
 		return (
 			<div id="uploader" className="widget">
@@ -165,16 +186,16 @@ class Uploader extends Component {
 				<div id="file-uploads">
 					<div className="files">
 						{/* If no files */}
-						{files.length === 0 ? 
+						{this.props.user.files.length === 0 ? 
 						<div className="no-files">
 							No Files
 						</div> : 
-						files.map((file, i) => {
+						this.props.user.files.map((file, i) => {
 							return (
 								<div className="file" key={i}>
-									<a href={`${API_URL}/user/files/download/${file.filename}/`} download="TEST">{file.metadata.name}</a>
+									<a href={`${API_URL}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>
 									<span>{this.convertBytes(file.length, 1)}</span>
-									<DeleteIcon onClick={e => this.deleteFile(e, file)} />
+									<DeleteIcon onClick={() => this.props.deleteFile(user, file, this.props.user.files)} />
 								</div>
 							)
 						})}
@@ -191,18 +212,16 @@ class Uploader extends Component {
 					/>
 					<h6>Attach File</h6>
 					<FileDrop className="dropzone" onFrameDragEnter={this.handleDragEnter} onFrameDragLeave={this.handleDragLeave} onDrop={this.handleDrop}>
-						{this.state.isDragging === false ? 
-						<Button size="small" onClick={this.openFileBrowser} variant="contained" color="primary">
-							Choose File
-						</Button> : 
-						<h5 className="drag">Drag File Here</h5>}
-						{this.state.chosenFile !== null ? <h5 className="name">{this.state.chosenFile.name}</h5> : null}
+						{this.state.chosenFile === null ? <h5>Drag file here or <span onClick={this.openFileBrowser}>browse</span></h5> : <h5 className="name">{this.state.chosenFile.name}</h5>}
 						<input id="file-picker" type="file" />
 					</FileDrop>
 					<Button type="submit" variant="contained" color="primary">
 						Upload
 					</Button>
 				</form>}
+				<span className="storage">
+					{this.state.storage} / 10MB
+				</span>
 
 				{/* Error Snackbar */}
 				<Snackbar className="fixed-snackbar"
@@ -212,7 +231,7 @@ class Uploader extends Component {
 					}}
 					open={this.state.error.length > 0 ? true : false}
 				>
-					<SnackbarContent className="sn-bar" id="error-snackbar"
+					<SnackbarContent className="sn-bar error-snackbar"
 						aria-describedby="error-snackbar"
 						message={
 							<span>
@@ -230,7 +249,7 @@ class Uploader extends Component {
 					}}
 					open={this.state.success.length > 0 ? true : false}
 				>
-					<SnackbarContent className="sn-bar" id="success-snackbar"
+					<SnackbarContent className="sn-bar success-snackbar"
 						aria-describedby="success-snackbar"
 						message={
 							<span>
@@ -245,16 +264,4 @@ class Uploader extends Component {
 	}
 }
 
-Uploader.propTypes = {
-    setWidgets: PropTypes.func.isRequired,
-	activeWidgets: PropTypes.object.isRequired,
-	user: PropTypes.object.isRequired,
-	getUserFiles: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-	activeWidgets: state.siteData.activeWidgets,
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { setWidgets, getUserFiles })(Uploader);
+export default Uploader;

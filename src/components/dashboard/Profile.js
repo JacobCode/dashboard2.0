@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -11,8 +9,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-import { loginUser } from '../../redux/actions/actions';
 
 // SCSS
 import '../../scss/Profile.scss';
@@ -66,20 +62,18 @@ class Profile extends Component {
 			new: this.state.newPassword,
 			old: this.state.password
 		})
-		.then((res) => {
-			console.log(res);
-			if (res.status === 200) {
-				this.setState({ message: res.data, email: '', password: '', newPassword: '' });
-				setTimeout(() => { this.setState({ message: '' }) }, 5500);
-			}
-		})
-		.catch((err) => {
-			console.log(err.response);
-			if (err.response.status === 404) {
-				this.setState({ error: err.response.data });
-				setTimeout(() => { this.setState({ error: '' }) }, 5500);
-			}
-		})
+			.then((res) => {
+				if (res.status === 200) {
+					this.setState({ message: res.data, email: '', password: '', newPassword: '' });
+					setTimeout(() => { this.setState({ message: '' }) }, 5500);
+				}
+			})
+			.catch((err) => {
+				if (err.response.status === 404) {
+					this.setState({ error: err.response.data });
+					setTimeout(() => { this.setState({ error: '' }) }, 5500);
+				}
+			})
 	}
 	deletePasswordInput(e) {
 		this.setState({ deletePassword: e.target.value });
@@ -200,7 +194,7 @@ class Profile extends Component {
 						}}
 						open={this.state.error.length > 0 ? true : false}
 					>
-						<SnackbarContent className="sn-bar" id="error-snackbar"
+						<SnackbarContent className="sn-bar error-snackbar"
 							aria-describedby="error-snackbar"
 							message={
 								<span>
@@ -218,7 +212,7 @@ class Profile extends Component {
 						}}
 						open={this.state.message.length > 0 ? true : false}
 					>
-						<SnackbarContent className="sn-bar" id="success-snackbar"
+						<SnackbarContent className="sn-bar success-snackbar"
 							aria-describedby="success-snackbar"
 							message={
 								<span>
@@ -234,13 +228,4 @@ class Profile extends Component {
     }
 }
 
-Profile.propTypes = {
-    user: PropTypes.object.isRequired,
-	loginUser: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-    user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { loginUser })(Profile);
+export default Profile;

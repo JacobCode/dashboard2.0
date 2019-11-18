@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import { setWidgets, updateNotifications } from '../../../redux/actions/actions';
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -143,15 +139,4 @@ class Calendar extends Component {
     }
 }
 
-Calendar.propTypes = {
-    setWidgets: PropTypes.func.isRequired,
-	activeWidgets: PropTypes.object.isRequired,
-	user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-	activeWidgets: state.siteData.activeWidgets,
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { setWidgets, updateNotifications })(Calendar);
+export default Calendar;

@@ -1,6 +1,6 @@
 # Developer Dashboard
 
-Dashboard for developers who need to keep track of different tasks, important dates, and more!
+Dashboard for developers who need to keep track of different tasks, important dates, upload files, and more!
 
 ## Run Locally
 

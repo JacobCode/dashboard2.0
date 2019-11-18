@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,8 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
 
 import deleteIcon from '../../../images/delete-icon.svg';
-
-import { setWidgets, deleteTask } from '../../../redux/actions/actions';
 
 // SCSS
 import '../../../scss/Tasks.scss';
@@ -159,16 +156,4 @@ class Tasks extends Component {
     }
 }
 
-Tasks.propTypes = {
-    setWidgets: PropTypes.func.isRequired,
-	activeWidgets: PropTypes.object.isRequired,
-	deleteTask: PropTypes.func.isRequired,
-	user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-	activeWidgets: state.siteData.activeWidgets,
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { setWidgets, deleteTask })(Tasks);
+export default Tasks

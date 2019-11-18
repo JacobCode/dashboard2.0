@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import ChartistGraph from "react-chartist";
 import Down from "@material-ui/icons/TrendingDown";
 import Up from "@material-ui/icons/TrendingUp";
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { setWidgets } from '../../../redux/actions/actions';
 
 import Close from '@material-ui/icons/Close';
 
@@ -57,7 +53,7 @@ class Crypto extends Component {
 				.then(() => this.setState({ coins: dt }));
 		});
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.getCoinData(this.state.chosenCoin);
 		this.getCoins();
 	}
@@ -69,7 +65,8 @@ class Crypto extends Component {
             crypto: false,
             clock: this.props.activeWidgets.clock,
             tasks: this.props.activeWidgets.tasks,
-            weather: this.props.activeWidgets.weather
+			weather: this.props.activeWidgets.weather,
+			uploader: this.props.activeWidgets.uploader
 		}
 		this.props.setWidgets(obj);
 	}
@@ -144,13 +141,4 @@ class Crypto extends Component {
 	}
 }
 
-Crypto.propTypes = {
-    setWidgets: PropTypes.func.isRequired,
-    activeWidgets: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-    activeWidgets: state.siteData.activeWidgets
-});
-
-export default connect(mapStateToProps, { setWidgets })(Crypto);
+export default Crypto;

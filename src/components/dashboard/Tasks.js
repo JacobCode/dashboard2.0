@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 // Material UI
 import AddIcon from '@material-ui/icons/Add';
@@ -13,8 +11,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
 import '../../scss/TasksPage.scss';
-
-import { addTask, deleteTask } from '../../redux/actions/actions';
 
 const taskOptions = ['Bug', 'Website', 'Server'];
 
@@ -73,7 +69,7 @@ class Tasks extends Component {
 			this.props.deleteTask(this.props.user._id, this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			bugsData: this.props.user.bugsData,
 			serverData: this.props.user.serverData,
@@ -171,14 +167,4 @@ class Tasks extends Component {
     }
 }
 
-Tasks.propTypes = {
-	user: PropTypes.object.isRequired,
-	addTask: PropTypes.func.isRequired,
-	deleteTask: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-	user: state.siteData.user
-});
-
-export default connect(mapStateToProps, { addTask, deleteTask })(Tasks);
+export default Tasks;

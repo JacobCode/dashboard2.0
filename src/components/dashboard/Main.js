@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 // SCSS
 import '../../scss/Widgets.scss';
@@ -16,26 +14,33 @@ import Uploader from './widgets/Uploader';
 
 class Main extends Component {
     render() {
+		const {
+			user,
+			activeWidgets,
+			weather,
+			forecast,
+			setWidgets,
+			deleteTask,
+			getUserFiles,
+			uploadFile,
+			deleteFile,
+			getWeather,
+			getForecast,
+			updateNotifications,
+			addBookmark
+		} = this.props;
         return (
             <div id="widget-grid">
-                {Boolean(this.props.activeWidgets.tasks) === true ? <Tasks /> : null}
-                {Boolean(this.props.activeWidgets.calendar) === true ? <Calendar /> : null}
-                {Boolean(this.props.activeWidgets.clock) === true ? <Clock /> : null}
-                {Boolean(this.props.activeWidgets.weather) === true ? <Weather /> : null}
-                {Boolean(this.props.activeWidgets.bookmarks) === true ? <Bookmarks /> : null}
-				{Boolean(this.props.activeWidgets.crypto) === true ? <Crypto /> : null}
-				{Boolean(this.props.activeWidgets.uploader) === true ? <Uploader /> : null}
+                {Boolean(activeWidgets.tasks) === true ? <Tasks user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} deleteTask={deleteTask} /> : null}
+                {Boolean(activeWidgets.calendar) === true ? <Calendar user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} updateNotifications={updateNotifications} /> : null}
+                {Boolean(activeWidgets.clock) === true ? <Clock user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} /> : null}
+                {Boolean(activeWidgets.weather) === true ? <Weather user={user} activeWidgets={activeWidgets} weather={weather} forecast={forecast} setWidgets={setWidgets} getWeather={getWeather} getForecast={getForecast} /> : null}
+                {Boolean(activeWidgets.bookmarks) === true ? <Bookmarks user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} addBookmark={addBookmark} /> : null}
+				{Boolean(activeWidgets.crypto) === true ? <Crypto user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} /> : null}
+				{Boolean(activeWidgets.uploader) === true ? <Uploader user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} getUserFiles={getUserFiles} uploadFile={uploadFile} deleteFile={deleteFile} /> : null}
             </div>
         )
     }
 }
 
-Main.propTypes = {
-    activeWidgets: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
-    activeWidgets: state.siteData.activeWidgets,
-});
-
-export default connect(mapStateToProps)(Main);
+export default Main;

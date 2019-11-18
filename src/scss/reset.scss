@@ -62,14 +62,30 @@ table {
 	display: none !important;
 }
 
-#error-snackbar {
-	background: #ff2d2d;
+.error-snackbar {
+	background: #ff2d2d !important;
 	border-radius: 4px;
+	span {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		svg {
+			padding-left: 1rem;
+		}
+	}
 }
 
-#success-snackbar {
-	background: #12af27;
+.success-snackbar {
+	background: #12af27 !important;
 	border-radius: 4px;
+	span {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		svg {
+			padding-left: 1rem;
+		}
+	}
 }
 
 .sn-bar {
