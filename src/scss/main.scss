@@ -1,0 +1,38 @@
+// Reset & Variables
+@import './reset.scss';
+@import './variables';
+
+// Layout
+@import './Footer';
+@import './Navbar';
+
+// Home Page
+@import './Home';
+
+// Main Page
+@import './Widgets';
+
+// Main Page
+@import './Tasks';
+@import './Bookmarks';
+@import './Weather';
+@import './Crypto';
+@import './Graph.scss';
+@import './Uploader';
+@import './Widgets.scss';
+
+// Widget Page
+@import './ManageWidgets.scss';
+
+// Notifications Page
+@import './Notifications.scss';
+
+// Tasks Page
+@import './TasksPage.scss';
+
+// Profile Page
+@import './Profile.scss';
+
+// Dashboard
+@import './Dashboard';
+

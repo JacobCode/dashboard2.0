@@ -11,8 +11,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import '../../../scss/Uploader.scss';
-
 const API_URL = 'http://localhost:3001';
 
 class Uploader extends Component {
@@ -23,7 +21,7 @@ class Uploader extends Component {
 			isDragging: false,
 			chosenFile: null,
 			fileName: '',
-			storage: 0,
+			storage: '0MB',
 			error: '',
 			success: '',
 			progress: 0,
@@ -38,6 +36,7 @@ class Uploader extends Component {
 		this.handleDrop = this.handleDrop.bind(this);
 		this.handleUpload = this.handleUpload.bind(this);
 		this.updateStorage = this.updateStorage.bind(this);
+		this.handleBrowseFile = this.handleBrowseFile.bind(this);
 	}
 	hideWidget() {
         // Hide Uploader widget
@@ -52,9 +51,12 @@ class Uploader extends Component {
         }
         this.props.setWidgets(obj);
 	}
+	toggleView() {
+		this.setState({ showFiles: !this.state.showFiles });
+	}
 	handleDrop(files, e) {
 		if (files.length > 1) {
-			this.setState({ error: 'Only One File At A Time', isDragging: false });
+			this.setState({ error: 'Only one file at a time', isDragging: false });
 			setTimeout(() => {
 				this.setState({ error: '' })
 			}, 5500);
@@ -63,11 +65,16 @@ class Uploader extends Component {
 			this.setState({ chosenFile: files[0]});
 		}
 	}
-	toggleView() {
-		this.setState({ showFiles: !this.state.showFiles });
-	}
 	openFileBrowser() {
 		document.getElementById('file-picker').click();
+	}
+	handleBrowseFile(e) {
+		if (e.target.files.length > 1) {
+			this.setState({ error: 'Only one file at a time' });
+		}
+		if (e.target.files[0] !== undefined && e.target.files.length === 1) {
+			this.setState({ chosenFile: e.target.files[0] });
+		}
 	}
 	handleDragEnter() {
 		if (this.state.isDragging !== true) {
@@ -101,11 +108,13 @@ class Uploader extends Component {
 				setTimeout(() => { this.setState({ error: null }) }, 3500);
 			}
 
+			// Set Form Data
 			let data = new FormData();
 			data.append('file', this.state.chosenFile, this.state.fileName);
 			data.append('id', this.props.user._id);
 			data.append('name', this.state.fileName);
 
+			// Set headers and update upload progress
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' },
 				onUploadProgress: (progressEvent) => {
@@ -115,25 +124,25 @@ class Uploader extends Component {
 			}
 			axios.post(`${API_URL}/user/files/upload`, data, config)
 				.then((res) => {
-						if (res.status === 200) {
-							this.setState({ chosenFile: null, fileName: '' });
-							// window.location.pathname = '/dashboard';
+					if (res.status === 200) {
+						console.log(res.data.user);
+						// this.props.uploadFile(this.props.user, res.data.user.files);
+						this.setState({ chosenFile: null, fileName: '' });
+					}
+				})
+				.then(() => {
+					this.props.getUserFiles(this.props.user);
+				})
+				.catch((err) => {
+					if (err.response) {
+						if (err.response.status === 429) {
+							this.setState({ error: err.response.data });
+							setTimeout(() => {
+								this.setState({ error: null, uploading: false, progress: 0 });
+							}, 3500)
 						}
-					})
-					.then(() => {
-						// this.props.uploadFile(this.props.user, [...this.props.user.files, this.state.chosenFile]);
-						this.props.getUserFiles(this.props.user);
-					})
-					.catch((err) => {
-						if (err.response) {
-							if (err.response.status === 429) {
-								this.setState({ error: err.response.data });
-								setTimeout(() => {
-									this.setState({ error: null, uploading: false, progress: 0 });
-								}, 3500)
-							}
-						}
-					});
+					}
+				});
 		}
 	}
 	// Convert bytes
@@ -168,12 +177,12 @@ class Uploader extends Component {
 			this.updateStorage(this.props.user.files);
 		}
 	}
-	UNSAFE_componentWillReceiveProps() {
-		console.log("UPDATE");
+	UNSAFE_componentWillReceiveProps(nextProps) {
+		// console.log("UPDATED PROPS");
 	}
 	render() {
-		const { user } = this.props;
-		const { showFiles } = this.state;
+		const { user, deleteFile } = this.props;
+		const { showFiles, chosenFile } = this.state;
 		return (
 			<div id="uploader" className="widget">
 				<div className="delete-widget" onClick={this.hideWidget}><Close /></div>
@@ -186,16 +195,16 @@ class Uploader extends Component {
 				<div id="file-uploads">
 					<div className="files">
 						{/* If no files */}
-						{this.props.user.files.length === 0 ? 
+						{user.files.length === 0 ? 
 						<div className="no-files">
 							No Files
 						</div> : 
-						this.props.user.files.map((file, i) => {
+						user.files.map((file, i) => {
 							return (
 								<div className="file" key={i}>
 									<a href={`${API_URL}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>
 									<span>{this.convertBytes(file.length, 1)}</span>
-									<DeleteIcon onClick={() => this.props.deleteFile(user, file, this.props.user.files)} />
+									<DeleteIcon onClick={() => deleteFile(user, file, user.files)} />
 								</div>
 							)
 						})}
@@ -212,8 +221,8 @@ class Uploader extends Component {
 					/>
 					<h6>Attach File</h6>
 					<FileDrop className="dropzone" onFrameDragEnter={this.handleDragEnter} onFrameDragLeave={this.handleDragLeave} onDrop={this.handleDrop}>
-						{this.state.chosenFile === null ? <h5>Drag file here or <span onClick={this.openFileBrowser}>browse</span></h5> : <h5 className="name">{this.state.chosenFile.name}</h5>}
-						<input id="file-picker" type="file" />
+						{chosenFile === null ? <h5>Drag file here or <span onClick={this.openFileBrowser}>browse</span></h5> : <h5 className="name">{chosenFile.name}</h5>}
+						<input id="file-picker" type="file" onChange={this.handleBrowseFile} />
 					</FileDrop>
 					<Button type="submit" variant="contained" color="primary">
 						Upload

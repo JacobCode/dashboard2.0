@@ -31,6 +31,18 @@
 		}
 		span {
 			color: #c5c5c5;
+			&.BTC {
+				color: #32c245;
+			}
+			&.LTC {
+				color: #fe9a04;
+			}
+			&.BCH {
+				color: #886CFF;
+			}
+			&.ETH {
+				color: #27a0f0;
+			}
 		}
 	}
 	.coin-info {
@@ -103,9 +115,9 @@
 				}
 			}
 			&.bitcoin-cash {
-				background: #27a0f0;
+				background: #886CFF;
 				&:hover {
-					background: darken(#27a0f0, 5%);
+					background: darken(#886CFF, 5%);
 				}
 			}
 			&.litecoin {
@@ -115,9 +127,9 @@
 				}
 			}
 			&.ethereum {
-				background: #886CFF;
+				background: #27a0f0;
 				&:hover {
-					background: darken(#886CFF, 5%);
+					background: darken(#27a0f0, 5%);
 				}
 			}
 		}

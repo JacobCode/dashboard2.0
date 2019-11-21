@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+// MUI
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
-
-import deleteIcon from '../../../images/delete-icon.svg';
-
-// SCSS
-import '../../../scss/Tasks.scss';
+import deleteIcon from '../../images/delete-icon.svg';
 
 const TabContainer = (props) => {
     return (
@@ -60,15 +57,15 @@ class Tasks extends Component {
     deleteTask(e, type, name) {
         if (type === 'bug') {
 			this.setState({ bugsData: this.props.user.bugsData });
-        	this.props.deleteTask(this.props.user._id, this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
+        	this.props.deleteTask(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
 			this.setState({ serverData: this.props.user.serverData });
-        	this.props.deleteTask(this.props.user._id, this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
+        	this.props.deleteTask(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
 			this.setState({ websiteData: this.props.user.websiteData });
-        	this.props.deleteTask(this.props.user._id, this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
+        	this.props.deleteTask(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
     }
     hideWidget() {
@@ -86,7 +83,7 @@ class Tasks extends Component {
     }
     render() {
         const { value, checkedBoxes } = this.state;
-        const { bugsData, websiteData, serverData } = this.props.user;
+		const { bugsData, websiteData, serverData } = this.props.user;
         // Task Variables
         const bugs = bugsData.map((task, i) => {
             return (

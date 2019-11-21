@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+// MUI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,16 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import NavbarLinks from './NavbarLinks';
 
-// SCSS
-import '../../../scss/Navbar.scss';
-
 export default class Navbar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            
-        }
-    }
     render() {
 		const { logoutUser, notifications } = this.props;
         return (

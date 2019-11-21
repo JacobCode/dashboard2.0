@@ -10,9 +10,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
-// SCSS
-import '../../scss/Notifications.scss';
-
 const notificationOptions = ['Work', 'School', 'Personal'];
 
 class Notifications extends Component {
@@ -74,7 +71,7 @@ class Notifications extends Component {
         var date = (dt < 10) ? ("0" + dt) : dt;
         // Set current date
         this.setState({ chosenNotificationDate: `${year}-${month}-${date}`, notifications: this.props.user.notifications })
-    }
+	}
     render() {
 		// const { notifications } = this.props.user;
 		const notifications = this.state.notifications;

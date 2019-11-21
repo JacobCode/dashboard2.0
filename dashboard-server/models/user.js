@@ -12,7 +12,7 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	username: {
+	email: {
 		type: String,
 		required: true,
 		unique: true
@@ -20,6 +20,12 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true
+	},
+	// Email Verified
+	confirmed: {
+		type: Boolean,
+		required: true,
+		default: false
 	},
 	// Users Notifications
 	notifications: {
@@ -41,6 +47,11 @@ const UserSchema = new Schema({
 		required: true
 	},
 	serverData: {
+		type: Array,
+		required: true
+	},
+	// User Files
+	files: {
 		type: Array,
 		required: true
 	}

@@ -18,8 +18,7 @@ class NavbarLinks extends Component {
 	constructor() {
 		super();
 		this.state = {
-			openNoti: false,
-			notifications: []
+			openNoti: false
 		};
 		this.handleToggles = this.handleToggles.bind(this);
 		this.handleClose = this.handleClose.bind(this);

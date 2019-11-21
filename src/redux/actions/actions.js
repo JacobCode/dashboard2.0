@@ -26,16 +26,17 @@ export const loginUser = (user) => dispatch => {
 
 // Logout User
 export const logoutUser = () => dispatch => {
+	const user = {};
 	dispatch({
 		type: LOGOUT_USER,
-		payload: {}
+		payload: user
 	});
 }
 
 // Add Task
-export const addTask = (tasks, userId, user, type) => dispatch => {
+export const addTask = (tasks, user, type) => dispatch => {
 	user[type] = tasks;
-	axios.post(`${API_URL}/user/${userId}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
+	axios.post(`${API_URL}/user/${user._id}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
 		.then((res) => {
 			dispatch({
 				type: UPDATE_TASKS,
@@ -46,11 +47,9 @@ export const addTask = (tasks, userId, user, type) => dispatch => {
 }
 
 // Delete Task
-export const deleteTask = (userId, tasks, user, type) => dispatch => {
+export const deleteTask = (tasks, user, type) => dispatch => {
 	user[type] = tasks;
-	axios.post(`${API_URL}/user/${userId}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, {
-		tasks
-	})
+	axios.post(`${API_URL}/user/${user._id}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
 		.then((res) => {
 			dispatch({
 				type: UPDATE_TASKS,
@@ -61,10 +60,11 @@ export const deleteTask = (userId, tasks, user, type) => dispatch => {
 
 }
 
-// Add Bookmark ✅
-export const addBookmark = (bookmarks, userId, user) => dispatch => {
+// Update Bookmarks
+export const updateBookmarks = (bookmarks, user) => dispatch => {
 	user.bookmarks = bookmarks;
-	axios.post(`${API_URL}/user/${userId}/bookmarks`, { bookmarks })
+	console.log(user);
+	axios.post(`${API_URL}/user/${user._id}/bookmarks`, { bookmarks })
 		.then((res) => {
 			dispatch({
 				type: UPDATE_BOOKMARKS,
@@ -135,6 +135,7 @@ export const uploadFile = (user, files) => dispatch => {
 // Delete File
 export const deleteFile = (user, file, files) => dispatch => {
 	user.files = files.filter((f) => f._id !== file._id);
+	console.log(user.files);
 	// axios.delete(`${API_URL}/user/files/delete/${file._id}/${user._id}`)
 	// 	.then((res) => {
 	// 		dispatch({

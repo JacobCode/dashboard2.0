@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
+// MUI
 import BookmarkIcon from "@material-ui/icons/NoteAdd";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Close from '@material-ui/icons/Close';
-
-// SCSS
-import '../../../scss/Bookmarks.scss';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 class Bookmarks extends Component {
     constructor(props) {
@@ -17,26 +16,23 @@ class Bookmarks extends Component {
             name: '',
             url: ''
         }
-        this.addBookmark = this.addBookmark.bind(this);
+		this.addBookmark = this.addBookmark.bind(this);
+		this.deleteBookmark = this.deleteBookmark.bind(this);
         this.toggleForm = this.toggleForm.bind(this);
         this.handleNameInput = this.handleNameInput.bind(this);
         this.handleUrlInput = this.handleUrlInput.bind(this);
         this.hideWidget = this.hideWidget.bind(this);
     }
     toggleForm() {
-        this.setState({
-            showBookmarkForm: !this.state.showBookmarkForm
-        })
+        this.setState({ showBookmarkForm: !this.state.showBookmarkForm });
     }
     handleNameInput(e) {
-        this.setState({
-            name: e.target.value
-        })
+        if (e.target.value.length < 12) {
+			this.setState({ name: e.target.value });
+		}
     }
     handleUrlInput(e) {
-        this.setState({
-            url: e.target.value
-        })
+        this.setState({ url: e.target.value })
     }
     addBookmark(e) {
         e.preventDefault();
@@ -45,12 +41,15 @@ class Bookmarks extends Component {
                 url: this.state.url,
                 name: this.state.name
             }
-			this.props.addBookmark([...this.props.user.bookmarks, bookmark], this.props.user._id, this.props.user);
+			this.props.updateBookmarks([...this.props.user.bookmarks, bookmark], this.props.user);
 			this.setState({ name: '', url: '', showBookmarkForm: false });
         } else {
             this.setState({ showBookmarkForm: false })
         }
-    }
+	}
+	deleteBookmark(bookmark) {
+		this.props.updateBookmarks(this.props.user.bookmarks.filter((b) => b.url !== bookmark), this.props.user);
+	}
     hideWidget() {
         // Hide bookmarks widget
         var obj = {
@@ -65,7 +64,7 @@ class Bookmarks extends Component {
         this.props.setWidgets(obj);
     }
     render() {
-        const { bookmarks } = this.props.user;
+		const { bookmarks } = this.props.user;
         return (
             <div id="bookmarks" className="widget">
                 <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
@@ -105,6 +104,9 @@ class Bookmarks extends Component {
                                     {bookmark.name}
                                     <img src={`${bookmark.url}/favicon.ico`} alt="LOGO" />
                                 </a>
+								<div className="delete">
+									<DeleteIcon onClick={() => this.deleteBookmark(bookmark.url)} />
+								</div>
                             </div>
                         )
                     })}

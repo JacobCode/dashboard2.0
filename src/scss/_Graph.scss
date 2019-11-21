@@ -1,7 +1,6 @@
 @import './variables';
 
 #pie-chart, #line-chart, #crypto {
-        max-width: 300px;
         margin: 0 auto;
         // Line Chart
         .ct-chart {
@@ -14,16 +13,16 @@
 			.ct-bar {
 				stroke-width: 4px;
 				&:nth-of-type(1) {
-					stroke: #886CFF;
+					stroke: #32c245;
 				}
 				&:nth-of-type(2) {
-					stroke: #fe9a04;
-				}
-				&:nth-of-type(3) {
 					stroke: #27a0f0;
 				}
+				&:nth-of-type(3) {
+					stroke: #fe9a04;
+				}
 				&:nth-of-type(4) {
-					stroke: #32c245;
+					stroke: #886CFF;
 				}
 			}
             .ct-grid {

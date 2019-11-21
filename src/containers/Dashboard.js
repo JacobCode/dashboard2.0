@@ -17,25 +17,24 @@ import {
 	getWeather,
 	getForecast,
 	updateNotifications,
-	addBookmark
+	updateBookmarks
 } from '../redux/actions/actions';
 
 // Pages
-import Home from '../components/dashboard/Home'; // ✅
-import Main from '../components/dashboard/Main'; // ✅
-import Profile from '../components/dashboard/Profile'; // ✅
-import Notifications from '../components/dashboard/Notifications'; // ✅
-import Tasks from '../components/dashboard/Tasks'; // ✅
-import ManageWidgets from '../components/dashboard/ManageWidgets'; // ✅
-
-// SCSS
-import '../scss/reset.scss';
-import '../scss/Dashboard.scss';
+import Home from '../components/pages/Home';
+import Main from '../components/pages/Main';
+import Profile from '../components/pages/Profile';
+import Notifications from '../components/pages/Notifications';
+import Tasks from '../components/pages/Tasks';
+import ManageWidgets from '../components/pages/ManageWidgets';
 
 // Components
-import Sidebar from '../components/dashboard/layout/Sidebar'; //
-import Navbar from '../components/dashboard/layout/Navbar'; //
-import Footer from '../components/dashboard/layout/Footer'; //
+import Sidebar from '../components/layout/Sidebar';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
+
+// SCSS
+import '../scss/main.scss';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -79,64 +78,65 @@ class Dashboard extends Component {
 			getWeather,
 			getForecast,
 			updateNotifications,
-			addBookmark,
+			updateBookmarks,
 		} = this.props;
 		return (
 			<div>
 				{/* If Signed In */}
 				{Object.keys(this.props.user).length > 0 ? 
 				<div id="dashboard" className="App">
-				<Sidebar logoutUser={logoutUser} user={user} routes={dashBoardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
-				<div id="main-panel">
-					<Navbar logoutUser={logoutUser} notifications={user.notifications} handleDrawerToggle={this.handleDrawerToggle} />
-					<div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
-					<CircularProgress />
+					<Sidebar logoutUser={logoutUser} user={user} routes={dashBoardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
+					<div id="main-panel">
+						<Navbar logoutUser={logoutUser} notifications={user.notifications} handleDrawerToggle={this.handleDrawerToggle} />
+						<div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
+							<CircularProgress />
+						</div>
+						<div className="content">
+							<div className="container">
+								<Switch>
+									{/* Widget Grid */}
+									<Route path={process.env.PUBLIC_URL + '/dashboard'} render={() => <Main 
+										user={user}
+										weather={weather}
+										forecast={forecast}
+										activeWidgets={activeWidgets}
+										setWidgets={setWidgets}
+										deleteTask={deleteTask}
+										getUserFiles={getUserFiles}
+										uploadFile={uploadFile}
+										deleteFile={deleteFile}
+										getWeather={getWeather}
+										getForecast={getForecast}
+										updateNotifications={updateNotifications}
+										updateBookmarks={updateBookmarks} />}
+									exact />
+									{/* Profile */}
+									<Route path={process.env.PUBLIC_URL + '/dashboard/profile'} render={() => <Profile 
+										user={user}
+										logoutUser={logoutUser} />} 
+									exact />
+									{/* Notifications */}
+									<Route path={process.env.PUBLIC_URL + '/dashboard/notifications'} render={() => <Notifications 
+										user={user}
+										updateNotifications={updateNotifications} />} 
+									exact />
+									{/* Tasks */}
+									<Route path={process.env.PUBLIC_URL + '/dashboard/tasks'} render={() => <Tasks 
+										user={user}
+										addTask={addTask}
+										deleteTask={deleteTask} />} 
+									exact />
+									{/* Manage Widgets */}
+									<Route path={process.env.PUBLIC_URL + '/dashboard/manage'} render={() => <ManageWidgets 
+										activeWidgets={activeWidgets}
+										setWidgets={setWidgets} />} 
+									exact />
+									<Redirect from="/*" to="/dashboard" />
+								</Switch>
+							</div>
+						</div>
+						<Footer />
 					</div>
-					<div className="content">
-					<div className="container">
-						<Switch>
-							{/* Widget Grid */}
-							<Route path={process.env.PUBLIC_URL + '/dashboard'} render={() => <Main 
-								user={user}
-								weather={weather}
-								forecast={forecast}
-								activeWidgets={activeWidgets}
-								setWidgets={setWidgets}
-								deleteTask={deleteTask}
-								getUserFiles={getUserFiles}
-								uploadFile={uploadFile}
-								deleteFile={deleteFile}
-								getWeather={getWeather}
-								getForecast={getForecast}
-								updateNotifications={updateNotifications}
-								addBookmark={addBookmark} />}
-							exact />
-							{/* Profile */}
-							<Route path={process.env.PUBLIC_URL + '/dashboard/profile'} render={() => <Profile 
-								user={user} />} 
-							exact />
-							{/* Notifications */}
-							<Route path={process.env.PUBLIC_URL + '/dashboard/notifications'} render={() => <Notifications 
-								user={user}
-								updateNotifications={updateNotifications} />} 
-							exact />
-							{/* Tasks */}
-							<Route path={process.env.PUBLIC_URL + '/dashboard/tasks'} render={() => <Tasks 
-								user={user}
-								addTask={addTask}
-								deleteTask={deleteTask} />} 
-							exact />
-							{/* Manage Widgets */}
-							<Route path={process.env.PUBLIC_URL + '/dashboard/manage'} render={() => <ManageWidgets 
-								activeWidgets={activeWidgets}
-								setWidgets={setWidgets} />} 
-							exact />
-							<Redirect from="/*" to="/dashboard" />
-						</Switch>
-					</div>
-					</div>
-					<Footer />
-				</div>
 				</div>
 				:
 				<div>
@@ -167,7 +167,7 @@ Dashboard.propTypes = {
 	getWeather: PropTypes.func.isRequired,
 	getForecast: PropTypes.func.isRequired,
 	updateNotifications: PropTypes.func.isRequired,
-	addBookmark: PropTypes.func.isRequired,
+	updateBookmarks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -189,5 +189,5 @@ export default connect(mapStateToProps, {
 	getWeather,
 	getForecast,
 	updateNotifications,
-	addBookmark
+	updateBookmarks
 })(Dashboard);

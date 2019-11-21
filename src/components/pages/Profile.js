@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
+// MUI
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade';
@@ -10,11 +12,11 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-// SCSS
-import '../../scss/Profile.scss';
-import axios from 'axios';
+// Loading Spinner
+import spinner from '../../images/spinner.svg';
 
-const API_URL = 'https://modern-dashboard.herokuapp.com';
+// API URL
+const API_URL = 'http://localhost:3001';
 
 class Profile extends Component {
     constructor() {
@@ -26,7 +28,8 @@ class Profile extends Component {
 			deletePassword: '',
 			message: '',
 			error: '',
-			deleteAccount: false
+			deleteAccount: false,
+			loading: false
         }
 		this.emailInput = this.emailInput.bind(this);
 		this.passwordInput = this.passwordInput.bind(this);
@@ -57,6 +60,7 @@ class Profile extends Component {
 	}
 	changePassword(e) {
 		e.preventDefault();
+		this.setState({ loading: true });
 		axios.post(`${API_URL}/user/changepassword`, {
 			id: this.props.user._id,
 			new: this.state.newPassword,
@@ -64,13 +68,13 @@ class Profile extends Component {
 		})
 			.then((res) => {
 				if (res.status === 200) {
-					this.setState({ message: res.data, email: '', password: '', newPassword: '' });
+					this.setState({ message: res.data, email: '', password: '', newPassword: '', loading: false });
 					setTimeout(() => { this.setState({ message: '' }) }, 5500);
 				}
 			})
 			.catch((err) => {
 				if (err.response.status === 404) {
-					this.setState({ error: err.response.data });
+					this.setState({ error: err.response.data, loading: false });
 					setTimeout(() => { this.setState({ error: '' }) }, 5500);
 				}
 			})
@@ -83,19 +87,19 @@ class Profile extends Component {
 	}
 	deleteAccount(e) {
 		e.preventDefault();
-		axios.post(`${API_URL}/user/delete`, { id: this.props.user._id, password: this.state.deletePassword })
+		this.setState({ loading: true });
+		axios.delete(`${API_URL}/account/delete/${this.props.user._id}/${this.state.deletePassword}`)
 			.then((res) => {
 				if (res.status === 200) {
-					this.setState({ message: res.data })
+					this.setState({ message: res.data, loading: false });
 					setTimeout(() => {
 						this.setState({ message: '' });
-						localStorage.clear();
-						window.location.pathname = '/';
+						this.props.logoutUser();
 					}, 1500);
 				}
 			})
 			.catch((err) => {
-				this.setState({ error: err.response.data });
+				this.setState({ error: err.response.data, loading: false });
 				setTimeout(() => {
 					this.setState({ error: '' });
 				}, 3500);
@@ -179,12 +183,15 @@ class Profile extends Component {
 										required
 									/>
 									}
-									label="Delete your account?"
+									label="Delete your account and files?"
 								/>
 								<Button disabled={this.props.user._id === '5ceacc65e852d006964341f2' ? true : false} type="submit" color="primary" variant="contained">Delete Profile</Button>
 							</form>
 						</div>
 					</div>
+
+					{/* Loading Spinner */}
+					{this.state.loading === true ? <img id="spinner" src={spinner} alt="Loading..." /> : null}
 
 					{/* Error Snackbar */}
 					<Snackbar className="fixed-snackbar"

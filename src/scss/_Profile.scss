@@ -107,6 +107,12 @@
 		font-size: 1.2rem;
 		cursor: pointer;
 	}
+	#spinner {
+		position: fixed;
+		right: 0.5rem;
+		bottom: 0.5rem;
+		width: 60px;
+	}
 }
 
 @media screen and (max-width: 992px) {

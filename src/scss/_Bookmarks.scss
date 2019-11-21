@@ -50,19 +50,41 @@
         .bookmark {
             margin-bottom: 0.5rem;
             padding: 0.5rem 0;
-            overflow: hidden;
+			overflow: hidden;
+			display: flex;
+			position: relative;
             a {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 text-decoration: none;
                 text-transform: capitalize;
-                color: $primary;
+				color: $primary;
+				width: 100%;
             }
             img {
                 height: 25px;
-                width: 25px;
-            }
+				width: 25px;
+			}
+			.delete {
+				right: -50%;
+				position: absolute;
+				background: white;
+				transition: all 0.4s ease-in-out;
+				svg {
+					fill: $darkGrey;
+					float: right;
+					cursor: pointer;
+					&:hover {
+						fill: red;
+					}
+				}
+			}
+			&:hover {
+				.delete {
+					right: 0;
+				}
+			}
         }
     }
 }

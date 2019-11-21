@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
+// MUI
 import ChartistGraph from "react-chartist";
 import Down from "@material-ui/icons/TrendingDown";
 import Up from "@material-ui/icons/TrendingUp";
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import Close from '@material-ui/icons/Close';
 
-import '../../../scss/Crypto.scss';
-import '../../../scss/Graph.scss';
-
-const API_URL = 'https://api.coincap.io/v2';
+const COIN_API_URL = 'https://api.coincap.io/v2';
 
 const coins = ['bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash'];
 
@@ -28,7 +26,7 @@ class Crypto extends Component {
 	}
 	// Get Coin Data
 	getCoinData(c) {
-		axios.get(`${API_URL}/assets/${c}`)
+		axios.get(`${COIN_API_URL}/assets/${c}`)
 			.then((res) => {
 				const coin = res.data.data;
 				this.setState({ activeCoin: coin });
@@ -36,7 +34,7 @@ class Crypto extends Component {
 			.catch((err) => { console.log(err) });
 	}
 	getCoinRate() {
-		axios.get(`${API_URL}/rates/${this.state.chosenCoin}`)
+		axios.get(`${COIN_API_URL}/rates/${this.state.chosenCoin}`)
 			.then((res) => {
 				const coin = res.data.data;
 				this.setState({ activeCoin: coin });
@@ -46,7 +44,7 @@ class Crypto extends Component {
 	getCoins(type) {
 		const dt = [];
 		coins.forEach((coin) => {
-			axios.get(`${API_URL}/assets/${coin}`)
+			axios.get(`${COIN_API_URL}/assets/${coin}`)
 				.then((res) => {
 					dt.push(res.data.data);
 				})
@@ -84,7 +82,7 @@ class Crypto extends Component {
 					<div className="inner">
 						<header>
 							<h1>{coin.name} - ${Number(coin.priceUsd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h1>
-							<span>{coin.symbol}</span>
+							<span className={coin.symbol}>{coin.symbol}</span>
 						</header>
 						<div className="coin-info">
 							<p>

@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 
-import '../../scss/ManageWidgets.scss';
-
 const widgets = ['tasks', 'clock', 'crypto', 'calendar', 'bookmarks', 'weather', 'uploader'];
 
 class ManageWidgets extends Component {

@@ -14,7 +14,8 @@
 		}
 	}
     #toolbar {
-        justify-content: space-between;
+		justify-content: space-between;
+		max-width: 1400px;
         button {
             color: $darkGrey;
             span {

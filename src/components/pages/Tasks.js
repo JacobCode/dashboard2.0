@@ -10,8 +10,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
-import '../../scss/TasksPage.scss';
-
 const taskOptions = ['Bug', 'Website', 'Server'];
 
 class Tasks extends Component {
@@ -44,13 +42,13 @@ class Tasks extends Component {
         if (this.state.chosenTaskName.length > 1) {
             const newTask = { title: this.state.chosenTaskName, type: this.state.chosenTaskOption.toLowerCase() };
             if (this.state.chosenTaskOption === 'Bug') {
-                this.props.addTask([...this.props.user.bugsData, newTask], this.props.user._id, this.props.user, 'bugsData');
+                this.props.addTask([...this.props.user.bugsData, newTask], this.props.user, 'bugsData');
             }
             if (this.state.chosenTaskOption === 'Server') {
-                this.props.addTask([...this.props.user.serverData, newTask], this.props.user._id, this.props.user, 'serverData');
+                this.props.addTask([...this.props.user.serverData, newTask], this.props.user, 'serverData');
             }
             if (this.state.chosenTaskOption === 'Website') {
-                this.props.addTask([...this.props.user.websiteData, newTask], this.props.user._id, this.props.user, 'websiteData');
+                this.props.addTask([...this.props.user.websiteData, newTask], this.props.user, 'websiteData');
             }
             this.setState({ chosenTaskName: '' });
         }
@@ -58,15 +56,15 @@ class Tasks extends Component {
     deleteTask(e, type, name) {
         if (type === 'bug') {
 			this.setState({ bugsData: this.props.user.bugsData.filter(task => task.title !== name) });
-            this.props.deleteTask(this.props.user._id, this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
+            this.props.deleteTask(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
 			this.setState({ serverData: this.props.user.serverData.filter(task => task.title !== name) });
-            this.props.deleteTask(this.props.user._id, this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
+            this.props.deleteTask(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
 			this.setState({ websiteData: this.props.user.websiteData.filter(task => task.title !== name) });
-			this.props.deleteTask(this.props.user._id, this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
+			this.props.deleteTask(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
 	}
 	UNSAFE_componentWillMount() {

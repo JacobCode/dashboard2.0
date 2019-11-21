@@ -1,41 +1,256 @@
 const express = require('express');
 const app = express();
+const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const path = require('path');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOverride = require('method-override');
+const crypto = require('crypto');
+
+// Email address template to send to user
+const verifyEmailAddress = require('./verifyEmailAddress');
 
 // Express Middleware
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 app.use(cors());
 app.disable('x-powered-by');
 app.enable("trust proxy");
 
 // DB Models
 const User = require('./models/user');
-
 // DB Config
-const db = process.env.MONGO_URI;
-
+const db = 'mongodb://jacob:jacob123@ds261486.mlab.com:61486/m-dashboard';
 // Connect to Mongo
-mongoose.connect(db, {
-		useNewUrlParser: true
-	})
-	.then(() => {
-		console.log('✅ MONGO DB CONNECTED')
-	})
-	.catch(() => {
-		console.log('🛑 MONGO DB ERROR')
-	});
+mongoose.connect(db, {useNewUrlParser: true })
+    .then(() => { console.log('✅ MONGO DB CONNECTED')})
+	.catch(() => { console.log('🛑 MONGO DB ERROR')});
+	
+// Init gfs
+const conn = mongoose.createConnection(db, { useNewUrlParser: true })
+let gfs;
+conn.once('open', () => {
+	gfs = Grid(conn.db, mongoose.mongo);
+	gfs.collection('uploads');
+});
 
-// // Change Password
-app.post('/user/changepassword', (req, res) => {
-	User.find({
-			_id: req.body.id
+// Setup rate limit
+var setupLimit = (maxAttempts, minutes) => {
+	return rateLimit({
+		windowMs: 60000 * minutes,
+		max: maxAttempts
+	});
+}
+
+// Create storage
+const storage = new GridFsStorage({
+	url: db,
+	uploadedBy: '',
+	file: (req, file) => {
+		return new Promise((resolve, reject) => {
+			crypto.randomBytes(16, (err, buf) => {
+				if (err) {
+					return reject(err);
+				}
+				const filename = buf.toString('hex') + path.extname(file.originalname);
+				const fileInfo = {
+					fileName: filename,
+					metadata: {
+						uploadedBy: { uploadedBy } = storage.configuration.uploadedBy,
+						name: file.originalname.trim()
+					},
+					bucketName: 'uploads'
+				};
+				resolve(fileInfo);
+			});
+		});
+	}
+});
+const upload = multer({ storage });
+	
+// Verify Token
+const verifyToken = (req, res, next) => {
+	// Get auth Header
+	const bearerHeader = req.headers['authorization'];
+	if (typeof (bearerHeader) !== undefined) {
+		const bearer = bearerHeader.split(' ');
+		const bearerToken = bearer[1];
+		req.token = bearerToken;
+		next();
+	} else {
+		res.sendStatus(403);
+	}
+}
+
+// Async func to send email with token
+async function sendEmail(token, email) {
+	const transporter = nodemailer.createTransport({
+		host: "smtp.gmail.com",
+		port: 587,
+		secure: false,
+		// change to node_variables
+		auth: {
+			user: 'testverify1234567@gmail.com',
+			pass: 'e2gz%57F-ZC#$3r6Cx'
+		},
+		tls: {
+			rejectUnauthorized: false
+		}
+	});
+	const info = await transporter.sendMail({
+		from: '"Test Verification" <testverify1234567@gmail.com>', // sender address
+		to: email, // receiver email
+		subject: "Account Verification", // Subject line
+		text: "Confirm Your Account", // plain text body
+		html: verifyEmailAddress(token, email) // html email template
+	});
+}
+
+// Verify Email (GET)
+app.get('/verify/:token', setupLimit(1, 60), (req, res) => {
+	jwt.verify(req.params.token, 'secretKey', (err, authData) => {
+		if (err) {
+			res.send('Authorization Expired');
+		} else {
+			// Update user confirmation to true
+			User.findByIdAndUpdate(authData.user._id, {
+				confirmed: true
+			}, (error) => {
+				if (error) console.log(error);
+			})
+			.then((data) => res.redirect('http://localhost:3000/dashboard'))
+			.catch((err) => res.send('Error verifying account, please try again'));
+		}
+	})
+})
+
+// New User (POST)
+app.post('/account/register', setupLimit(1, 10), verifyToken, (req, res) => {
+	const hashPassword = async () => {
+		const salt = await bcrypt.genSalt(10);
+		const password = await bcrypt.hash(req.body.password, salt);
+		return password;
+	}
+	hashPassword().then((pswd) => {
+		var newUser = new User({
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+			email: req.body.email.toString().toLowerCase(),
+			password: pswd,
+			notifications: [],
+			bookmarks: [],
+			bugsData: [],
+			websiteData: [],
+			serverData: [],
+			files: []
+		});
+		newUser.save()
+			.then((user) => {
+				// Key Expiration
+				const keyExpiration = '1h';
+				// JWT Authentication
+				jwt.sign({user: user}, 'secretKey', { expiresIn: keyExpiration }, (err, token) => {
+					sendEmail(token, req.body.email.toLowerCase())
+						.then(() => {
+							res.status(200).send({ message: 'Account created, please check your email to verify your account' });
+						})
+						.catch((err) => console.log(err));
+				});
+			})
+			.catch((err) => {
+				// If duplicate values for email
+				if (err.code === 11000) {
+					res.status(201).send({error: 'Email already taken'});
+				}
+			});
+	});
+});
+
+// Login User (POST)
+app.post('/account/login', setupLimit(10, 60), (req, res) => {
+	User.find({ email: req.body.email.toString().toLowerCase() })
+		.then((results) => {
+			// Compare passwords
+			const comparePasswords = async (text, hash) => {
+				const isMatch = await bcrypt.compare(text, hash);
+				// If passwords match
+				if (isMatch) {
+					// If account is confirmed
+					if (results[0].confirmed === true) {
+						res.json(results[0]);
+					} else {
+						res.status(201).send({error: 'Please verify your account'})
+					}
+				} else {
+					res.status(201).send({error: 'Wrong Login Info'});
+				}
+			}
+			comparePasswords(req.body.password, results[0].password);
 		})
+		.catch((err) => {
+			res.status(201).send({error: 'Wrong Login Info'});
+		});
+});
+
+// Add New Notification (POST)
+app.post('/user/:id/notifications', setupLimit(20, 10), (req, res) => {
+	User.findByIdAndUpdate(req.params.id, { notifications: req.body.notifications }, (error) => {
+		if (error) console.log(error, 'Error');
+		res.status(200).send(req.body.notifications);
+	});
+});
+
+// Update Bookmarks (POST)
+app.post('/user/:id/bookmarks', setupLimit(20, 10), (req, res) => {
+	User.findByIdAndUpdate(req.params.id, { bookmarks: req.body.bookmarks }, (error) => {
+		if (error) console.log(error, 'Error');
+		res.status(200).send(req.body.bookmarks);
+	});
+});
+
+// Update Bug Tasks (POST)
+app.post('/user/:id/bugs', setupLimit(20, 10), (req, res) => {
+	User.findByIdAndUpdate(req.params.id, { bugsData: req.body.tasks }, (error) => {
+		if (error) console.log(error, 'Error');
+		res.status(200).send(req.body.tasks);
+	});
+});
+
+// Update Website Tasks (POST)
+app.post('/user/:id/website', setupLimit(20, 10), (req, res) => {
+	User.findByIdAndUpdate(req.params.id, { websiteData: req.body.tasks }, (error) => {
+		if (error) console.log(error, 'Error');
+		res.status(200).send(req.body.tasks);
+	});
+});
+
+// Update Server Tasks (POST)
+app.post('/user/:id/server', setupLimit(20, 10), (req, res) => {
+	User.findByIdAndUpdate(req.params.id, { serverData: req.body.tasks }, (error) => {
+		if (error) console.log(error, 'Error');
+		res.status(200).send(req.body.tasks);
+	});
+});
+
+// Get user (GET)
+app.get('/user/:userId', setupLimit(20, 10), (req, res) => {
+	User.findById(req.params.userId)
+		.then((data) => {
+			res.json(data);
+		}).catch((err) => console.log(err));
+});
+
+// Change Password (POST)
+app.post('/user/changepassword', setupLimit(10, 60), (req, res) => {
+	User.find({ _id: req.body.id })
 		.then((results) => {
 			// Compare passwords
 			const comparePasswords = async (text, hash) => {
@@ -49,146 +264,21 @@ app.post('/user/changepassword', (req, res) => {
 					}
 					hashPassword().then((pswd) => {
 						// Update password
-						User.findByIdAndUpdate(req.body.id, {
-							password: pswd
-						}, (error) => {
-							if (error) {
-								console.log(error)
-							} else {
-								res.status(200).send(`New Password: ${req.body.new}`)
-							}
+						User.findByIdAndUpdate(req.body.id, { password: pswd }, (error) => {
+							if (error) { console.log(error) }
+							else { res.status(200).send(`New Password: ${req.body.new}`) }
 						});
 					});
-				} else {
-					res.status(404).send('Incorrect Password')
-				}
+				} else { res.status(404).send('Incorrect Password') }
 			}
 			comparePasswords(req.body.old, results[0].password);
 		})
 		.catch((err) => res.status(404).send('User does not exist'));
 });
 
-// Get user ✅
-app.get('/user/:userId', (req, res) => {
-	User.findById(req.params.userId)
-		.then((data) => {
-			res.json(data);
-		}).catch((err) => console.log(err));
-});
-
-// New User ✅
-app.post('/register', (req, res) => {
-	const hashPassword = async () => {
-		const salt = await bcrypt.genSalt(10);
-		const password = await bcrypt.hash(req.body.password, salt);
-		return password;
-	}
-	hashPassword().then((pswd) => {
-		var newUser = new User({
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			username: req.body.username,
-			password: pswd,
-			notifications: [],
-			bookmarks: [],
-			bugsData: [],
-			websiteData: [],
-			serverData: []
-		});
-		newUser.save()
-			.then((user) => {
-				res.status(200).send({
-					message: 'New user registered'
-				})
-			})
-			.catch((err) => {
-				// If duplicate values for email or username
-				if (err.code === 11000) {
-					// Return duplicate string from mongo errmsg (email or username)
-					res.status(201).send(`${err.errmsg.split(/"(.*?)"/g)[1].split('').filter(l => l === '@').length > 0 ? 'Email' : 'Username'} "${err.errmsg.split(/"(.*?)"/g)[1]}" Already Taken`);
-				}
-			});
-	});
-});
-
-// Login User
-app.post('/login', (req, res) => {
-	User.find({
-			username: req.body.username
-		})
-		.then((results) => {
-			// Compare passwords
-			const comparePasswords = async (text, hash) => {
-				const isMatch = await bcrypt.compare(text, hash);
-				// If passwords match
-				if (isMatch) {
-					res.json(results[0]);
-				} else {
-					res.status(201).send('Wrong Login Info');
-				}
-			}
-			comparePasswords(req.body.password, results[0].password);
-		})
-		.catch((err) => {
-			res.status(201).send('Wrong Login Info');
-		});
-});
-
-// Add New Notification ✅
-app.post('/user/:id/notifications', (req, res) => {
-	User.findByIdAndUpdate(req.params.id, {
-		notifications: req.body.notifications
-	}, (error) => {
-		if (error) console.log(error, 'Error');
-		res.status(200).send(req.body.notifications);
-	});
-});
-
-// Update Bookmarks ✅
-app.post('/user/:id/bookmarks', (req, res) => {
-	User.findByIdAndUpdate(req.params.id, {
-		bookmarks: req.body.bookmarks
-	}, (error) => {
-		if (error) console.log(error, 'Error');
-		res.status(200).send(req.body.bookmarks);
-	});
-});
-
-// Update Bug Tasks ✅
-app.post('/user/:id/bugs', (req, res) => {
-	User.findByIdAndUpdate(req.params.id, {
-		bugsData: req.body.tasks
-	}, (error) => {
-		if (error) console.log(error, 'Error');
-		res.status(200).send(req.body.tasks);
-	});
-});
-
-// Update Website Tasks ✅
-app.post('/user/:id/website', (req, res) => {
-	User.findByIdAndUpdate(req.params.id, {
-		websiteData: req.body.tasks
-	}, (error) => {
-		if (error) console.log(error, 'Error');
-		res.status(200).send(req.body.tasks);
-	});
-});
-
-// Update Server Tasks ✅
-app.post('/user/:id/server', (req, res) => {
-	User.findByIdAndUpdate(req.params.id, {
-		serverData: req.body.tasks
-	}, (error) => {
-		if (error) console.log(error, 'Error');
-		res.status(200).send(req.body.tasks);
-	});
-})
-
-// Delete account from 'Users'
-app.post('/user/delete', (req, res) => {
-	User.find({
-			_id: req.body.id
-		})
+// Delete account (DELETE)
+app.delete('/account/delete/:userId/:password', (req, res) => {
+	User.find({ _id: req.params.userId })
 		.then((results) => {
 			// Compare passwords
 			const comparePasswords = async (text, hash) => {
@@ -197,25 +287,117 @@ app.post('/user/delete', (req, res) => {
 				if (isMatch) {
 					const hashPassword = async () => {
 						const salt = await bcrypt.genSalt(10);
-						const password = await bcrypt.hash(req.body.password, salt);
+						const password = await bcrypt.hash(req.params.password, salt);
 						return password;
 					}
 					hashPassword().then((pswd) => {
 						// Find account by id and delete
-						User.findByIdAndDelete({
-								_id: req.body.id
-							})
+						User.findByIdAndDelete({ _id: req.params.userId })
 							// Redirect OK on account delete
 							.then((response) => res.status(200).send('Deleted Account :('))
 							.catch((err) => console.log(err));
 					});
-				} else {
-					res.status(404).send('Incorrect Password')
-				}
+				} else { res.status(404).send('Incorrect Password') }
 			}
-			comparePasswords(req.body.password, results[0].password);
+			comparePasswords(req.params.password, results[0].password);
 		})
 		.catch((err) => res.status(404).send('Wrong password, please try again'));
 });
+
+// Upload files to db (POST)
+app.post('/user/files/upload', upload.single('file'), (req, res) => {
+	if (req.file !== undefined) {
+		gfs.files.find().toArray((err, files) => {
+			// If no files
+			if (files.length === 0) {
+				return res.status(201).json({
+					err: 'No files exist'
+				});
+			}
+			// Update file metadata
+			var result = Object.keys(files).map((key) => {
+				return files[key];
+			});
+			for (var i = 0; i < Object.keys(result).length; i++) {
+				if (files[`${i}`]._id.toString() == req.file.id.toString()) {
+					files[`${i}`].metadata.uploadedBy = req.body.id;
+					files[`${i}`].metadata.name = req.body.name + path.extname(req.file.originalname);
+				}
+			}
+			// Find which user is uploading a file
+			User.findById(req.body.id, (err, dt) => {
+				if (err) {
+					console.log(err);
+				}
+				for (var i = 0; i < files.length; i++) {
+					if (dt !== null) {
+						if (files[i].metadata.uploadedBy.toString() === dt._id.toString()) {
+							// Set array
+							var arr = [];
+							// Push users current files to array
+							dt.files.forEach((f) => {
+								arr.push(f);
+							})
+							// Add new file to users current files
+							const output = [...arr, files.filter((f) => f.metadata.uploadedBy === req.body.id)[0]];
+							// Update and save users files
+							User.findByIdAndUpdate(req.body.id, { files: output }, (error) => {
+								if (error) console.log(error);
+							})
+								.then((data) => {
+									// Send 'ok' and data
+									res.status(200).send({user: data});
+								});
+						}
+					} else {
+						res.status(201).send('There was a problem');
+					}
+				}
+			});
+		});
+	}
+});
+
+// Get user's files (GET)
+app.get('/user/files/:userId', (req, res) => {
+	User.findById(req.params.userId)
+		.then((data) => {
+			res.status(200).send(data.files);
+		}).catch((err) => res.send({err: err}));
+});
+
+// Delete File (DELETE)
+app.delete('/user/files/delete/:fileId/:userId', (req, res) => {
+	gfs.remove({ _id: req.params.fileId, root: 'uploads' }, (err, gridStore) => {
+		if (err) return res.status(404).json({ error: err });
+		res.status(200).send(`Deleted ${req.params.fileId}`);
+		User.findById(req.params.userId)
+			.then((data) => {
+				User.findByIdAndUpdate(req.params.userId, { files: data.files.filter((file) => file._id.toString() !== req.params.fileId) }, (error) => {
+					if (error) console.log(error);
+				});
+			})
+	});
+});
+
+// Download File (GET)
+app.get('/user/files/download/:filename', (req, res) => {
+	gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+		// If file does not exist
+		if (!files || files.length === 0) {
+			return res.status(404).json({ message: 'error' });
+		}
+		// create read stream
+		var readstream = gfs.createReadStream({
+			filename: files[0].filename,
+			root: 'uploads'
+		});
+		// set the proper content type 
+		res.set('Content-Disposition', 'attachment');
+		res.set('Content-Type', files[0].contentType);
+		// Return response
+		return readstream.pipe(res);
+	});
+})
 
 app.listen(process.env.PORT || 3001, () => console.log('\x1b[32m', `Server running on port ${process.env.PORT|| 3001}`));

@@ -22,7 +22,7 @@
 			width: 50%;
 			padding: 1.5rem;
 			#spinner {
-				position: absolute;
+				position: fixed;
 				right: 0.5rem;
 				bottom: 0.5rem;
 				width: 60px;
@@ -95,6 +95,40 @@
 						width: 200px;
 						height: 50px;
 						border-radius: 2rem;
+					}
+					.password-strength {
+						display: flex;
+						align-items: center;
+						.bars {
+							border-radius: 16px;
+							display: flex;
+							height: 4px;
+							width: 100%;
+							max-width: 250px;
+							justify-content: space-between;
+							span {
+								display: inline-block;
+								background: #d6dbe4;
+								width: 32.5%;
+								border-radius: 16px;
+								transition: background 0.4s ease-in-out;
+								&:nth-of-type(1).active {
+									background: #ff4747;
+								}
+								&:nth-of-type(2).active {
+									background: rgb(243, 205, 38);
+								}
+								&:nth-of-type(3).active {
+									background: #209611;
+								}
+							}
+						}
+						p {
+							padding-left: 1rem;
+							font-size: 0.925rem;
+							color: #acb1b9;
+							text-transform: capitalize;
+						}
 					}
 				}
 			}

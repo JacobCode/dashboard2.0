@@ -2,17 +2,27 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Div100vh from 'react-div-100vh';
 
+// MUI
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
 import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+// Loading Spinner
 import spinner from '../../images/spinner.svg';
 
-import '../../scss/Home.scss';
+// SCSS
+// import '../../scss/Home.scss';
 
-// const API_URL = 'https://modern-dashboard.herokuapp.com';
+// API URL
 const API_URL = 'http://localhost:3001';
 
 class Home extends Component {
@@ -30,51 +40,39 @@ class Home extends Component {
 			registerConfirm: '',
 			registerFName: '',
 			registerLName: '',
+			passwordStrength: 'weak',
 			message: '',
 			error: '',
 			loading: false,
-			cookiesEnabled: false
+			cookiesEnabled: false,
+			showPassword: false
 		}
 		this.changeForm = this.changeForm.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.validatePassword = this.validatePassword.bind(this);
 		this.firstNameInput = this.firstNameInput.bind(this);
 		this.lastNameInput = this.lastNameInput.bind(this);
-		this.passwordInput = this.passwordInput.bind(this);
-		this.emailInput = this.emailInput.bind(this);
-		this.registerEmailInput = this.registerEmailInput.bind(this);
-		this.registerPasswordInput = this.registerPasswordInput.bind(this);
-		this.registerFName = this.registerFName.bind(this);
 		this.handleSignUp = this.handleSignUp.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
-		this.registerFName = this.registerFName.bind(this);
-		this.registerLName = this.registerLName.bind(this);
+		this.toggleShowPassword = this.toggleShowPassword.bind(this);
 		this.useDemo = this.useDemo.bind(this);
 	}
 	changeForm() {
-		this.setState({ showSignIn: !this.state.showSignIn });
+		this.setState({ showSignIn: !this.state.showSignIn, showPassword: false });
 	}
+
 	firstNameInput(e) {
 		this.setState({ first_name: e.target.value });
 	}
 	lastNameInput(e) {
 		this.setState({ last_name: e.target.value });
 	}
-	passwordInput(e) {
-		this.setState({ password: e.target.value });
-	}
-	emailInput(e) {
-		this.setState({ email: e.target.value });
-	}
-	registerEmailInput(e) {
-		this.setState({ registerEmail: e.target.value });
-	}
-	registerPasswordInput(e) {
-		this.setState({ registerPassword: e.target.value });
-	}
-	registerFName(e) {
-		this.setState({ registerFName: e.target.value });
-	}
-	registerLName(e) {
-		this.setState({ registerLName: e.target.value });
+
+	handleInputChange(e) {
+		this.setState({ [e.target.name]: e.target.value });
+		if (e.target.name === 'registerPassword') {
+			this.validatePassword(e.target.value);
+		}
 	}
 	handleSignUp(e) {
 		// Header
@@ -99,7 +97,7 @@ class Home extends Component {
 		// Request
 		axios.post(`${API_URL}/account/register`, newUser, config).then((res) => {
 			if (res.status === 200) {
-				this.setState({ message: 'Registration Successful!', loading: false });
+				this.setState({ message: 'Registration Successful!', loading: false, showSignIn: true });
 			}
 			if (res.status === 201) {
 				this.setState({ error: res.data, loading: false });
@@ -155,11 +153,35 @@ class Home extends Component {
 				}
 			});
 	}
+	validatePassword(password) {
+		var medium = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+		var strong = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+		var isMediumStrength = medium.test(password);
+		var isStrongStrength = strong.test(password)
+		
+		// If password is weak
+		if (isMediumStrength === false && isStrongStrength === false) {
+			console.log('weak');
+			this.setState({ passwordStrength: 'weak' });
+		}
+		// If password is medium
+		if (isMediumStrength === true && isStrongStrength === false) {
+			console.log('medium');
+			this.setState({ passwordStrength: 'medium' });
+		}
+		if (isStrongStrength) {
+			console.log('strong');
+			this.setState({ passwordStrength: 'strong' });
+		}
+	}
 	useDemo() {
 		if (navigator.cookiesEnabled === true) {
 			this.setState({ email: 'guest@email.com', password: 'guest1' });
 			setTimeout(() => { this.handleLogin(); }, 500);
 		}
+	}
+	toggleShowPassword() {
+		this.setState({ showPassword: !this.state.showPassword });
 	}
 	UNSAFE_componentWillMount() {
 		if (navigator.cookieEnabled === false) {
@@ -187,18 +209,38 @@ class Home extends Component {
 								<form onSubmit={this.handleLogin}>
 									<TextField
 										label="Email"
-										required
 										type="email"
 										value={this.state.email}
-										onChange={this.emailInput}
-									/>
-									<TextField
-										value={this.state.password}
-										onChange={this.passwordInput}
-										label="Password"
-										type="password"
+										onChange={this.handleInputChange}
+										name="email"
 										required
 									/>
+
+									{/* <TextField
+										value={this.state.password}
+										onChange={this.handleInputChange}
+										label="Password"
+										type="password"
+										name="password"
+										required
+									/> */}
+
+									<FormControl>
+										<InputLabel htmlFor="signup-adornment-password">Password</InputLabel>
+										<Input
+											id="signup-adornment-password"
+											value={this.state.password}
+											onChange={this.handleInputChange}
+											type={this.state.showPassword ? 'text' : 'password'}
+											name="password"
+											endAdornment={
+												<InputAdornment position="end">
+													{this.state.showPassword ? <VisibilityIcon onClick={this.toggleShowPassword} /> : <VisibilityOffIcon onClick={this.toggleShowPassword} />}
+												</InputAdornment>
+											}
+											required
+										/>
+									</FormControl>
 									<p onClick={this.useDemo} className="demo">Use Demo Account</p>
 									<Button type="submit" color="secondary" variant="contained" disabled={!this.state.cookiesEnabled}>Login</Button>
 								</form>
@@ -208,30 +250,51 @@ class Home extends Component {
 								<h1>Create An Account</h1>
 								<form onSubmit={this.handleSignUp}>
 									<TextField
-										onChange={this.registerFName}
+										onChange={this.handleInputChange}
 										className="input fNameInput"
 										label="First Name"
 										type="text"
+										name="registerFName"
 										required
 									/>
 									<TextField
-										onChange={this.registerLName}
+										onChange={this.handleInputChange}
 										label="Last Name"
 										type="text"
+										name="registerLName"
 										required
 									/>
 									<TextField
+										onChange={this.handleInputChange}
 										label="Email"
+										name="registerEmail"
 										required
 										type="text"
-										onChange={this.registerEmailInput}
 									/>
-									<TextField
-										onChange={this.registerPasswordInput}
-										label="Password"
-										type="password"
-										required
-									/>
+									<FormControl>
+										<InputLabel htmlFor="signup-adornment-password">Password</InputLabel>
+										<Input
+											id="signup-adornment-password"
+											onChange={this.handleInputChange}
+											type={this.state.showPassword ? 'text' : 'password'}
+											name="registerPassword"
+											endAdornment={
+												<InputAdornment position="end">
+													{this.state.showPassword ? <VisibilityIcon onClick={this.toggleShowPassword} /> : <VisibilityOffIcon onClick={this.toggleShowPassword} />}
+												</InputAdornment>
+											}
+											required
+										/>
+									</FormControl>
+									{this.state.registerPassword.length >= 1 ? 
+									<div className="password-strength">
+										<div className="bars">
+											<span className={`${this.state.passwordStrength === 'weak' ? 'active' : ''}`}></span>
+											<span className={`${this.state.passwordStrength === 'medium' ? 'active' : ''}`}></span>
+											<span className={`${this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
+										</div>
+										<p>{this.state.passwordStrength}</p>
+									</div> : null}
 									<Button type="submit" color="secondary" variant="contained" disabled={!this.state.cookiesEnabled}>Register</Button>
 								</form>
 							</div>}
