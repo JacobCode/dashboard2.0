@@ -26,7 +26,7 @@ class Tasks extends Component {
         this.toggleForm = this.toggleForm.bind(this);
         this.handleTaskOption = this.handleTaskOption.bind(this);
         this.handleTaskName = this.handleTaskName.bind(this);
-        this.handleNewTask = this.handleNewTask.bind(this);
+        this.newTask = this.newTask.bind(this);
     }
     toggleForm() {
         this.setState({ open: !this.state.open })
@@ -37,18 +37,18 @@ class Tasks extends Component {
     handleTaskName(e) {
         this.setState({ chosenTaskName: e.target.value });
     }
-    handleNewTask(e) {
+    newTask(e) {
         e.preventDefault();
         if (this.state.chosenTaskName.length > 1) {
             const newTask = { title: this.state.chosenTaskName, type: this.state.chosenTaskOption.toLowerCase() };
             if (this.state.chosenTaskOption === 'Bug') {
-                this.props.addTask([...this.props.user.bugsData, newTask], this.props.user, 'bugsData');
+                this.props.updateTasks([...this.props.user.bugsData, newTask], this.props.user, 'bugsData');
             }
             if (this.state.chosenTaskOption === 'Server') {
-                this.props.addTask([...this.props.user.serverData, newTask], this.props.user, 'serverData');
+                this.props.updateTasks([...this.props.user.serverData, newTask], this.props.user, 'serverData');
             }
             if (this.state.chosenTaskOption === 'Website') {
-                this.props.addTask([...this.props.user.websiteData, newTask], this.props.user, 'websiteData');
+                this.props.updateTasks([...this.props.user.websiteData, newTask], this.props.user, 'websiteData');
             }
             this.setState({ chosenTaskName: '' });
         }
@@ -56,26 +56,19 @@ class Tasks extends Component {
     deleteTask(e, type, name) {
         if (type === 'bug') {
 			this.setState({ bugsData: this.props.user.bugsData.filter(task => task.title !== name) });
-            this.props.deleteTask(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
+            this.props.updateTasks(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
 			this.setState({ serverData: this.props.user.serverData.filter(task => task.title !== name) });
-            this.props.deleteTask(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
+            this.props.updateTasks(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
 			this.setState({ websiteData: this.props.user.websiteData.filter(task => task.title !== name) });
-			this.props.deleteTask(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
+			this.props.updateTasks(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
 	}
-	UNSAFE_componentWillMount() {
-		this.setState({
-			bugsData: this.props.user.bugsData,
-			serverData: this.props.user.serverData,
-			websiteData: this.props.user.websiteData
-		});
-	}
     render() {
-        const { bugsData, serverData, websiteData } = this.props.user;
+		const { bugsData, serverData, websiteData } = this.props.user;
         return (
             <div id="tasks-page">
                 <h1 className="title">Tasks</h1>
@@ -106,7 +99,7 @@ class Tasks extends Component {
                                         </option>
                                     ))}
                                 </TextField>
-                                <Button id="submit-task" variant="contained" type="submit" onClick={this.state.chosenTaskName.length < 1 ? this.toggleForm : this.handleNewTask} color={this.state.chosenTaskName.length < 1 ? 'secondary' : 'primary'}>{this.state.chosenTaskName.length < 1 ? 'Close' : 'Add Task'}</Button>
+                                <Button id="submit-task" variant="contained" type="submit" onClick={this.state.chosenTaskName.length < 1 ? this.toggleForm : this.newTask} color={this.state.chosenTaskName.length < 1 ? 'secondary' : 'primary'}>{this.state.chosenTaskName.length < 1 ? 'Close' : 'Add Task'}</Button>
                             </div>
                         </ClickAwayListener>
                     </div>

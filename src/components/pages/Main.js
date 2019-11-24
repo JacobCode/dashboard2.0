@@ -17,7 +17,7 @@ class Main extends Component {
 			weather,
 			forecast,
 			setWidgets,
-			deleteTask,
+			updateTasks,
 			getUserFiles,
 			uploadFile,
 			deleteFile,
@@ -28,7 +28,7 @@ class Main extends Component {
 		} = this.props;
         return (
             <div id="widget-grid">
-                {Boolean(activeWidgets.tasks) === true ? <Tasks user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} deleteTask={deleteTask} /> : null}
+                {Boolean(activeWidgets.tasks) === true ? <Tasks user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} updateTasks={updateTasks} /> : null}
                 {Boolean(activeWidgets.calendar) === true ? <Calendar user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} updateNotifications={updateNotifications} /> : null}
                 {Boolean(activeWidgets.clock) === true ? <Clock user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} /> : null}
 				{Boolean(activeWidgets.uploader) === true ? <Uploader user={user} activeWidgets={activeWidgets} setWidgets={setWidgets} getUserFiles={getUserFiles} uploadFile={uploadFile} deleteFile={deleteFile} /> : null}

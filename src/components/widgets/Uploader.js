@@ -10,22 +10,30 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const API_URL = 'http://localhost:3001';
 
+
+// this.updateStorage([...this.props.user.files, this.state.chosenFile])
+// If (updated storage) this.state.storagePercent < 100, allow upload, if not, error: Out of storage or File too big
+
 class Uploader extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			showFiles: false,
 			isDragging: false,
 			chosenFile: null,
 			fileName: '',
 			storage: '0MB',
+			bytes: 0,
+			storagePercent: 0,
 			error: '',
 			success: '',
 			progress: 0,
-			uploading: false
+			uploading: false,
+			files: props.user.files
 		}
 		this.hideWidget = this.hideWidget.bind(this);
 		this.toggleView = this.toggleView.bind(this);
@@ -35,6 +43,7 @@ class Uploader extends Component {
 		this.handleFileName = this.handleFileName.bind(this);
 		this.handleDrop = this.handleDrop.bind(this);
 		this.handleUpload = this.handleUpload.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 		this.updateStorage = this.updateStorage.bind(this);
 		this.handleBrowseFile = this.handleBrowseFile.bind(this);
 	}
@@ -91,59 +100,76 @@ class Uploader extends Component {
 	}
 	handleUpload(e) {
 		e.preventDefault();
+
+		const newFileMB = this.state.chosenFile.size / 1000000;
+		const totalFileMB = this.state.bytes / 1000000;
+		console.log(newFileMB + totalFileMB);
+
+		this.setState({ uploading: true });
 		if (this.state.chosenFile !== null && this.state.fileName.length > 1) {
-			// If storage is more than 10MB (10000KB), prevent form submit and show error
-			const storage = this.state.storage / 1024;
-			const newFile = this.state.chosenFile.size / 1024;
-			// If storage with new file is more than 10MB limit
-			if (storage + newFile > 10000) {
-				this.setState({ error: 'No room in your storage, make room by deleting files' });
-				// Hide error after 3 seconds
-				setTimeout(() => { this.setState({ error: null }) }, 3500);
-			}
-			// If file is more than 3000kb (3mb), prevent form from submit and show error
-			if (newFile > 6000) {
-				this.setState({ error: 'File is too big, please choose another'});
-				// Hide error after 3 seconds
-				setTimeout(() => { this.setState({ error: null }) }, 3500);
+			// Size of new file converted to MB
+			const newFileMB = this.state.chosenFile.size / 1000000;
+			// Size of all files converted to MB
+			const totalFileMB = this.state.bytes / 1000000;
+
+			// If storage and new file will be more than 10MB total
+			if (newFileMB + totalFileMB >= 10) {
+				this.setState({ error: 'Storage full, make room or upload smaller file' });
+				// Hide error after 3.5 seconds
+				setTimeout(() => { this.setState({ error: '' }) }, 3500);
 			}
 
-			// Set Form Data
-			let data = new FormData();
-			data.append('file', this.state.chosenFile, this.state.fileName);
-			data.append('id', this.props.user._id);
-			data.append('name', this.state.fileName);
+			// If new file is more than 5MB
+			if (newFileMB >= 5) {
+				this.setState({ error: 'File too big' });
+				// Hide error after 3.5 seconds
+				setTimeout(() => { this.setState({ error: '' }) }, 3500)
+			}
 
-			// Set headers and update upload progress
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' },
-				onUploadProgress: (progressEvent) => {
-					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-					this.setState({ progress: percentCompleted });
+			// If storage and new file will be less than 10MB total
+			if (newFileMB + totalFileMB < 10) {
+				// Set Form Data
+				let data = new FormData();
+				data.append('file', this.state.chosenFile, this.state.fileName);
+				data.append('id', this.props.user._id);
+				data.append('name', this.state.fileName);
+
+				// Set headers and update upload progress
+				const config = {
+					headers: { 'content-type': 'multipart/form-data' },
+					onUploadProgress: (progressEvent) => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						this.setState({ progress: percentCompleted });
+					}
 				}
-			}
-			axios.post(`${API_URL}/user/files/upload`, data, config)
-				.then((res) => {
-					if (res.status === 200) {
-						console.log(res.data.user);
-						// this.props.uploadFile(this.props.user, res.data.user.files);
-						this.setState({ chosenFile: null, fileName: '' });
-					}
-				})
-				.then(() => {
-					this.props.getUserFiles(this.props.user);
-				})
-				.catch((err) => {
-					if (err.response) {
-						if (err.response.status === 429) {
-							this.setState({ error: err.response.data });
-							setTimeout(() => {
-								this.setState({ error: null, uploading: false, progress: 0 });
-							}, 3500)
+				axios.post(`${API_URL}/user/files/upload`, data, config)
+					.then((res) => {
+						if (res.status === 200 && this.state.progress === 100) {
+							this.updateStorage([...this.props.user.files, this.state.chosenFile]);
+							this.props.uploadFile(this.props.user, res.data.user.files);
 						}
-					}
-				});
+					})
+					.then(() => {
+						this.props.getUserFiles(this.props.user);
+						this.setState({ chosenFile: null, fileName: '', uploading: false });
+					})
+					.catch((err) => {
+						if (err.response) {
+							if (err.response.status === 429) {
+								this.setState({ error: err.response.data });
+								setTimeout(() => {
+									this.setState({ error: null, uploading: false, progress: 0 });
+								}, 3500);
+							}
+						}
+					});
+			}
 		}
+	}
+	handleDelete(user, file) {
+		this.setState({ files: user.files.filter((f) => f._id !== file._id) })
+		this.props.deleteFile(user, file);
+		this.updateStorage(user.files.filter((f) => f._id !== file._id));
 	}
 	// Convert bytes
 	convertBytes(bytes, num) {
@@ -154,10 +180,16 @@ class Uploader extends Component {
 	}
 	// Update File Storage
 	updateStorage(files) {
+		// If at least one file
 		if (files.length >= 1) {
 			const numbers = [];
 			files.forEach(file => {
-				numbers.push(file.length)
+				if (file.length !== undefined) {
+					numbers.push(file.length);
+				}
+				if (file.size !== undefined) {
+					numbers.push(file.size);
+				}
 			});
 			for (var i = 0; i <= files.length; i++) {
 				numbers.push(files.length);
@@ -165,30 +197,33 @@ class Uploader extends Component {
 			const getSum = (total, num) => {
 				return total + num;
 			}
-			console.log(this.convertBytes(numbers.reduce(getSum), 2));
-			this.setState({ storage: this.convertBytes(numbers.reduce(getSum), 2) });
+			this.setState({
+				storage: this.convertBytes(numbers.reduce(getSum), 2),
+				storagePercent: parseInt((((numbers.reduce(getSum) / 1024) / 10000) * 100).toFixed()),
+				bytes: numbers.reduce(getSum)
+			});
+		}
+		// If no files
+		if (files.length === 0) {
+			this.setState({ storage: 0, storagePercent: 0 });
 		}
 	}
 	UNSAFE_componentWillMount() {
 		this.props.getUserFiles(this.props.user);
+		this.setState({ files: this.props.user.files });
 	}
 	componentDidMount() {
-		if (this.props.user.files.length >= 1) {
-			this.updateStorage(this.props.user.files);
-		}
-	}
-	UNSAFE_componentWillReceiveProps(nextProps) {
-		// console.log("UPDATED PROPS");
+		this.updateStorage(this.props.user.files);
 	}
 	render() {
-		const { user, deleteFile } = this.props;
+		const { user } = this.props;
 		const { showFiles, chosenFile } = this.state;
 		return (
 			<div id="uploader" className="widget">
 				<div className="delete-widget" onClick={this.hideWidget}><Close /></div>
 				<div className="header">
 					<h1>{showFiles === true ? 'Your Files' : 'Upload'}</h1>
-					<h6 onClick={this.toggleView}>{showFiles === true ? 'Upload' : 'View Files'}</h6>
+					<h6 onClick={this.toggleView}>{showFiles === true ? 'Upload' : `View Files (${user.files.length})`}</h6>
 				</div>
 				{/* If show files, show uploads */}
 				{showFiles === true ? 
@@ -204,7 +239,7 @@ class Uploader extends Component {
 								<div className="file" key={i}>
 									<a href={`${API_URL}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>
 									<span>{this.convertBytes(file.length, 1)}</span>
-									<DeleteIcon onClick={() => deleteFile(user, file, user.files)} />
+									<DeleteIcon onClick={() => this.handleDelete(user, file)} />
 								</div>
 							)
 						})}
@@ -227,10 +262,12 @@ class Uploader extends Component {
 					<Button type="submit" variant="contained" color="primary">
 						Upload
 					</Button>
+					{this.state.uploading ? <LinearProgress variant="determinate" value={this.state.progress} /> : null}
 				</form>}
-				<span className="storage">
-					{this.state.storage} / 10MB
-				</span>
+				<div className="storage">
+					<span>{this.state.storage} / 10MB</span>
+					<LinearProgress variant="determinate" value={this.state.storagePercent} />
+				</div>
 
 				{/* Error Snackbar */}
 				<Snackbar className="fixed-snackbar"

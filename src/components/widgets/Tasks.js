@@ -57,15 +57,15 @@ class Tasks extends Component {
     deleteTask(e, type, name) {
         if (type === 'bug') {
 			this.setState({ bugsData: this.props.user.bugsData });
-        	this.props.deleteTask(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
+        	this.props.updateTasks(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
         }
         if (type === 'server') {
 			this.setState({ serverData: this.props.user.serverData });
-        	this.props.deleteTask(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
+        	this.props.updateTasks(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
         }
         if (type === 'website') {
 			this.setState({ websiteData: this.props.user.websiteData });
-        	this.props.deleteTask(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
+        	this.props.updateTasks(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
         }
     }
     hideWidget() {

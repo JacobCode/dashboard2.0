@@ -73,8 +73,7 @@ class Notifications extends Component {
         this.setState({ chosenNotificationDate: `${year}-${month}-${date}`, notifications: this.props.user.notifications })
 	}
     render() {
-		// const { notifications } = this.props.user;
-		const notifications = this.state.notifications;
+		const { notifications } = this.props.user;
         return (
             <div id="notifications">
                 <h1 className="noti-title">Notifications</h1>

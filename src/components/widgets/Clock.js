@@ -24,7 +24,7 @@ class Clock extends Component {
         var dayNum = d.getDate();
         this.setState({ date: `${weekDay}, ${month} ${dayNum}` })
     }
-    startTime() {
+    async startTime() {
         var d = new Date();
         var hour = d.getHours();
         var minute = d.getMinutes();
@@ -51,12 +51,18 @@ class Clock extends Component {
         this.props.setWidgets(obj);
     }
     componentDidMount() {
-        this.getDate();
-        this.startTime();
+		this.mounted = true;
+		if (this.mounted) {
+			this.getDate();
+			this.startTime();
+		}
     }
     UNSAFE_componentWillMount() {
         this.setState({ showPickyDateTime: true })
-    }
+	}
+	componentWillUnmount() {
+		this.mounted = false;
+	}
     render() {
         const { showPickyDateTime, time, date } = this.state
         return (

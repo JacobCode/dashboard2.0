@@ -8,13 +8,13 @@ import Close from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 class Bookmarks extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             showBookmarkForm: false,
-            bookmarks: props.bookmarks,
             name: '',
-            url: ''
+			url: '',
+			bookmarks: []
         }
 		this.addBookmark = this.addBookmark.bind(this);
 		this.deleteBookmark = this.deleteBookmark.bind(this);
@@ -22,7 +22,20 @@ class Bookmarks extends Component {
         this.handleNameInput = this.handleNameInput.bind(this);
         this.handleUrlInput = this.handleUrlInput.bind(this);
         this.hideWidget = this.hideWidget.bind(this);
-    }
+	}
+	hideWidget() {
+		// Hide bookmarks widget
+		var obj = {
+			bookmarks: false,
+			calendar: this.props.activeWidgets.calendar,
+			crypto: this.props.activeWidgets.crypto,
+			clock: this.props.activeWidgets.clock,
+			tasks: this.props.activeWidgets.tasks,
+			weather: this.props.activeWidgets.weather,
+			uploader: this.props.activeWidgets.uploader
+		}
+		this.props.setWidgets(obj);
+	}
     toggleForm() {
         this.setState({ showBookmarkForm: !this.state.showBookmarkForm });
     }
@@ -48,21 +61,9 @@ class Bookmarks extends Component {
         }
 	}
 	deleteBookmark(bookmark) {
+		this.setState({ bookmarks: this.props.user.bookmarks.filter((b) => b.url !== bookmark) })
 		this.props.updateBookmarks(this.props.user.bookmarks.filter((b) => b.url !== bookmark), this.props.user);
 	}
-    hideWidget() {
-        // Hide bookmarks widget
-        var obj = {
-            bookmarks: false,
-            calendar: this.props.activeWidgets.calendar,
-            crypto: this.props.activeWidgets.crypto,
-            clock: this.props.activeWidgets.clock,
-            tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather,
-			uploader: this.props.activeWidgets.uploader
-        }
-        this.props.setWidgets(obj);
-    }
     render() {
 		const { bookmarks } = this.props.user;
         return (

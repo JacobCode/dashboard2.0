@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Div100vh from 'react-div-100vh';
+import validator from 'email-validator';
 
 // MUI
 import Snackbar from '@material-ui/core/Snackbar';
@@ -18,9 +19,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 
 // Loading Spinner
 import spinner from '../../images/spinner.svg';
-
-// SCSS
-// import '../../scss/Home.scss';
 
 // API URL
 const API_URL = 'http://localhost:3001';
@@ -58,7 +56,7 @@ class Home extends Component {
 		this.useDemo = this.useDemo.bind(this);
 	}
 	changeForm() {
-		this.setState({ showSignIn: !this.state.showSignIn, showPassword: false });
+		this.setState({ showSignIn: !this.state.showSignIn, showPassword: false, first_name: '', last_name: '', email: '', password: '', registerEmail: '', registerConfirm: '', registerFName: '', registerLName: '', registerPassword: '' });
 	}
 
 	firstNameInput(e) {
@@ -75,48 +73,64 @@ class Home extends Component {
 		}
 	}
 	handleSignUp(e) {
-		// Header
-		let config = {
-			headers: {
-				authorization: 'authorization',
-			}
-		}
-		// Prevent Default
-		if (e !== undefined) {
+		if (e) {
 			e.preventDefault();
 		}
-		// Set Loading
-		this.setState({ loading: true });
-		// New User Object
-		const newUser = {
-			first_name: this.state.registerFName,
-			last_name: this.state.registerLName,
-			email: this.state.registerEmail,
-			password: this.state.registerPassword
+
+		// If email is not valid, show error
+		if (validator.validate(this.state.registerEmail) === false) {
+			this.setState({ error: 'Please enter a valid email' });
+			setTimeout(() => {
+				this.setState({ error: '' });
+			}, 5500);
 		}
-		// Request
-		axios.post(`${API_URL}/account/register`, newUser, config).then((res) => {
-			if (res.status === 200) {
-				this.setState({ message: 'Registration Successful!', loading: false, showSignIn: true });
-			}
-			if (res.status === 201) {
-				this.setState({ error: res.data, loading: false });
-				setTimeout(() => { this.setState({ error: '' }) }, 5500);
-			}
-		}).catch((err) => {
-			if (typeof (err.response) === 'object') {
-				if (err.response.status === 429) {
-					this.setState({ error: err.response.data });
-					setTimeout(() => { this.setState({ error: '' }) }, 5500);
-				}
-				if (err.response.status === 404) {
-					this.setState({ message: 'Registration Successful!', loading: false });
-					setTimeout(() => {
-						this.setState({ message: '' });
-					}, 750);
+
+		// If email is valid
+		if (validator.validate(this.state.registerEmail)) {
+			// Header
+			let config = {
+				headers: {
+					authorization: 'authorization',
 				}
 			}
-		});
+			// Set Loading
+			this.setState({ loading: true });
+			// New User Object
+			const newUser = {
+				first_name: this.state.registerFName,
+				last_name: this.state.registerLName,
+				email: this.state.registerEmail,
+				password: this.state.registerPassword
+			}
+			// Request
+			axios.post(`${API_URL}/account/register`, newUser, config)
+				.then((res) => {
+					console.log(res);
+					if (res.status === 200) {
+						this.setState({ message: 'Registration Successful!', loading: false, showSignIn: true });
+						setTimeout(() => { this.setState({ message: '' }) });
+					}
+					if (res.status === 201) {
+						this.setState({ error: res.data.error, loading: false });
+						setTimeout(() => { this.setState({ error: '' }) }, 5500);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					if (typeof (err.response) === 'object') {
+						if (err.response.status === 429) {
+							this.setState({ error: err.response.data });
+							setTimeout(() => { this.setState({ error: '' }) }, 5500);
+						}
+						if (err.response.status === 404) {
+							this.setState({ message: 'Registration Successful!', loading: false });
+							setTimeout(() => {
+								this.setState({ message: '' });
+							}, 750);
+						}
+					}
+				});
+		}
 	}
 	handleLogin(e) {
 		if (e !== undefined) {
@@ -161,16 +175,13 @@ class Home extends Component {
 		
 		// If password is weak
 		if (isMediumStrength === false && isStrongStrength === false) {
-			console.log('weak');
 			this.setState({ passwordStrength: 'weak' });
 		}
 		// If password is medium
 		if (isMediumStrength === true && isStrongStrength === false) {
-			console.log('medium');
 			this.setState({ passwordStrength: 'medium' });
 		}
 		if (isStrongStrength) {
-			console.log('strong');
 			this.setState({ passwordStrength: 'strong' });
 		}
 	}
@@ -215,16 +226,6 @@ class Home extends Component {
 										name="email"
 										required
 									/>
-
-									{/* <TextField
-										value={this.state.password}
-										onChange={this.handleInputChange}
-										label="Password"
-										type="password"
-										name="password"
-										required
-									/> */}
-
 									<FormControl>
 										<InputLabel htmlFor="signup-adornment-password">Password</InputLabel>
 										<Input
@@ -289,8 +290,8 @@ class Home extends Component {
 									{this.state.registerPassword.length >= 1 ? 
 									<div className="password-strength">
 										<div className="bars">
-											<span className={`${this.state.passwordStrength === 'weak' ? 'active' : ''}`}></span>
-											<span className={`${this.state.passwordStrength === 'medium' ? 'active' : ''}`}></span>
+											<span className={`${this.state.passwordStrength === 'weak' || this.state.passwordStrength === 'medium' || this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
+											<span className={`${this.state.passwordStrength === 'medium' || this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
 											<span className={`${this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
 										</div>
 										<p>{this.state.passwordStrength}</p>
