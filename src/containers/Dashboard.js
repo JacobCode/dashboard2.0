@@ -9,8 +9,7 @@ import {
 	loginUser,
 	logoutUser,
 	setWidgets,
-	addTask,
-	deleteTask,
+	updateTasks,
 	getUserFiles,
 	uploadFile,
 	deleteFile,
@@ -70,7 +69,7 @@ class Dashboard extends Component {
 			loginUser,
 			logoutUser,
 			setWidgets,
-			addTask,
+			updateTasks,
 			deleteTask,
 			getUserFiles,
 			uploadFile,
@@ -101,7 +100,7 @@ class Dashboard extends Component {
 										forecast={forecast}
 										activeWidgets={activeWidgets}
 										setWidgets={setWidgets}
-										deleteTask={deleteTask}
+										updateTasks={updateTasks}
 										getUserFiles={getUserFiles}
 										uploadFile={uploadFile}
 										deleteFile={deleteFile}
@@ -123,8 +122,7 @@ class Dashboard extends Component {
 									{/* Tasks */}
 									<Route path={process.env.PUBLIC_URL + '/dashboard/tasks'} render={() => <Tasks 
 										user={user}
-										addTask={addTask}
-										deleteTask={deleteTask} />} 
+										updateTasks={updateTasks} />} 
 									exact />
 									{/* Manage Widgets */}
 									<Route path={process.env.PUBLIC_URL + '/dashboard/manage'} render={() => <ManageWidgets 
@@ -159,8 +157,7 @@ Dashboard.propTypes = {
 	loginUser: PropTypes.func.isRequired,
 	logoutUser: PropTypes.func.isRequired,
 	setWidgets: PropTypes.func.isRequired,
-	addTask: PropTypes.func.isRequired,
-	deleteTask: PropTypes.func.isRequired,
+	updateTasks: PropTypes.func.isRequired,
 	getUserFiles: PropTypes.func.isRequired,
 	uploadFile: PropTypes.func.isRequired,
 	deleteFile: PropTypes.func.isRequired,
@@ -181,8 +178,7 @@ export default connect(mapStateToProps, {
 	loginUser,
 	logoutUser,
 	setWidgets,
-	addTask,
-	deleteTask,
+	updateTasks,
 	getUserFiles,
 	uploadFile,
 	deleteFile,

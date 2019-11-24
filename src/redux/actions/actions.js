@@ -34,7 +34,7 @@ export const logoutUser = () => dispatch => {
 }
 
 // Add Task
-export const addTask = (tasks, user, type) => dispatch => {
+export const updateTasks = (tasks, user, type) => dispatch => {
 	user[type] = tasks;
 	axios.post(`${API_URL}/user/${user._id}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
 		.then((res) => {
@@ -44,20 +44,6 @@ export const addTask = (tasks, user, type) => dispatch => {
 			});
 		})
 		.catch((err) => console.log(err.response));
-}
-
-// Delete Task
-export const deleteTask = (tasks, user, type) => dispatch => {
-	user[type] = tasks;
-	axios.post(`${API_URL}/user/${user._id}/${type === 'bugsData' ? 'bugs' : type === 'websiteData' ? 'website' : type === 'serverData' ? 'server' : null}`, { tasks })
-		.then((res) => {
-			dispatch({
-				type: UPDATE_TASKS,
-				payload: user
-			});
-		})
-		.catch((err) => console.log(err.response));
-
 }
 
 // Update Bookmarks
@@ -133,18 +119,13 @@ export const uploadFile = (user, files) => dispatch => {
 }
 
 // Delete File
-export const deleteFile = (user, file, files) => dispatch => {
-	user.files = files.filter((f) => f._id !== file._id);
-	console.log(user.files);
-	// axios.delete(`${API_URL}/user/files/delete/${file._id}/${user._id}`)
-	// 	.then((res) => {
-	// 		dispatch({
-	// 			type: DELETE_FILE,
-	// 			payload: user
-	// 		});
-	// 	});
-	dispatch({
-		type: DELETE_FILE,
-		payload: user
-	});
+export const deleteFile = (user, file) => dispatch => {
+	user.files = user.files.filter((f) => f._id !== file._id);
+	axios.delete(`${API_URL}/user/files/delete/${file._id}/${user._id}`)
+		.then((res) => {
+			dispatch({
+				type: DELETE_FILE,
+				payload: user
+			});
+		});
 }
