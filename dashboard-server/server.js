@@ -145,8 +145,8 @@ app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
 	}
 	hashPassword().then((pswd) => {
 		var newUser = new User({
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
+			first_name: req.body.first_name.toString(),
+			last_name: req.body.last_name.toString(),
 			email: req.body.email.toString().toLowerCase(),
 			password: pswd,
 			notifications: [],
@@ -180,28 +180,46 @@ app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
 
 // Login User (POST)
 app.post('/account/login', setupLimit(10, 60), (req, res) => {
-	User.find({ email: req.body.email.toString().toLowerCase() })
-		.then((results) => {
-			// Compare passwords
-			const comparePasswords = async (text, hash) => {
-				const isMatch = await bcrypt.compare(text, hash);
-				// If passwords match
-				if (isMatch) {
-					// If account is confirmed
-					if (results[0].confirmed === true) {
-						res.json(results[0]);
-					} else {
-						res.status(201).send({error: 'Please verify your account'})
-					}
-				} else {
-					res.status(201).send({error: 'Wrong login info'});
-				}
-			}
-			comparePasswords(req.body.password, results[0].password);
+	// If using guest account
+	if (req.body.email.toString().toLowerCase() === 'guestuser@ethereal.email') {
+		const resetData = {
+			notifications: [],
+			bookmarks: [],
+			bugsData: [],
+			websiteData: [],
+			serverData: [],
+			files: []
+		}
+		User.findByIdAndUpdate('5ddc58175ff659042ad5df3f', resetData, (error) => {
+			if (error) console.log(error, 'Error');
 		})
-		.catch((err) => {
-			res.status(201).send({error: 'Wrong login info'});
+		.then((guestUserInfo) => {
+			res.json(guestUserInfo);
 		});
+	} else {
+		User.find({ email: req.body.email.toString().toLowerCase() })
+			.then((results) => {
+				// Compare passwords
+				const comparePasswords = async (text, hash) => {
+					const isMatch = await bcrypt.compare(text, hash);
+					// If passwords match
+					if (isMatch) {
+						// If account is confirmed
+						if (results[0].confirmed === true) {
+							res.json(results[0]);
+						} else {
+							res.status(201).send({error: 'Please verify your account'})
+						}
+					} else {
+						res.status(201).send({error: 'Wrong login info'});
+					}
+				}
+				comparePasswords(req.body.password, results[0].password);
+			})
+			.catch((err) => {
+				res.status(201).send({error: 'Wrong login info'});
+			});
+	}
 });
 
 // Add New Notification (POST)
