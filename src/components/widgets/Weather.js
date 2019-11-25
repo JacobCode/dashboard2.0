@@ -45,13 +45,13 @@ class Weather extends Component {
 				this.setState({ lat: pos.coords.latitude, lon: pos.coords.longitude, showWeather: true });
 					if (this.state.showWeather) {
 						// Get current day
-						axios.get(`${this.state.currentUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=${process.env.API_KEY}&units=${this.state.units}`)
+						axios.get(`${this.state.currentUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=84943a6dbebd4dfdb01b18356ee4024f&units=${this.state.units}`)
 							.then((res) => res.data.data[0])
 							.then(weather => {
 								this.props.getWeather(weather);
 							})
 						// Get forecast
-						axios.get(`${this.state.forecastUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=${process.env.API_KEY}&units=${this.state.units}`)
+						axios.get(`${this.state.forecastUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=84943a6dbebd4dfdb01b18356ee4024f&units=${this.state.units}`)
 							.then((res) => res.data.data)
 							.then((forecast) => {
 								this.props.getForecast(forecast.filter((day) => forecast.indexOf(day) <= 6));

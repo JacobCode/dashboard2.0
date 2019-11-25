@@ -119,7 +119,7 @@ class Home extends Component {
 					console.log(err);
 					if (typeof (err.response) === 'object') {
 						if (err.response.status === 429) {
-							this.setState({ error: err.response.data });
+							this.setState({ error: err.response.data, loading: false });
 							setTimeout(() => { this.setState({ error: '' }) }, 5500);
 						}
 						if (err.response.status === 404) {
@@ -162,7 +162,7 @@ class Home extends Component {
 				if (err.response !== undefined) {
 					this.setState({ error: 'Too many attempts, please try again later', loading: false });
 					setTimeout(() => {
-						this.setState({ error: '' });
+						this.setState({ error: '', loading: false });
 					}, 5500)
 				}
 			});
