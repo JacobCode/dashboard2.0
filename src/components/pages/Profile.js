@@ -107,6 +107,7 @@ class Profile extends Component {
 					setTimeout(() => {
 						this.setState({ message: '' });
 						this.props.logoutUser();
+						window.location.pathname = '/';
 					}, 1500);
 				}
 			})
