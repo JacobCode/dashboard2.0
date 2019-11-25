@@ -107,8 +107,8 @@ class Home extends Component {
 				.then((res) => {
 					console.log(res);
 					if (res.status === 200) {
-						this.setState({ message: 'Registration Successful!', loading: false, showSignIn: true });
-						setTimeout(() => { this.setState({ message: '' }) });
+						this.setState({ message: 'Registration successful!', loading: false, showSignIn: true });
+						setTimeout(() => { this.setState({ message: '' }) }, 5500);
 					}
 					if (res.status === 201) {
 						this.setState({ error: res.data.error, loading: false });
@@ -186,9 +186,11 @@ class Home extends Component {
 		}
 	}
 	useDemo() {
-		if (navigator.cookiesEnabled === true) {
-			this.setState({ email: 'guest@email.com', password: 'guest1' });
+		if (this.state.cookiesEnabled === true) {
+			this.setState({ email: 'guestuser@ethereal.email', password: 'guestuser1' });
 			setTimeout(() => { this.handleLogin(); }, 500);
+		} else {
+			
 		}
 	}
 	toggleShowPassword() {
@@ -199,7 +201,7 @@ class Home extends Component {
 			this.setState({ error: 'Please enable cookies', cookiesEnabled: false });
 		}
 		if (navigator.cookieEnabled === true) {
-			this.setState({ cookiesEnabled: true });
+			this.setState({ cookiesEnabled: true, error: '' });
 		}
 	}
 	render() {

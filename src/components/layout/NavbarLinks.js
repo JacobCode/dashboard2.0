@@ -26,7 +26,6 @@ class NavbarLinks extends Component {
 	}
 	handleToggles() {
 		this.setState({ openNoti: !this.state.openNoti });
-		console.log(this.props.user);
 	}
 	handleClose() {
 		this.setState({ openNoti: false });
