@@ -28,13 +28,13 @@ app.enable("trust proxy");
 // DB Models
 const User = require('./models/user');
 // DB Config
-const db = 'mongodb://jacob:jacob123@ds261486.mlab.com:61486/m-dashboard';
+const db = process.env.MONGODB_URI;
 // Connect to Mongo
-mongoose.connect(db, {useNewUrlParser: true })
+mongoose.connect(db, {useNewUrlParser: true, useFindAndModify: false })
     .then(() => { console.log('✅ MONGO DB CONNECTED')})
 	.catch(() => { console.log('🛑 MONGO DB ERROR')});
 	
-// Init gfs
+// Init gfs (file manage)
 const conn = mongoose.createConnection(db, { useNewUrlParser: true })
 let gfs;
 conn.once('open', () => {
@@ -43,6 +43,10 @@ conn.once('open', () => {
 });
 
 // Setup rate limit
+/**
+ * @param  {number} maxAttempts
+ * @param  {number} minutes
+ */
 var setupLimit = (maxAttempts, minutes) => {
 	return rateLimit({
 		windowMs: 60000 * minutes,
@@ -98,15 +102,15 @@ async function sendEmail(token, email) {
 		secure: false,
 		// change to node_variables
 		auth: {
-			user: 'testverify1234567@gmail.com',
-			pass: 'e2gz%57F-ZC#$3r6Cx'
+			user: process.env.EMAIL_USERNAME,
+			pass: process.env.EMAIL_PASSWORD
 		},
 		tls: {
 			rejectUnauthorized: false
 		}
 	});
 	const info = await transporter.sendMail({
-		from: '"Test Verification" <testverify1234567@gmail.com>', // sender address
+		from: `"Test Verification" <${process.env.EMAIL_USERNAME}>`, // sender address
 		to: email, // receiver email
 		subject: "Account Verification", // Subject line
 		text: "Confirm Your Account", // plain text body
@@ -126,14 +130,14 @@ app.get('/verify/:token', setupLimit(1, 60), (req, res) => {
 			}, (error) => {
 				if (error) console.log(error);
 			})
-			.then((data) => res.redirect('http://localhost:3000/dashboard'))
+			.then((data) => res.send('Account verified, you may now login'))
 			.catch((err) => res.send('Error verifying account, please try again'));
 		}
 	})
 })
 
 // New User (POST)
-app.post('/account/register', setupLimit(1, 10), verifyToken, (req, res) => {
+app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
 	const hashPassword = async () => {
 		const salt = await bcrypt.genSalt(10);
 		const password = await bcrypt.hash(req.body.password, salt);
@@ -190,18 +194,18 @@ app.post('/account/login', setupLimit(10, 60), (req, res) => {
 						res.status(201).send({error: 'Please verify your account'})
 					}
 				} else {
-					res.status(201).send({error: 'Wrong Login Info'});
+					res.status(201).send({error: 'Wrong login info'});
 				}
 			}
 			comparePasswords(req.body.password, results[0].password);
 		})
 		.catch((err) => {
-			res.status(201).send({error: 'Wrong Login Info'});
+			res.status(201).send({error: 'Wrong login info'});
 		});
 });
 
 // Add New Notification (POST)
-app.post('/user/:id/notifications', setupLimit(20, 10), (req, res) => {
+app.post('/user/:id/notifications', setupLimit(50, 60), (req, res) => {
 	User.findByIdAndUpdate(req.params.id, { notifications: req.body.notifications }, (error) => {
 		if (error) console.log(error, 'Error');
 		res.status(200).send(req.body.notifications);
@@ -209,7 +213,7 @@ app.post('/user/:id/notifications', setupLimit(20, 10), (req, res) => {
 });
 
 // Update Bookmarks (POST)
-app.post('/user/:id/bookmarks', setupLimit(20, 10), (req, res) => {
+app.post('/user/:id/bookmarks', setupLimit(50, 60), (req, res) => {
 	User.findByIdAndUpdate(req.params.id, { bookmarks: req.body.bookmarks }, (error) => {
 		if (error) console.log(error, 'Error');
 		res.status(200).send(req.body.bookmarks);
@@ -217,7 +221,7 @@ app.post('/user/:id/bookmarks', setupLimit(20, 10), (req, res) => {
 });
 
 // Update Bug Tasks (POST)
-app.post('/user/:id/bugs', setupLimit(20, 10), (req, res) => {
+app.post('/user/:id/bugs', setupLimit(50, 60), (req, res) => {
 	User.findByIdAndUpdate(req.params.id, { bugsData: req.body.tasks }, (error) => {
 		if (error) console.log(error, 'Error');
 		res.status(200).send(req.body.tasks);
@@ -225,7 +229,7 @@ app.post('/user/:id/bugs', setupLimit(20, 10), (req, res) => {
 });
 
 // Update Website Tasks (POST)
-app.post('/user/:id/website', setupLimit(20, 10), (req, res) => {
+app.post('/user/:id/website', setupLimit(50, 60), (req, res) => {
 	User.findByIdAndUpdate(req.params.id, { websiteData: req.body.tasks }, (error) => {
 		if (error) console.log(error, 'Error');
 		res.status(200).send(req.body.tasks);
@@ -233,7 +237,7 @@ app.post('/user/:id/website', setupLimit(20, 10), (req, res) => {
 });
 
 // Update Server Tasks (POST)
-app.post('/user/:id/server', setupLimit(20, 10), (req, res) => {
+app.post('/user/:id/server', setupLimit(50, 60), (req, res) => {
 	User.findByIdAndUpdate(req.params.id, { serverData: req.body.tasks }, (error) => {
 		if (error) console.log(error, 'Error');
 		res.status(200).send(req.body.tasks);
@@ -241,7 +245,7 @@ app.post('/user/:id/server', setupLimit(20, 10), (req, res) => {
 });
 
 // Get user (GET)
-app.get('/user/:userId', setupLimit(20, 10), (req, res) => {
+app.get('/user/:userId', setupLimit(50, 60), (req, res) => {
 	User.findById(req.params.userId)
 		.then((data) => {
 			res.json(data);
@@ -300,6 +304,15 @@ app.delete('/account/delete/:userId/:password', (req, res) => {
 				} else { res.status(404).send('Incorrect Password') }
 			}
 			comparePasswords(req.params.password, results[0].password);
+			return results;
+		})
+		.then((dt) => {
+			// For each user file, delete file from 'Uploads'
+			dt[0].files.forEach((file) => {
+				gfs.remove({ _id: file._id, root: 'uploads' }, (err, gridStore) => {
+					if (err) return res.status(404).json({ error: err });
+				});
+			});
 		})
 		.catch((err) => res.status(404).send('Wrong password, please try again'));
 });
@@ -326,9 +339,7 @@ app.post('/user/files/upload', upload.single('file'), (req, res) => {
 			}
 			// Find which user is uploading a file
 			User.findById(req.body.id, (err, dt) => {
-				if (err) {
-					console.log(err);
-				}
+				if (err) console.log(err);
 				for (var i = 0; i < files.length; i++) {
 					if (dt !== null) {
 						if (files[i].metadata.uploadedBy.toString() === dt._id.toString()) {
