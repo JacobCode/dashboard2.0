@@ -5,6 +5,9 @@ import axios from 'axios';
 import Divider from '@material-ui/core/Divider';
 import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import ErrorIcon from '@material-ui/icons/Error';
 
 class Weather extends Component {
     constructor() {
@@ -17,7 +20,8 @@ class Weather extends Component {
             lon: '',
             units: 'i',
             showWeather: false,
-            forecast: []
+			forecast: [],
+			error: ''
         }
         this.getLocation = this.getLocation.bind(this);
         this.hideWidget = this.hideWidget.bind(this);
@@ -36,23 +40,30 @@ class Weather extends Component {
 		this.props.setWidgets(obj);
 	}
     getLocation() {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            this.setState({ lat: pos.coords.latitude, lon: pos.coords.longitude, showWeather: true });
-                if (this.state.showWeather) {
-                    // Get current day
-                    axios.get(`${this.state.currentUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=${process.env.API_KEY || '84943a6dbebd4dfdb01b18356ee4024f'}&units=${this.state.units}`)
-                        .then((res) => res.data.data[0])
-                        .then(weather => {
-                            this.props.getWeather(weather);
-                        })
-                    // Get forecast
-                    axios.get(`${this.state.forecastUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=${process.env.API_KEY || '84943a6dbebd4dfdb01b18356ee4024f'}&units=${this.state.units}`)
-                        .then((res) => res.data.data)
-                        .then((forecast) => {
-                            this.props.getForecast(forecast.filter((day) => forecast.indexOf(day) <= 6));
-                        })
-                }
-        })
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition((pos) => {
+				this.setState({ lat: pos.coords.latitude, lon: pos.coords.longitude, showWeather: true });
+					if (this.state.showWeather) {
+						// Get current day
+						axios.get(`${this.state.currentUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=${process.env.API_KEY}&units=${this.state.units}`)
+							.then((res) => res.data.data[0])
+							.then(weather => {
+								this.props.getWeather(weather);
+							})
+						// Get forecast
+						axios.get(`${this.state.forecastUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=${process.env.API_KEY}&units=${this.state.units}`)
+							.then((res) => res.data.data)
+							.then((forecast) => {
+								this.props.getForecast(forecast.filter((day) => forecast.indexOf(day) <= 6));
+							})
+					}
+			});
+		} else {
+			this.setState({ error: 'Allow location services for weather' });
+			setTimeout(() => {
+				this.setState({ error: '' });
+			}, 3500);
+		}
     }
     UNSAFE_componentWillMount() {
 		this.getLocation();
@@ -115,6 +126,24 @@ class Weather extends Component {
                         Allow Location Services
                     </Button>
                 </div>}
+				{/* Error Snackbar */}
+				<Snackbar className="fixed-snackbar"
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right',
+					}}
+					open={this.state.error.length > 0 ? true : false}
+				>
+					<SnackbarContent className="sn-bar error-snackbar"
+						aria-describedby="error-snackbar"
+						message={
+							<span>
+								{this.state.error}
+								<ErrorIcon />
+							</span>
+						}
+					/>
+				</Snackbar>
             </div>
         )
     }

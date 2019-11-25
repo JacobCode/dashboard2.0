@@ -70,7 +70,6 @@ class Dashboard extends Component {
 			logoutUser,
 			setWidgets,
 			updateTasks,
-			deleteTask,
 			getUserFiles,
 			uploadFile,
 			deleteFile,
@@ -86,7 +85,7 @@ class Dashboard extends Component {
 				<div id="dashboard" className="App">
 					<Sidebar logoutUser={logoutUser} user={user} routes={dashBoardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
 					<div id="main-panel">
-						<Navbar logoutUser={logoutUser} notifications={user.notifications} handleDrawerToggle={this.handleDrawerToggle} />
+						<Navbar logoutUser={logoutUser} user={user} handleDrawerToggle={this.handleDrawerToggle} />
 						<div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
 							<CircularProgress />
 						</div>

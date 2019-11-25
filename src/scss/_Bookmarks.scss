@@ -63,6 +63,7 @@
             img {
                 height: 25px;
 				width: 25px;
+				transition: opacity 0.4s ease-in-out;
 			}
 			.delete {
 				right: -50%;
@@ -79,6 +80,9 @@
 				}
 			}
 			&:hover {
+				img {
+					opacity: 0;
+				}
 				.delete {
 					right: 0;
 				}

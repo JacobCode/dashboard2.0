@@ -14,7 +14,7 @@ import {
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 // Login User
 export const loginUser = (user) => dispatch => {

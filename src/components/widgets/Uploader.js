@@ -12,11 +12,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-const API_URL = 'http://localhost:3001';
-
-
-// this.updateStorage([...this.props.user.files, this.state.chosenFile])
-// If (updated storage) this.state.storagePercent < 100, allow upload, if not, error: Out of storage or File too big
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 class Uploader extends Component {
 	constructor(props) {
@@ -100,13 +96,12 @@ class Uploader extends Component {
 	}
 	handleUpload(e) {
 		e.preventDefault();
-
-		const newFileMB = this.state.chosenFile.size / 1000000;
-		const totalFileMB = this.state.bytes / 1000000;
-		console.log(newFileMB + totalFileMB);
-
-		this.setState({ uploading: true });
+		if (this.state.chosenFile === null) {
+			this.setState({ error: 'Please add a file' });
+			setTimeout(() => { this.setState({ error: '' }) }, 3500);
+		}
 		if (this.state.chosenFile !== null && this.state.fileName.length > 1) {
+			this.setState({ uploading: true });
 			// Size of new file converted to MB
 			const newFileMB = this.state.chosenFile.size / 1000000;
 			// Size of all files converted to MB
@@ -262,7 +257,11 @@ class Uploader extends Component {
 					<Button type="submit" variant="contained" color="primary">
 						Upload
 					</Button>
-					{this.state.uploading ? <LinearProgress variant="determinate" value={this.state.progress} /> : null}
+					{this.state.uploading ? 
+					<div className="upload-progress">
+						<LinearProgress variant="determinate" value={this.state.progress} />
+						<p>{this.state.progress}%</p>
+					</div> : null}
 				</form>}
 				<div className="storage">
 					<span>{this.state.storage} / 10MB</span>

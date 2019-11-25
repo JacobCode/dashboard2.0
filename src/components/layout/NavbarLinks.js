@@ -24,18 +24,15 @@ class NavbarLinks extends Component {
 		this.handleClose = this.handleClose.bind(this);
 	}
 	handleToggles() {
-		if (this.state.openNoti === true) {
-			this.setState({ openNoti: false });
-		} 
-		if (this.state.openNoti === false) {
-			this.setState({ openNoti: true });
-		}
+		this.setState({ openNoti: !this.state.openNoti });
+		console.log(this.props.user);
 	}
 	handleClose() {
 		this.setState({ openNoti: false });
 	}
 	render() {
-		const { notifications, logoutUser } = this.props;
+		const { user, logoutUser } = this.props;
+		const { notifications } = user;
 		return (
 			<div id="links">
 
@@ -51,56 +48,58 @@ class NavbarLinks extends Component {
 			</Link>
 
 			{/* Notifications */}
+			<ClickAwayListener onClickAway={this.handleClose}>
 			<div id="notifications-dropdown">
-				<Button
-				aria-owns={this.state.openNoti ? "menu-list-grow" : null}
-				aria-haspopup="true"
-				onClick={this.handleToggles}>
-				<Badge badgeContent={notifications.length} color="primary">
-					<NotificationsIcon />
-				</Badge>
-				<Hidden mdUp implementation="css">
-					<p onClick={this.handleClick}>|</p>
-				</Hidden>
-				</Button>
-				{/* Notifications Dropdown */}
-				<Poppers
-				open={this.state.openNoti}
-				anchorEl={this.anchorEl}
-				transition
-				disablePortal>
-				{({ TransitionProps, placement }) => (
-					<Grow
-					{...TransitionProps}
-					id="menu-list-grow"
-					style={{
-						transformOrigin:
-						placement === "bottom" ? "center top" : "center bottom"
-					}}>
-						<Paper>
-							<ClickAwayListener onClickAway={this.handleClose}>
-								<MenuList role="menu">
-									{/* If there are no notifications, display No Notifications */}
-									{notifications.length === 0 ? 
-									<MenuItem>No Notifications</MenuItem>
-									:
-									notifications.map((notification, index) => {
-										return (
-											<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
-												<Link to={`/dashboard/notifications/#${notification.type}`}>
-													<p className={`type-color ${notification.type === 'work' ? 'red' : notification.type === 'school' ? 'purple' : notification.type === 'personal' ? 'blue' : ''}`}>&bull;</p>
-													<span>{notification.name}</span> <span className="notification-date">{notification.date}</span>
-												</Link>
-											</MenuItem>
-										)
-									})}
-								</MenuList>
-							</ClickAwayListener>
-						</Paper>
-					</Grow>
-				)}
-				</Poppers>
+					<Button
+					aria-owns={this.state.openNoti ? "menu-list-grow" : null}
+					aria-haspopup="true"
+					onClick={this.handleToggles}>
+					<Badge badgeContent={notifications.length} color="primary">
+						<NotificationsIcon />
+					</Badge>
+					<Hidden mdUp implementation="css">
+						<p onClick={this.handleClick}>|</p>
+					</Hidden>
+					</Button>
+					{/* Notifications Dropdown */}
+					<Poppers
+					open={this.state.openNoti}
+					anchorEl={this.anchorEl}
+					transition
+					disablePortal>
+					{({ TransitionProps, placement }) => (
+						<Grow
+						{...TransitionProps}
+						id="menu-list-grow"
+						style={{
+							transformOrigin:
+							placement === "bottom" ? "center top" : "center bottom"
+						}}>
+							<Paper>
+								{/* <ClickAwayListener onClickAway={this.handleClose}> */}
+									<MenuList role="menu">
+										{/* If there are no notifications, display No Notifications */}
+										{notifications.length === 0 ? 
+										<MenuItem>No Notifications</MenuItem>
+										:
+										notifications.map((notification, index) => {
+											return (
+												<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
+													<Link to={`/dashboard/notifications/#${notification.type}`}>
+														<p className={`type-color ${notification.type === 'work' ? 'red' : notification.type === 'school' ? 'purple' : notification.type === 'personal' ? 'blue' : ''}`}>&bull;</p>
+														<span>{notification.name}</span> <span className="notification-date">{notification.date}</span>
+													</Link>
+												</MenuItem>
+											)
+										})}
+									</MenuList>
+								{/* </ClickAwayListener> */}
+							</Paper>
+						</Grow>
+					)}
+					</Poppers>
 			</div>
+			</ClickAwayListener>
 
 			{/* Profile */}
 			<Link to="/dashboard/profile">

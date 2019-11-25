@@ -113,6 +113,7 @@
 								width: 32.5%;
 								border-radius: 16px;
 								transition: background 0.4s ease-in-out;
+								opacity: 0.7;
 								&:nth-of-type(1).active {
 									background: #ff4747;
 								}

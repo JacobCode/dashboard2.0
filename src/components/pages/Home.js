@@ -21,7 +21,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import spinner from '../../images/spinner.svg';
 
 // API URL
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 class Home extends Component {
 	constructor() {
@@ -136,7 +136,7 @@ class Home extends Component {
 		if (e !== undefined) {
 			e.preventDefault();
 		}
-		this.setState({ loading: true });
+		this.setState({ loading: true, error: '' });
 		const login = {
 			email: this.state.email.toLowerCase(),
 			password: this.state.password

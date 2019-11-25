@@ -14,9 +14,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 // Loading Spinner
 import spinner from '../../images/spinner.svg';
+import { FormControl } from '@material-ui/core';
 
 // API URL
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://modern-dashboard.herokuapp.com';
 
 class Profile extends Component {
     constructor() {
@@ -25,37 +26,30 @@ class Profile extends Component {
 			email: '',
 			password: '',
 			newPassword: '',
+			passwordStrength: 'weak',
 			deletePassword: '',
 			message: '',
 			error: '',
 			deleteAccount: false,
 			loading: false
         }
-		this.emailInput = this.emailInput.bind(this);
 		this.passwordInput = this.passwordInput.bind(this);
 		this.newPasswordInput = this.newPasswordInput.bind(this);
 		this.changePassword = this.changePassword.bind(this);
+		this.validatePassword = this.validatePassword.bind(this);
 		this.deletePasswordInput = this.deletePasswordInput.bind(this);
 		this.handleCheckBox = this.handleCheckBox.bind(this);
 		this.deleteAccount = this.deleteAccount.bind(this);
 	}
-	emailInput(e) {
-		if (e.target.value.length < 13) {
-			this.setState({
-				email: e.target.value
-			})
-		}
-	}
 	passwordInput(e) {
-        if (e.target.value.length < 13) {
+        if (e.target.value.length < 50) {
             this.setState({ password: e.target.value })
         }
 	}
 	newPasswordInput(e) {
-		if (e.target.value.length < 13) {
-			this.setState({
-				newPassword: e.target.value
-			})
+		if (e.target.value.length < 50) {
+			this.setState({ newPassword: e.target.value });
+			this.validatePassword(e.target.value);
 		}
 	}
 	changePassword(e) {
@@ -78,6 +72,24 @@ class Profile extends Component {
 					setTimeout(() => { this.setState({ error: '' }) }, 5500);
 				}
 			})
+	}
+	validatePassword(password) {
+		var medium = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+		var strong = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+		var isMediumStrength = medium.test(password);
+		var isStrongStrength = strong.test(password)
+		
+		// If password is weak
+		if (isMediumStrength === false && isStrongStrength === false) {
+			this.setState({ passwordStrength: 'weak' });
+		}
+		// If password is medium
+		if (isMediumStrength === true && isStrongStrength === false) {
+			this.setState({ passwordStrength: 'medium' });
+		}
+		if (isStrongStrength) {
+			this.setState({ passwordStrength: 'strong' });
+		}
 	}
 	deletePasswordInput(e) {
 		this.setState({ deletePassword: e.target.value });
@@ -120,7 +132,6 @@ class Profile extends Component {
 								value={this.props.user.email}
 								InputProps={{readOnly: true}}
 								required
-								onChange={this.emailInput}
 								type="text"
 								/>
 								<TextField
@@ -131,14 +142,25 @@ class Profile extends Component {
 								type="password"
 								required
 								/>
-								<TextField
-								value={this.state.newPassword}
-								onChange={this.newPasswordInput}
-								className="input firstNameInput"
-								label="New Password"
-								type="text"
-								required
-								/>
+								<FormControl margin="normal">
+									<TextField
+									value={this.state.newPassword}
+									onChange={this.newPasswordInput}
+									className="input firstNameInput"
+									label="New Password"
+									type="text"
+									required
+									/>
+									{this.state.newPassword.length >= 1 ? 
+									<div className="password-strength">
+										<div className="bars">
+											<span className={`${this.state.passwordStrength === 'weak' || this.state.passwordStrength === 'medium' || this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
+											<span className={`${this.state.passwordStrength === 'medium' || this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
+											<span className={`${this.state.passwordStrength === 'strong' ? 'active' : ''}`}></span>
+										</div>
+										<p>{this.state.passwordStrength}</p>
+									</div> : null}
+								</FormControl>
 								<div className="button-container">
 									<Button type="submit" color="primary" variant="contained">Submit</Button>
 								</div>
