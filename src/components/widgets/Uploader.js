@@ -114,13 +114,6 @@ class Uploader extends Component {
 				setTimeout(() => { this.setState({ error: '' }) }, 3500);
 			}
 
-			// If new file is more than 5MB
-			if (newFileMB >= 5) {
-				this.setState({ error: 'File too big' });
-				// Hide error after 3.5 seconds
-				setTimeout(() => { this.setState({ error: '' }) }, 3500)
-			}
-
 			// If storage and new file will be less than 10MB total
 			if (newFileMB + totalFileMB < 10) {
 				// Set Form Data

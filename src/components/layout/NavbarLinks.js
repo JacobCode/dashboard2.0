@@ -22,6 +22,7 @@ class NavbarLinks extends Component {
 		};
 		this.handleToggles = this.handleToggles.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+		this.logout = this.logout.bind(this);
 	}
 	handleToggles() {
 		this.setState({ openNoti: !this.state.openNoti });
@@ -30,8 +31,12 @@ class NavbarLinks extends Component {
 	handleClose() {
 		this.setState({ openNoti: false });
 	}
+	logout() {
+		this.props.logoutUser();
+		window.location.pathname = '/';
+	}
 	render() {
-		const { user, logoutUser } = this.props;
+		const { user } = this.props;
 		const { notifications } = user;
 		return (
 			<div id="links">
@@ -110,7 +115,7 @@ class NavbarLinks extends Component {
 
 			{/* Logout */}
 			<div className="nav-logout">
-				<Button onClick={logoutUser} style={{textTransform: 'capitalize'}}>
+				<Button onClick={this.logout} style={{textTransform: 'capitalize'}}>
 					Sign Out
 				</Button>
 			</div>

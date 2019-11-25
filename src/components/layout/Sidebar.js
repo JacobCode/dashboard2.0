@@ -11,7 +11,10 @@ import Divider from '@material-ui/core/Divider';
 
 const Sidebar = ({ ...props }) => {
 	const { routes, closeDrawer, user, logoutUser } = props;
-
+	const logout = () => {
+		logoutUser();
+		window.location.pathname = '/';
+	}
   var links = (
     <List id="sidebar-links">
       {routes.map((prop, key) => {
@@ -37,7 +40,7 @@ const Sidebar = ({ ...props }) => {
         );
       })}
 	  <Divider />
-		<NavLink id="sidebar-logout" onClick={logoutUser} to="/">
+		<NavLink id="sidebar-logout" onClick={logout} to="/">
 			<ListItem>
 				<ListItemText
 					primary="Sign Out"
