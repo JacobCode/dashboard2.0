@@ -148,6 +148,7 @@ class Home extends Component {
 					this.setState({ message: `Welcome, ${res.data.first_name}`, loading: false});
 					setTimeout(() => {
 						this.props.loginUser(res.data);
+						window.location.pathname = '/';
 					}, 1000);
 				}
 
