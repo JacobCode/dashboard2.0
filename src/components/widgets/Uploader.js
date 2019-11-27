@@ -101,6 +101,7 @@ class Uploader extends Component {
 			setTimeout(() => { this.setState({ error: '' }) }, 3500);
 		} else {
 			if (this.state.chosenFile !== null && this.state.fileName.length > 1) {
+				// Show upload progress bar
 				this.setState({ uploading: true });
 				// Size of new file converted to MB
 				const newFileMB = this.state.chosenFile.size / 1000000;
@@ -109,48 +110,48 @@ class Uploader extends Component {
 
 				// If storage and new file will be more than 10MB total
 				if (newFileMB + totalFileMB >= 10) {
-					this.setState({ error: 'Storage full, make room or upload smaller file' });
+					this.setState({ error: 'Storage full, make room or upload smaller file', uploading: false });
 					// Hide error after 3.5 seconds
 					setTimeout(() => { this.setState({ error: '' }) }, 3500);
-				}
+				} else {
+					// If storage and new file will be less than 10MB total
+					if (newFileMB + totalFileMB < 10) {
+						// Set Form Data
+						let data = new FormData();
+						data.append('file', this.state.chosenFile, this.state.fileName);
+						data.append('id', this.props.user._id);
+						data.append('name', this.state.fileName);
 
-				// If storage and new file will be less than 10MB total
-				if (newFileMB + totalFileMB < 10) {
-					// Set Form Data
-					let data = new FormData();
-					data.append('file', this.state.chosenFile, this.state.fileName);
-					data.append('id', this.props.user._id);
-					data.append('name', this.state.fileName);
-
-					// Set headers and update upload progress
-					const config = {
-						headers: { 'content-type': 'multipart/form-data' },
-						onUploadProgress: (progressEvent) => {
-							var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-							this.setState({ progress: percentCompleted });
+						// Set headers and update upload progress
+						const config = {
+							headers: { 'content-type': 'multipart/form-data' },
+							onUploadProgress: (progressEvent) => {
+								var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+								this.setState({ progress: percentCompleted });
+							}
 						}
-					}
-					axios.post(`${API_URL}/user/files/upload`, data, config)
-						.then((res) => {
-							if (res.status === 200 && this.state.progress === 100) {
-								this.updateStorage([...this.props.user.files, this.state.chosenFile]);
-								this.props.uploadFile(this.props.user, res.data.user.files);
-							}
-						})
-						.then(() => {
-							this.props.getUserFiles(this.props.user);
-							this.setState({ chosenFile: null, fileName: '', uploading: false });
-						})
-						.catch((err) => {
-							if (err.response) {
-								if (err.response.status === 429) {
-									this.setState({ error: err.response.data });
-									setTimeout(() => {
-										this.setState({ error: null, uploading: false, progress: 0 });
-									}, 3500);
+						axios.post(`${API_URL}/user/files/upload`, data, config)
+							.then((res) => {
+								if (res.status === 200 && this.state.progress === 100) {
+									this.updateStorage([...this.props.user.files, this.state.chosenFile]);
+									this.props.uploadFile(this.props.user, res.data.user.files);
 								}
-							}
-						});
+							})
+							.then(() => {
+								this.props.getUserFiles(this.props.user);
+								this.setState({ chosenFile: null, fileName: '', uploading: false });
+							})
+							.catch((err) => {
+								if (err.response) {
+									if (err.response.status === 429) {
+										this.setState({ error: err.response.data });
+										setTimeout(() => {
+											this.setState({ error: null, uploading: false, progress: 0 });
+										}, 3500);
+									}
+								}
+							});
+					}
 				}
 			}
 		}

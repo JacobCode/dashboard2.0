@@ -58,7 +58,7 @@ class Dashboard extends Component {
 	componentDidMount() {
 		setTimeout(() => {
 			this.setState({ loading: false })
-		}, 1000)
+		}, 1000);
 	}
 	render() {
 		const {
