@@ -29,7 +29,8 @@ class Uploader extends Component {
 			success: '',
 			progress: 0,
 			uploading: false,
-			files: props.user.files
+			files: props.user.files,
+			showClearButton: false
 		}
 		this.hideWidget = this.hideWidget.bind(this);
 		this.toggleView = this.toggleView.bind(this);
@@ -42,6 +43,7 @@ class Uploader extends Component {
 		this.handleDelete = this.handleDelete.bind(this);
 		this.updateStorage = this.updateStorage.bind(this);
 		this.handleBrowseFile = this.handleBrowseFile.bind(this);
+		this.handleClearButton = this.handleClearButton.bind(this);
 	}
 	hideWidget() {
         // Hide Uploader widget
@@ -67,7 +69,7 @@ class Uploader extends Component {
 			}, 5500);
 		}
 		if (files.length === 1) {
-			this.setState({ chosenFile: files[0]});
+			this.setState({ chosenFile: files[0], showClearButton: true });
 		}
 	}
 	openFileBrowser() {
@@ -78,7 +80,7 @@ class Uploader extends Component {
 			this.setState({ error: 'Only one file at a time' });
 		}
 		if (e.target.files[0] !== undefined && e.target.files.length === 1) {
-			this.setState({ chosenFile: e.target.files[0] });
+			this.setState({ chosenFile: e.target.files[0], showClearButton: true });
 		}
 	}
 	handleDragEnter() {
@@ -96,13 +98,14 @@ class Uploader extends Component {
 	}
 	handleUpload(e) {
 		e.preventDefault();
+		// If guest account
 		if (this.props.user._id === '5ddc58175ff659042ad5df3f') {
-			this.setState({ error: 'Cannot upload files on guest account' });
+			this.setState({ error: 'Cannot upload files on guest account', showClearButton: true });
 			setTimeout(() => { this.setState({ error: '' }) }, 3500);
 		} else {
 			if (this.state.chosenFile !== null && this.state.fileName.length > 1) {
 				// Show upload progress bar
-				this.setState({ uploading: true });
+				this.setState({  showClearButton: false, uploading: true});
 				// Size of new file converted to MB
 				const newFileMB = this.state.chosenFile.size / 1000000;
 				// Size of all files converted to MB
@@ -110,7 +113,7 @@ class Uploader extends Component {
 
 				// If storage and new file will be more than 10MB total
 				if (newFileMB + totalFileMB >= 10) {
-					this.setState({ error: 'Storage full, make room or upload smaller file', uploading: false });
+					this.setState({ error: 'Storage full, make room or upload smaller file', uploading: false, showClearButton: true });
 					// Hide error after 3.5 seconds
 					setTimeout(() => { this.setState({ error: '' }) }, 3500);
 				} else {
@@ -202,6 +205,9 @@ class Uploader extends Component {
 			this.setState({ storage: 0, storagePercent: 0 });
 		}
 	}
+	handleClearButton() {
+		this.setState({ chosenFile: null, fileName: '', showClearButton: false })
+	}
 	UNSAFE_componentWillMount() {
 		this.props.getUserFiles(this.props.user);
 		this.setState({ files: this.props.user.files });
@@ -256,6 +262,7 @@ class Uploader extends Component {
 					<Button type="submit" variant="contained" color="primary">
 						Upload
 					</Button>
+					{this.state.showClearButton ? <Button onClick={this.handleClearButton} size="small" variant="contained" color="default">Clear</Button> : null}
 					{this.state.uploading ? 
 					<div className="upload-progress">
 						<LinearProgress variant="determinate" value={this.state.progress} />

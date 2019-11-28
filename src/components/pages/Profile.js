@@ -11,6 +11,11 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 // Loading Spinner
 import spinner from '../../images/spinner.svg';
@@ -31,7 +36,10 @@ class Profile extends Component {
 			message: '',
 			error: '',
 			deleteAccount: false,
-			loading: false
+			loading: false,
+			showPassword: false,
+			showNewPassword: true,
+			showDeletePassword: false
         }
 		this.passwordInput = this.passwordInput.bind(this);
 		this.newPasswordInput = this.newPasswordInput.bind(this);
@@ -40,6 +48,7 @@ class Profile extends Component {
 		this.deletePasswordInput = this.deletePasswordInput.bind(this);
 		this.handleCheckBox = this.handleCheckBox.bind(this);
 		this.deleteAccount = this.deleteAccount.bind(this);
+		this.togglePassword = this.togglePassword.bind(this);
 	}
 	passwordInput(e) {
         if (e.target.value.length < 50) {
@@ -118,6 +127,9 @@ class Profile extends Component {
 				}, 3500);
 			});
 	}
+	togglePassword(type) {
+		this.setState({ [type]: !this.state[type] })
+	}
     render() {
         const { user } = this.props;
         return (
@@ -135,22 +147,38 @@ class Profile extends Component {
 								required
 								type="text"
 								/>
-								<TextField
-								value={this.state.password}
-								onChange={this.passwordInput}
-								className="input firstNameInput"
-								label="Current Password"
-								type="password"
-								required
-								/>
-								<FormControl margin="normal">
-									<TextField
-									value={this.state.newPassword}
-									onChange={this.newPasswordInput}
-									className="input firstNameInput"
-									label="New Password"
-									type="text"
-									required
+								<FormControl>
+									<InputLabel htmlFor="current-password">Current Password *</InputLabel>
+									<Input
+										id="current-password"
+										value={this.state.password}
+										onChange={this.passwordInput}
+										className="input firstNameInput"
+										label="Current Password"
+										type={this.state.showPassword ? 'text' : 'password'}
+										required
+										endAdornment={
+											<InputAdornment position="end">
+												{this.state.showPassword ? <VisibilityIcon onClick={e => this.togglePassword('showPassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showDeletePassword')} />}
+											</InputAdornment>
+										}
+									/>
+								</FormControl>
+								<FormControl>
+									<InputLabel htmlFor="new-password">New Password *</InputLabel>
+									<Input
+										id="new-password"
+										value={this.state.newPassword}
+										onChange={this.newPasswordInput}
+										className="input firstNameInput"
+										label="New Password"
+										type={this.state.showNewPassword ? 'text' : 'password'}
+										required
+										endAdornment={
+											<InputAdornment position="end">
+												{this.state.showNewPassword ? <VisibilityIcon onClick={e => this.togglePassword('showNewPassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showDeletePassword')} />}
+											</InputAdornment>
+										}
 									/>
 									{this.state.newPassword.length >= 1 ? 
 									<div className="password-strength">
@@ -162,9 +190,12 @@ class Profile extends Component {
 										<p>{this.state.passwordStrength}</p>
 									</div> : null}
 								</FormControl>
-								<div className="button-container">
-									<Button type="submit" color="primary" variant="contained">Submit</Button>
-								</div>
+
+								<FormControl className="form-control">
+									<div className="button-container">
+										<Button type="submit" color="primary" variant="contained">Submit</Button>
+									</div>
+								</FormControl>
 							</form>
 						</div>
 
@@ -189,13 +220,22 @@ class Profile extends Component {
 						<div className="delete-form">
 							<h2>Delete Account</h2>
 							<form onSubmit={this.deleteAccount}>
-								<TextField
-								label="Password"
-								value={this.state.deletePassword}
-								required
-								onChange={this.deletePasswordInput}
-								type="text"
-								/>
+								<FormControl>
+									<InputLabel htmlFor="delete-account-password">Password *</InputLabel>
+									<Input
+										id="delete-account-password"
+										label="Password"
+										value={this.state.deletePassword}
+										required
+										onChange={this.deletePasswordInput}
+										type={this.state.showDeletePassword ? 'text' : 'password'}
+										endAdornment={
+											<InputAdornment position="end">
+												{this.state.showDeletePassword ? <VisibilityIcon onClick={e => this.togglePassword('showDeletePassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showDeletePassword')} />}
+											</InputAdornment>
+										}
+									/>
+								</FormControl>
 								<FormControlLabel
 									control={
 									<Checkbox
