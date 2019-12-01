@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import uuid from 'uuid';
 
 // MUI
 import BookmarkIcon from "@material-ui/icons/NoteAdd";
@@ -52,7 +53,8 @@ class Bookmarks extends Component {
         if (this.state.url.length > 0 && this.state.name.length > 0) {
             const bookmark = {
                 url: this.state.url,
-                name: this.state.name
+				name: this.state.name,
+				id: uuid.v4()
             }
 			this.props.updateBookmarks([...this.props.user.bookmarks, bookmark], this.props.user);
 			this.setState({ name: '', url: '', showBookmarkForm: false });
@@ -60,9 +62,9 @@ class Bookmarks extends Component {
             this.setState({ showBookmarkForm: false })
         }
 	}
-	deleteBookmark(bookmark) {
-		this.setState({ bookmarks: this.props.user.bookmarks.filter((b) => b.url !== bookmark) })
-		this.props.updateBookmarks(this.props.user.bookmarks.filter((b) => b.url !== bookmark), this.props.user);
+	deleteBookmark(id) {
+		this.setState({ bookmarks: this.props.user.bookmarks.filter((b) => b.id !== id) })
+		this.props.updateBookmarks(this.props.user.bookmarks.filter((b) => b.id !== id), this.props.user);
 	}
     render() {
 		const { bookmarks } = this.props.user;
@@ -106,7 +108,7 @@ class Bookmarks extends Component {
                                     <img src={`${bookmark.url}/favicon.ico`} alt="LOGO" />
                                 </a>
 								<div className="delete">
-									<DeleteIcon onClick={() => this.deleteBookmark(bookmark.url)} />
+									<DeleteIcon onClick={() => this.deleteBookmark(bookmark.id)} />
 								</div>
                             </div>
                         )

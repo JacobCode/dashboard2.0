@@ -49,7 +49,6 @@ export const updateTasks = (tasks, user, type) => dispatch => {
 // Update Bookmarks
 export const updateBookmarks = (bookmarks, user) => dispatch => {
 	user.bookmarks = bookmarks;
-	console.log(user);
 	axios.post(`${API_URL}/user/${user._id}/bookmarks`, { bookmarks })
 		.then((res) => {
 			dispatch({

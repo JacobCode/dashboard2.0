@@ -44,28 +44,47 @@ class Tasks extends Component {
         this.deleteTask = this.deleteTask.bind(this);
         this.hideWidget = this.hideWidget.bind(this);
     };
-    handleCheck(e, x) {
+    handleCheck(e, task) {
         this.setState(state => ({
-            checkedBoxes: state.checkedBoxes.includes(x) ?
-                state.checkedBoxes.filter(c => c !== x):
-                [...state.checkedBoxes, x]
-        }));
+            checkedBoxes: state.checkedBoxes.includes(task) ?
+                state.checkedBoxes.filter(c => c !== task):
+                [...state.checkedBoxes, task]
+		}));
+		let taskIndex;
+		if (task.type === 'bug') {
+			task.checked = !task.checked;
+			taskIndex = this.props.user.bugsData.map((t) => { return t.id; }).indexOf(task.id);
+			this.props.user.bugsData[taskIndex] = task;
+			this.props.updateTasks(this.props.user.bugsData, this.props.user, 'bugsData');
+		}
+		if (task.type === 'server') {
+			task.checked = !task.checked;
+			taskIndex = this.props.user.serverData.map((t) => { return t.id; }).indexOf(task.id);
+			this.props.user.serverData[taskIndex] = task;
+			this.props.updateTasks([task, ...this.props.user.serverData.filter((t) => t.id !== task.id)], this.props.user, 'serverData');
+		}
+		if (task.type === 'website') {
+			task.checked = !task.checked;
+			taskIndex = this.props.user.websiteData.map((t) => { return t.id; }).indexOf(task.id);
+			this.props.user.websiteData[taskIndex] = task;
+			this.props.updateTasks([task, ...this.props.user.websiteData.filter((t) => t.id !== task.id)], this.props.user, 'websiteData');
+		}
     }
     handleChange = (e, value) => {
         this.setState({ value });
     };
-    deleteTask(e, type, name) {
+    deleteTask(e, type, id) {
         if (type === 'bug') {
 			this.setState({ bugsData: this.props.user.bugsData });
-        	this.props.updateTasks(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
+        	this.props.updateTasks(this.props.user.bugsData.filter(task => task.id !== id), this.props.user, 'bugsData');
         }
         if (type === 'server') {
 			this.setState({ serverData: this.props.user.serverData });
-        	this.props.updateTasks(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
+        	this.props.updateTasks(this.props.user.serverData.filter(task => task.id !== id), this.props.user, 'serverData');
         }
         if (type === 'website') {
 			this.setState({ websiteData: this.props.user.websiteData });
-        	this.props.updateTasks(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
+        	this.props.updateTasks(this.props.user.websiteData.filter(task => task.id !== id), this.props.user, 'websiteData');
         }
     }
     hideWidget() {
@@ -80,7 +99,11 @@ class Tasks extends Component {
 			uploader: this.props.activeWidgets.uploader
         }
         this.props.setWidgets(obj);
-    }
+	}
+	componentWillMount() {
+		const { bugsData, websiteData, serverData } = this.props.user;
+		this.setState({ checkedBoxes: [...bugsData.filter((task) => task.checked === true), ...websiteData.filter((task) => task.checked === true), ...serverData.filter((task) => task.checked === true)] });
+	}
     render() {
         const { value, checkedBoxes } = this.state;
 		const { bugsData, websiteData, serverData } = this.props.user;
@@ -97,7 +120,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={e => this.deleteTask(e, task.type, task.title)} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e, task.type, task.id)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -113,7 +136,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={e => this.deleteTask(e, task.type, task.title)} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e, task.type, task.id)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });
@@ -129,7 +152,7 @@ class Tasks extends Component {
                         />
                         <div className="title" onClick={e => this.handleCheck(e,task)}>{task.title}</div>
                     </div>
-                    <img onClick={e => this.deleteTask(e, task.type, task.title)} src={deleteIcon} alt="Delete Icon"/>
+                    <img onClick={e => this.deleteTask(e, task.type, task.id)} src={deleteIcon} alt="Delete Icon"/>
                 </div>
             )
         });

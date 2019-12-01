@@ -102,6 +102,9 @@ class Uploader extends Component {
 		if (this.props.user._id === '5ddc58175ff659042ad5df3f') {
 			this.setState({ error: 'Cannot upload files on guest account', showClearButton: true });
 			setTimeout(() => { this.setState({ error: '' }) }, 3500);
+			if (this.state.chosenFile === null) {
+				this.setState({ showClearButton: false });
+			}
 		} else {
 			if (this.state.chosenFile !== null && this.state.fileName.length > 1) {
 				// Show upload progress bar

@@ -41,32 +41,42 @@ class Weather extends Component {
 	}
     getLocation() {
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition((pos) => {
+			this.setState({ showWeather: false });
+			const options = {
+				enableHighAccuracy: true
+			}
+			const success = (pos) => {
 				this.setState({ lat: pos.coords.latitude, lon: pos.coords.longitude, showWeather: true });
-					if (this.state.showWeather) {
-						// Get current day
-						axios.get(`${this.state.currentUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=84943a6dbebd4dfdb01b18356ee4024f&units=${this.state.units}`)
-							.then((res) => res.data.data[0])
-							.then(weather => {
-								this.props.getWeather(weather);
-							})
-						// Get forecast
-						axios.get(`${this.state.forecastUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=84943a6dbebd4dfdb01b18356ee4024f&units=${this.state.units}`)
-							.then((res) => res.data.data)
-							.then((forecast) => {
-								this.props.getForecast(forecast.filter((day) => forecast.indexOf(day) <= 6));
-							})
-					}
-			});
+				if (this.state.showWeather) {
+					// Get current day
+					axios.get(`${this.state.currentUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=84943a6dbebd4dfdb01b18356ee4024f&units=${this.state.units}`)
+						.then((res) => res.data.data[0])
+						.then(weather => {
+							this.props.getWeather(weather);
+						})
+					// Get forecast
+					axios.get(`${this.state.forecastUrl}?lat=${this.state.lat}&lon=${this.state.lon}&key=84943a6dbebd4dfdb01b18356ee4024f&units=${this.state.units}`)
+						.then((res) => res.data.data)
+						.then((forecast) => {
+							this.props.getForecast(forecast.filter((day) => forecast.indexOf(day) <= 6));
+						})
+				}
+			}
+			const error = (err) => {
+				this.setState({ error: 'Location denied, please check your settings' });
+				setTimeout(() => { this.setState({  error: '' }) }, 5500);
+			}
+			navigator.geolocation.getCurrentPosition(success, error, options);
 		} else {
-			this.setState({ error: 'Allow location services for weather' });
+			this.setState({ error: 'Allow location services for weather', showWeather: false });
 			setTimeout(() => {
 				this.setState({ error: '' });
 			}, 3500);
 		}
     }
     UNSAFE_componentWillMount() {
-		this.getLocation();
+		this.props.getWeather({});
+		this.props.getForecast([]);
 	}
 	UNSAFE_componentWillReceiveProps(props) {
 		if (props.forecast[0] !== undefined) {
@@ -86,6 +96,9 @@ class Weather extends Component {
 				this.setState({ showWeather: true, forecast: forecast });
 			}
 		}
+	}
+	componentDidMount() {
+		this.getLocation();
 	}
     render() {
 		const { forecast, weather } = this.props;

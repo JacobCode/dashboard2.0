@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import uuid from 'uuid';
 
 // Material UI
 import AddIcon from '@material-ui/icons/Add';
@@ -38,9 +39,14 @@ class Tasks extends Component {
         this.setState({ chosenTaskName: e.target.value });
     }
     newTask(e) {
-        e.preventDefault();
+		e.preventDefault();
         if (this.state.chosenTaskName.length > 1) {
-            const newTask = { title: this.state.chosenTaskName, type: this.state.chosenTaskOption.toLowerCase() };
+            const newTask = {
+            	title: this.state.chosenTaskName,
+            	type: this.state.chosenTaskOption.toLowerCase(),
+				id: uuid.v4(),
+				checked: false
+            };
             if (this.state.chosenTaskOption === 'Bug') {
                 this.props.updateTasks([...this.props.user.bugsData, newTask], this.props.user, 'bugsData');
             }
@@ -53,18 +59,18 @@ class Tasks extends Component {
             this.setState({ chosenTaskName: '' });
         }
     }
-    deleteTask(e, type, name) {
+    deleteTask(e, type, id) {
         if (type === 'bug') {
-			this.setState({ bugsData: this.props.user.bugsData.filter(task => task.title !== name) });
-            this.props.updateTasks(this.props.user.bugsData.filter(task => task.title !== name), this.props.user, 'bugsData');
+			this.setState({ bugsData: this.props.user.bugsData.filter(task => task.id !== id) });
+            this.props.updateTasks(this.props.user.bugsData.filter(task => task.id !== id), this.props.user, 'bugsData');
         }
         if (type === 'server') {
-			this.setState({ serverData: this.props.user.serverData.filter(task => task.title !== name) });
-            this.props.updateTasks(this.props.user.serverData.filter(task => task.title !== name), this.props.user, 'serverData');
+			this.setState({ serverData: this.props.user.serverData.filter(task => task.id !== id) });
+            this.props.updateTasks(this.props.user.serverData.filter(task => task.id !== id), this.props.user, 'serverData');
         }
         if (type === 'website') {
-			this.setState({ websiteData: this.props.user.websiteData.filter(task => task.title !== name) });
-			this.props.updateTasks(this.props.user.websiteData.filter(task => task.title !== name), this.props.user, 'websiteData');
+			this.setState({ websiteData: this.props.user.websiteData.filter(task => task.id !== id) });
+			this.props.updateTasks(this.props.user.websiteData.filter(task => task.id !== id), this.props.user, 'websiteData');
         }
 	}
     render() {
@@ -112,7 +118,7 @@ class Tasks extends Component {
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
                                     <div className="delete-task-icon">
-                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.title)} />
+                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
                                     </div>
                                 </div>
                             )
@@ -126,7 +132,7 @@ class Tasks extends Component {
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
                                     <div className="delete-task-icon">
-                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.title)} />
+                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
                                     </div>
                                 </div>
                             )
@@ -140,7 +146,7 @@ class Tasks extends Component {
                                 <div className="task" key={i}>
                                     <p>{task.title}</p>
                                     <div className="delete-task-icon">
-                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.title)} />
+                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
                                     </div>
                                 </div>
                             )
