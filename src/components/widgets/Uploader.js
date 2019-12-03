@@ -46,17 +46,19 @@ class Uploader extends Component {
 		this.handleClearButton = this.handleClearButton.bind(this);
 	}
 	hideWidget() {
-        // Hide Uploader widget
+        const { setWidgets } = this.props;
+		const { bookmarks, calendar, crypto, clock, weather, tasks } = this.props.activeWidgets;
+        // Hide tasks widget
         var obj = {
-            bookmarks: this.props.activeWidgets.bookmarks,
-            calendar: this.props.activeWidgets.calendar,
-            crypto: this.props.activeWidgets.crypto,
-            Uploader: this.props.activeWidgets.Uploader,
-            tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather,
-			uploader: false
+            bookmarks,
+            calendar,
+            crypto,
+            clock,
+            tasks,
+			weather,
+			uploader: false,
         }
-        this.props.setWidgets(obj);
+        setWidgets(obj);
 	}
 	toggleView() {
 		this.setState({ showFiles: !this.state.showFiles });

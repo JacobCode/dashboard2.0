@@ -27,17 +27,19 @@ class Weather extends Component {
         this.hideWidget = this.hideWidget.bind(this);
 	}
 	hideWidget() {
-		// Hide weather widget
-		var obj = {
-			bookmarks: this.props.activeWidgets.bookmarks,
-			calendar: this.props.activeWidgets.calendar,
-			crypto: this.props.activeWidgets.crypto,
-			clock: this.props.activeWidgets.clock,
-			tasks: this.props.activeWidgets.tasks,
+		const { setWidgets } = this.props;
+		const { bookmarks, calendar, crypto, clock, uploader, tasks } = this.props.activeWidgets;
+        // Hide tasks widget
+        var obj = {
+            bookmarks,
+            calendar,
+            crypto,
+            clock,
+            tasks,
 			weather: false,
-			uploader: this.props.activeWidgets.uploader
-		}
-		this.props.setWidgets(obj);
+			uploader,
+        }
+        setWidgets(obj);
 	}
     getLocation() {
 		if (navigator.geolocation) {

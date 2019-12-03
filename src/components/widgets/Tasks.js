@@ -45,60 +45,69 @@ class Tasks extends Component {
         this.hideWidget = this.hideWidget.bind(this);
     };
     handleCheck(e, task) {
+		const { user, updateTasks } = this.props;
+		const { bugsData, serverData, websiteData } = user;
+
         this.setState(state => ({
             checkedBoxes: state.checkedBoxes.includes(task) ?
                 state.checkedBoxes.filter(c => c !== task):
                 [...state.checkedBoxes, task]
 		}));
+
 		let taskIndex;
 		if (task.type === 'bug') {
 			task.checked = !task.checked;
-			taskIndex = this.props.user.bugsData.map((t) => { return t.id; }).indexOf(task.id);
-			this.props.user.bugsData[taskIndex] = task;
-			this.props.updateTasks(this.props.user.bugsData, this.props.user, 'bugsData');
+			taskIndex = bugsData.map((t) => { return t.id; }).indexOf(task.id);
+			bugsData[taskIndex] = task;
+			updateTasks(bugsData, user, 'bugsData');
 		}
 		if (task.type === 'server') {
 			task.checked = !task.checked;
-			taskIndex = this.props.user.serverData.map((t) => { return t.id; }).indexOf(task.id);
-			this.props.user.serverData[taskIndex] = task;
-			this.props.updateTasks([task, ...this.props.user.serverData.filter((t) => t.id !== task.id)], this.props.user, 'serverData');
+			taskIndex = user.serverData.map((t) => { return t.id; }).indexOf(task.id);
+			serverData[taskIndex] = task;
+			updateTasks(serverData, user, 'serverData');
 		}
 		if (task.type === 'website') {
 			task.checked = !task.checked;
-			taskIndex = this.props.user.websiteData.map((t) => { return t.id; }).indexOf(task.id);
-			this.props.user.websiteData[taskIndex] = task;
-			this.props.updateTasks([task, ...this.props.user.websiteData.filter((t) => t.id !== task.id)], this.props.user, 'websiteData');
+			taskIndex = websiteData.map((t) => { return t.id; }).indexOf(task.id);
+			websiteData[taskIndex] = task;
+			updateTasks(websiteData, user, 'websiteData');
 		}
     }
     handleChange = (e, value) => {
         this.setState({ value });
     };
     deleteTask(e, type, id) {
+		const { user, updateTasks } = this.props;
+		const { bugsData, serverData, websiteData } = user;
+
         if (type === 'bug') {
-			this.setState({ bugsData: this.props.user.bugsData });
-        	this.props.updateTasks(this.props.user.bugsData.filter(task => task.id !== id), this.props.user, 'bugsData');
+			this.setState({ bugsData: bugsData });
+        	updateTasks(bugsData.filter(task => task.id !== id), user, 'bugsData');
         }
         if (type === 'server') {
-			this.setState({ serverData: this.props.user.serverData });
-        	this.props.updateTasks(this.props.user.serverData.filter(task => task.id !== id), this.props.user, 'serverData');
+			this.setState({ serverData: serverData });
+        	updateTasks(serverData.filter(task => task.id !== id), user, 'serverData');
         }
         if (type === 'website') {
-			this.setState({ websiteData: this.props.user.websiteData });
-        	this.props.updateTasks(this.props.user.websiteData.filter(task => task.id !== id), this.props.user, 'websiteData');
+			this.setState({ websiteData: websiteData });
+        	updateTasks(websiteData.filter(task => task.id !== id), user, 'websiteData');
         }
     }
     hideWidget() {
+		const { setWidgets } = this.props;
+		const { bookmarks, calendar, crypto, clock, weather, uploader } = this.props.activeWidgets;
         // Hide tasks widget
         var obj = {
-            bookmarks: this.props.activeWidgets.bookmarks,
-            calendar: this.props.activeWidgets.calendar,
-            crypto: this.props.activeWidgets.crypto,
-            clock: this.props.activeWidgets.clock,
+            bookmarks,
+            calendar,
+            crypto,
+            clock,
             tasks: false,
-			weather: this.props.activeWidgets.weather,
-			uploader: this.props.activeWidgets.uploader
+			weather,
+			uploader,
         }
-        this.props.setWidgets(obj);
+        setWidgets(obj);
 	}
 	componentWillMount() {
 		const { bugsData, websiteData, serverData } = this.props.user;

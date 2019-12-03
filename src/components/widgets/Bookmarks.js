@@ -25,17 +25,19 @@ class Bookmarks extends Component {
         this.hideWidget = this.hideWidget.bind(this);
 	}
 	hideWidget() {
-		// Hide bookmarks widget
-		var obj = {
-			bookmarks: false,
-			calendar: this.props.activeWidgets.calendar,
-			crypto: this.props.activeWidgets.crypto,
-			clock: this.props.activeWidgets.clock,
-			tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather,
-			uploader: this.props.activeWidgets.uploader
-		}
-		this.props.setWidgets(obj);
+		const { setWidgets } = this.props;
+		const { uploader, calendar, crypto, clock, weather, tasks } = this.props.activeWidgets;
+        // Hide tasks widget
+        var obj = {
+            bookmarks: false,
+            calendar,
+            crypto,
+            clock,
+            tasks,
+			weather,
+			uploader,
+        }
+        setWidgets(obj);
 	}
     toggleForm() {
         this.setState({ showBookmarkForm: !this.state.showBookmarkForm });

@@ -56,17 +56,19 @@ class Crypto extends Component {
 		this.getCoins();
 	}
 	hideWidget() {
-		// Hide clock widget
-		var obj = {
-			bookmarks: this.props.activeWidgets.bookmarks,
-            calendar: this.props.activeWidgets.calendar,
+		const { setWidgets } = this.props;
+		const { bookmarks, calendar, uploader, clock, weather, tasks } = this.props.activeWidgets;
+        // Hide tasks widget
+        var obj = {
+            bookmarks,
+            calendar,
             crypto: false,
-            clock: this.props.activeWidgets.clock,
-            tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather,
-			uploader: this.props.activeWidgets.uploader
-		}
-		this.props.setWidgets(obj);
+            clock,
+            tasks,
+			weather,
+			uploader,
+        }
+        setWidgets(obj);
 	}
 	changeCoin(e, type) {
 		this.setState({ chosenCoin: type });

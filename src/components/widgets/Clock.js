@@ -38,17 +38,19 @@ class Clock extends Component {
         setTimeout(this.startTime, 500);
     }
     hideWidget() {
-        // Hide clock widget
+        const { setWidgets } = this.props;
+		const { bookmarks, calendar, crypto, uploader, weather, tasks } = this.props.activeWidgets;
+        // Hide tasks widget
         var obj = {
-            bookmarks: this.props.activeWidgets.bookmarks,
-            calendar: this.props.activeWidgets.calendar,
-            crypto: this.props.activeWidgets.crypto,
+            bookmarks,
+            calendar,
+            crypto,
             clock: false,
-            tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather,
-			uploader: this.props.activeWidgets.uploader
+            tasks,
+			weather,
+			uploader,
         }
-        this.props.setWidgets(obj);
+        setWidgets(obj);
     }
     componentDidMount() {
 		this.mounted = true;

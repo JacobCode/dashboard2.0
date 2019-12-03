@@ -40,17 +40,19 @@ class Calendar extends Component {
         format(res.date, res.month);
     }
     hideWidget() {
-        // Hide calendar widget
+        const { setWidgets } = this.props;
+		const { bookmarks, uploader, crypto, clock, weather, tasks } = this.props.activeWidgets;
+        // Hide tasks widget
         var obj = {
-            bookmarks: this.props.activeWidgets.bookmarks,
+            bookmarks,
             calendar: false,
-            crypto: this.props.activeWidgets.crypto,
-            clock: this.props.activeWidgets.clock,
-            tasks: this.props.activeWidgets.tasks,
-			weather: this.props.activeWidgets.weather,
-			uploader: this.props.activeWidgets.uploader
+            crypto,
+            clock,
+            tasks,
+			weather,
+			uploader,
         }
-        this.props.setWidgets(obj);
+        setWidgets(obj);
     }
     selectType(e) {
         this.setState({ pickedType: e.target.value });
