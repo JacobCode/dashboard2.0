@@ -272,67 +272,76 @@ app.get('/user/:userId', setupLimit(50, 60), (req, res) => {
 
 // Change Password (POST)
 app.post('/user/changepassword', setupLimit(10, 60), (req, res) => {
-	User.find({ _id: req.body.id })
-		.then((results) => {
-			// Compare passwords
-			const comparePasswords = async (text, hash) => {
-				const isMatch = await bcrypt.compare(text, hash);
-				// If passwords match
-				if (isMatch) {
-					const hashPassword = async () => {
-						const salt = await bcrypt.genSalt(10);
-						const password = await bcrypt.hash(req.body.new, salt);
-						return password;
-					}
-					hashPassword().then((pswd) => {
-						// Update password
-						User.findByIdAndUpdate(req.body.id, { password: pswd }, (error) => {
-							if (error) { console.log(error) }
-							else { res.status(200).send(`New Password: ${req.body.new}`) }
+	if (req.body.id === '5ddc58175ff659042ad5df3f') {
+		res.status(404).send("Can't change guest password!");
+	} else {
+		User.find({ _id: req.body.id })
+			.then((results) => {
+				// Compare passwords
+				const comparePasswords = async (text, hash) => {
+					const isMatch = await bcrypt.compare(text, hash);
+					// If passwords match
+					if (isMatch) {
+						const hashPassword = async () => {
+							const salt = await bcrypt.genSalt(10);
+							const password = await bcrypt.hash(req.body.new, salt);
+							return password;
+						}
+						hashPassword().then((pswd) => {
+							// Update password
+							User.findByIdAndUpdate(req.body.id, { password: pswd }, (error) => {
+								if (error) { console.log(error) }
+								else { res.status(200).send(`New Password: ${req.body.new}`) }
+							});
 						});
-					});
-				} else { res.status(404).send('Incorrect Password') }
-			}
-			comparePasswords(req.body.old, results[0].password);
-		})
-		.catch((err) => res.status(404).send('User does not exist'));
+					} else { res.status(404).send('Incorrect Password') }
+				}
+				comparePasswords(req.body.old, results[0].password);
+			})
+			.catch((err) => res.status(404).send('User does not exist'));
+	}
 });
 
 // Delete account (DELETE)
 app.delete('/account/delete/:userId/:password', (req, res) => {
-	User.find({ _id: req.params.userId })
-		.then((results) => {
-			// Compare passwords
-			const comparePasswords = async (text, hash) => {
-				const isMatch = await bcrypt.compare(text, hash);
-				// If passwords match
-				if (isMatch) {
-					const hashPassword = async () => {
-						const salt = await bcrypt.genSalt(10);
-						const password = await bcrypt.hash(req.params.password, salt);
-						return password;
-					}
-					hashPassword().then((pswd) => {
-						// Find account by id and delete
-						User.findByIdAndDelete({ _id: req.params.userId })
-							// Redirect OK on account delete
-							.then((response) => res.status(200).send('Deleted Account :('))
-							.catch((err) => console.log(err));
+	// If trying to delete guest account
+	if (req.params.userId === '5ddc58175ff659042ad5df3f') {
+		res.status(404).send("Can't delete guest account!");
+	} else {
+		User.find({ _id: req.params.userId })
+			.then((results) => {
+				// Compare passwords
+				const comparePasswords = async (text, hash) => {
+					const isMatch = await bcrypt.compare(text, hash);
+					// If passwords match
+					if (isMatch) {
+						const hashPassword = async () => {
+							const salt = await bcrypt.genSalt(10);
+							const password = await bcrypt.hash(req.params.password, salt);
+							return password;
+						}
+						hashPassword().then((pswd) => {
+							// Find account by id and delete
+							User.findByIdAndDelete({ _id: req.params.userId })
+								// Redirect OK on account delete
+								.then((response) => res.status(200).send('Deleted Account :('))
+								.catch((err) => console.log(err));
+						});
+					} else { res.status(404).send('Incorrect Password') }
+				}
+				comparePasswords(req.params.password, results[0].password);
+				return results;
+			})
+			.then((dt) => {
+				// For each user file, delete file from 'Uploads'
+				dt[0].files.forEach((file) => {
+					gfs.remove({ _id: file._id, root: 'uploads' }, (err, gridStore) => {
+						if (err) return res.status(404).json({ error: err });
 					});
-				} else { res.status(404).send('Incorrect Password') }
-			}
-			comparePasswords(req.params.password, results[0].password);
-			return results;
-		})
-		.then((dt) => {
-			// For each user file, delete file from 'Uploads'
-			dt[0].files.forEach((file) => {
-				gfs.remove({ _id: file._id, root: 'uploads' }, (err, gridStore) => {
-					if (err) return res.status(404).json({ error: err });
 				});
-			});
-		})
-		.catch((err) => res.status(404).send('Wrong password, please try again'));
+			})
+			.catch((err) => res.status(404).send('Wrong password, please try again'));
+	}
 });
 
 // Upload files to db (POST)
@@ -422,7 +431,7 @@ app.get('/user/files/download/:filename', (req, res) => {
 			root: 'uploads'
 		});
 		// set the proper content type 
-		res.set('Content-Disposition', 'attachment');
+		res.set('Content-Disposition', `attachment; filename="${files[0].metadata.name}"`);
 		res.set('Content-Type', files[0].contentType);
 		// Return response
 		return readstream.pipe(res);
