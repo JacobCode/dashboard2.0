@@ -77,7 +77,8 @@
 #widget-grid {
     display: flex;
     flex-wrap: wrap;
-	max-width: 1400px;
+	// max-width: 1400px;
+	max-width: none !important;
     padding: 2rem;
     .widget {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
@@ -94,7 +95,8 @@
         &#bookmarks {
             height: 275px;
             min-width: 300px;
-            width: 33%;
+			width: 33%;
+			max-width: 375px;
         }
         &#line-chart {
             min-width: 300px;
@@ -112,7 +114,7 @@
             // align-items: center;
             justify-content: center;
             max-width: 350px;
-            max-height: 400px;
+            max-height: 350px;
             padding-bottom: 0;
             .picky-date-time.visible {
                 box-shadow: none;
@@ -292,7 +294,6 @@
         padding: 1.5rem;
         justify-content: center;
         .widget {
-            max-width: none !important;
             &#tasks {
                 width: 100%;
                 margin: 0 0 2rem 0;
@@ -311,7 +312,9 @@
             }
 
             &#calendar {
-                width: 100%;
+				width: 100%;
+				max-width: 400px;
+				max-height: 350px;
                 margin: 0 0 2rem 0;
             }
 
@@ -330,7 +333,6 @@
 		align-items: center;
 		padding: 1rem;
         .widget {
-            max-width: none !important;
             margin: 0 0 2rem !important;
             &#tasks {
                 width: 100%;
@@ -348,7 +350,6 @@
 
             &#calendar {
                 width: 100%;
-                min-width: 300px;
             }
 
             &#clock {

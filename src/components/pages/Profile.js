@@ -128,7 +128,7 @@ class Profile extends Component {
 			});
 	}
 	togglePassword(type) {
-		this.setState({ [type]: !this.state[type] })
+		this.setState({ [type]: !this.state[type] });
 	}
     render() {
         const { user } = this.props;
@@ -159,7 +159,7 @@ class Profile extends Component {
 										required
 										endAdornment={
 											<InputAdornment position="end">
-												{this.state.showPassword ? <VisibilityIcon onClick={e => this.togglePassword('showPassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showDeletePassword')} />}
+												{this.state.showPassword ? <VisibilityIcon onClick={e => this.togglePassword('showPassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showPassword')} />}
 											</InputAdornment>
 										}
 									/>
@@ -176,7 +176,7 @@ class Profile extends Component {
 										required
 										endAdornment={
 											<InputAdornment position="end">
-												{this.state.showNewPassword ? <VisibilityIcon onClick={e => this.togglePassword('showNewPassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showDeletePassword')} />}
+												{this.state.showNewPassword ? <VisibilityIcon onClick={e => this.togglePassword('showNewPassword')} /> : <VisibilityOffIcon onClick={e => this.togglePassword('showNewPassword')} />}
 											</InputAdornment>
 										}
 									/>

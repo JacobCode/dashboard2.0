@@ -2,7 +2,18 @@
 	position: relative;
 	color: $darkGrey;
 	width: 400px;
-	height: 525px;
+	height: 475px;
+	::-webkit-scrollbar {
+		width: 5px;
+	}
+	::-webkit-scrollbar-track {
+		background: #f5f5f5;
+	}
+	::-webkit-scrollbar-thumb {
+		background: $darkGrey;
+	}
+	::-webkit-scrollbar-thumb:hover {
+	}
 	.header {
 		display: flex;
 		align-items: center;
@@ -19,8 +30,11 @@
 		}
 	}
 	#file-uploads {
+		margin: 1rem 0;
+		height: 350px;
+		overflow-y: scroll;
 		.files {
-			padding: 1rem 0;
+			margin-right: 1rem;
 			.no-files {
 				position: absolute;
 				top: 50%;
@@ -29,18 +43,25 @@
 			}
 			.file {
 				display: flex;
-				padding: 1rem 0;
+				padding: 0.75rem 0;
 				align-items: center;
 				justify-content: space-between;
-				border-bottom: 1px solid black;
+				border-bottom: 1px solid rgb(233, 233, 233);
 				a {
 					color: $primary;
 					cursor: pointer;
 					text-decoration: none;
+					width: 65%;
+				}
+				span {
+					width: 25%;
+					color: #c7c7c7;
+					font-weight: 300;
 				}
 				svg {
 					fill: $darkGrey;
 					cursor: pointer;
+					width: 10%;
 					&:hover {
 						fill: rgb(255, 60, 60);
 					}

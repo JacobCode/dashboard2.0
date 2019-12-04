@@ -215,7 +215,7 @@ class Uploader extends Component {
 	}
 	UNSAFE_componentWillMount() {
 		this.props.getUserFiles(this.props.user);
-		this.setState({ files: this.props.user.files });
+		// this.setState({ files: this.props.user.files });
 	}
 	componentDidMount() {
 		this.updateStorage(this.props.user.files);
@@ -227,7 +227,7 @@ class Uploader extends Component {
 			<div id="uploader" className="widget">
 				<div className="delete-widget" onClick={this.hideWidget}><Close /></div>
 				<div className="header">
-					<h1>{showFiles === true ? 'Your Files' : 'Upload'}</h1>
+					<h1>{showFiles === true ? `Your Files (${user.files.length})` : 'Upload'}</h1>
 					<h6 onClick={this.toggleView}>{showFiles === true ? 'Upload' : `View Files (${user.files.length})`}</h6>
 				</div>
 				{/* If show files, show uploads */}

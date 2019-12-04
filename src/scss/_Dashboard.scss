@@ -84,7 +84,8 @@
         background: $lightGrey;
         // border: 2px solid blue;
         .content {
-            max-width: 1500px;
+			// max-width: 1500px;
+			max-width: none;
             min-height: calc(100vh - 123px);
         }
     }
