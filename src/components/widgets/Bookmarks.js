@@ -54,7 +54,7 @@ class Bookmarks extends Component {
         e.preventDefault();
         if (this.state.url.length > 0 && this.state.name.length > 0) {
             const bookmark = {
-                url: this.state.url,
+                url: this.testUrl(this.state.url),
 				name: this.state.name,
 				id: uuid.v4()
             }
@@ -67,6 +67,25 @@ class Bookmarks extends Component {
 	deleteBookmark(id) {
 		this.setState({ bookmarks: this.props.user.bookmarks.filter((b) => b.id !== id) })
 		this.props.updateBookmarks(this.props.user.bookmarks.filter((b) => b.id !== id), this.props.user);
+	}
+	testUrl(str) {
+		var testStart = /^(http|https):/;
+		var testEnd = /(.com|.net)$/;
+		if (testStart.test(str) === true && testEnd.test(str) === true) {
+			return str;
+		}
+		if (testStart.test(str) === false && testEnd.test(str) === true) {
+			str = `https://${str}`;
+			return str;
+		}
+		if (testStart.test(str) === false && testEnd.test(str) === false) {
+			str = `https://${str}.com`;
+			return str;
+		}
+		if (testStart.test(str) === true && testEnd.test(str) === false) {
+			str = `${str}.com`;
+			return str;
+		}
 	}
     render() {
 		const { bookmarks } = this.props.user;

@@ -48,8 +48,6 @@ class Home extends Component {
 		this.changeForm = this.changeForm.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.validatePassword = this.validatePassword.bind(this);
-		this.firstNameInput = this.firstNameInput.bind(this);
-		this.lastNameInput = this.lastNameInput.bind(this);
 		this.handleSignUp = this.handleSignUp.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
 		this.toggleShowPassword = this.toggleShowPassword.bind(this);
@@ -58,14 +56,6 @@ class Home extends Component {
 	changeForm() {
 		this.setState({ showSignIn: !this.state.showSignIn, showPassword: false, first_name: '', last_name: '', email: '', password: '', registerEmail: '', registerConfirm: '', registerFName: '', registerLName: '', registerPassword: '' });
 	}
-
-	firstNameInput(e) {
-		this.setState({ first_name: e.target.value });
-	}
-	lastNameInput(e) {
-		this.setState({ last_name: e.target.value });
-	}
-
 	handleInputChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 		if (e.target.name === 'registerPassword') {
