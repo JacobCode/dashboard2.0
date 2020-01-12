@@ -43,7 +43,7 @@ class Bookmarks extends Component {
         this.setState({ showBookmarkForm: !this.state.showBookmarkForm });
     }
     handleNameInput(e) {
-        if (e.target.value.length < 12) {
+        if (e.target.value.length < 28) {
 			this.setState({ name: e.target.value });
 		}
     }

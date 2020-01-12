@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 import store from './redux/store';
 
 // Container
@@ -29,6 +29,7 @@ class App extends Component {
 			<BrowserRouter>
 				<MuiThemeProvider theme={theme}>
 					<Dashboard />
+					<Link className="hidden-btn" to="/"></Link>
 				</MuiThemeProvider>
 			</BrowserRouter>
 		</Provider>

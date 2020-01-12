@@ -135,10 +135,11 @@ class Home extends Component {
 			.then((res) => {
 				// If login successful
 				if (res.status === 200) {
-					this.setState({ message: `Welcome, ${res.data.first_name}`, loading: false});
+					this.setState({ message: `Welcome, ${res.data.first_name.charAt(0).toUpperCase() + res.data.first_name.substr(1)}`, loading: false});
 					setTimeout(() => {
 						this.props.loginUser(res.data);
-						window.location.pathname = '/';
+						// window.location.pathname = '/';
+						document.querySelector('.hidden-btn').click();
 					}, 1000);
 				}
 
@@ -296,7 +297,7 @@ class Home extends Component {
 					</div>
 
 					<div className="right">
-						<img src="https://i.postimg.cc/ncsYRQnW/dashboard-lg.png" alt="Dashboard Preview" />
+						<img src="https://i.postimg.cc/wvsSBWbr/dashboard-screenshot.png" alt="Dashboard Preview" />
 					</div>
 
 					{/* Error Snackbar */}

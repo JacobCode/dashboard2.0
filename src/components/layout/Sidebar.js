@@ -13,7 +13,8 @@ const Sidebar = ({ ...props }) => {
 	const { routes, closeDrawer, user, logoutUser } = props;
 	const logout = () => {
 		logoutUser();
-		window.location.pathname = '/';
+		// window.location.pathname = '/';
+		document.querySelector('.hidden-btn').click();
 	}
   var links = (
     <List id="sidebar-links">
