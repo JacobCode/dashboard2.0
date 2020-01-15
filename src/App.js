@@ -3,6 +3,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Link } from 'react-router-dom';
 import store from './redux/store';
 
+// SCSS
+import './scss/main.scss';
+
 // Container
 import Dashboard from './containers/Dashboard';
 
@@ -11,6 +14,11 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+
+// Testing different colors
+deepPurple.main = '#fe9a04';
+deepPurple.contrastText = 'rgba(255, 255, 255, 0.87)';
+deepPurple["A700"] = '#e38b07';
 
 const theme = createMuiTheme({
 	palette: {

@@ -32,9 +32,6 @@ import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 
-// SCSS
-import '../scss/main.scss';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Dashboard extends Component {

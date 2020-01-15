@@ -122,7 +122,7 @@ class Tasks extends Component {
                 <div key={i} className="task">
                     <div className="left">
                         <Checkbox
-                        color="secondary"
+                        color="primary"
                         label={task.title}
                         onChange={e => this.handleCheck(e,task)}
                         checked={checkedBoxes.includes(task)}
@@ -138,7 +138,7 @@ class Tasks extends Component {
                 <div key={i} className="task">
                     <div className="left">
                         <Checkbox
-                        color="secondary"
+                        color="primary"
                         label={task.title}
                         onChange={e => this.handleCheck(e,task)}
                         checked={checkedBoxes.includes(task)}
@@ -154,7 +154,7 @@ class Tasks extends Component {
                 <div key={i} className="task">
                     <div className="left">
                         <Checkbox
-                        color="secondary"
+                        color="primary"
                         label={task.title}
                         onChange={e => this.handleCheck(e,task)}
                         checked={checkedBoxes.includes(task)}
@@ -168,8 +168,8 @@ class Tasks extends Component {
         return (
             <div id="tasks" className="widget">
                 <div className="delete-widget" onClick={this.hideWidget}><Close /></div>
-                <AppBar position="static" color="secondary">
-                    <Tabs className="tabs" value={value} onChange={this.handleChange}>
+                <AppBar position="static" color="primary">
+                    <Tabs className="tabs" indicatorColor="primary" value={value} onChange={this.handleChange}>
                         <Tab label="Bugs" />
                         <Tab label="Website" />
                         <Tab label="Server" />

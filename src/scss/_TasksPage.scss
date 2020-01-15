@@ -73,13 +73,12 @@
         .task-group {
             background: white;
             width: 100%;
-            border-radius: 0.5rem;
             box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-            min-height: 200px;
+            min-height: 300px;
             max-height: 350px;
             overflow: scroll;
             .tasks-empty {
-                height: 135px;
+                height: 235px;
                 display: flex;
                 align-items: center;
                 justify-content: center;

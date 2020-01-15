@@ -2,6 +2,9 @@
 @import './reset.scss';
 @import './variables';
 
+// Dashboard
+@import './Dashboard';
+
 // Layout
 @import './Footer';
 @import './Navbar';
@@ -32,7 +35,4 @@
 
 // Profile Page
 @import './Profile.scss';
-
-// Dashboard
-@import './Dashboard';
 

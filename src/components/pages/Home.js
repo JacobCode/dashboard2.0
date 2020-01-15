@@ -138,8 +138,7 @@ class Home extends Component {
 					this.setState({ message: `Welcome, ${res.data.first_name.charAt(0).toUpperCase() + res.data.first_name.substr(1)}`, loading: false});
 					setTimeout(() => {
 						this.props.loginUser(res.data);
-						// window.location.pathname = '/';
-						document.querySelector('.hidden-btn').click();
+						window.location.pathname = '/';
 					}, 1000);
 				}
 
@@ -237,7 +236,7 @@ class Home extends Component {
 										/>
 									</FormControl>
 									<p onClick={this.useDemo} className="demo">Use Demo Account</p>
-									<Button type="submit" color="secondary" variant="contained" disabled={!this.state.cookiesEnabled}>Login</Button>
+									<Button type="submit" color="primary" variant="contained" disabled={!this.state.cookiesEnabled}>Login</Button>
 								</form>
 							</div>
 							:
@@ -290,14 +289,14 @@ class Home extends Component {
 										</div>
 										<p>{this.state.passwordStrength}</p>
 									</div> : null}
-									<Button type="submit" color="secondary" variant="contained" disabled={!this.state.cookiesEnabled}>Register</Button>
+									<Button type="submit" color="primary" variant="contained" disabled={!this.state.cookiesEnabled}>Register</Button>
 								</form>
 							</div>}
 							{this.state.loading === true ? <img id="spinner" src={spinner} alt="Loading..." /> : null}
 					</div>
 
 					<div className="right">
-						<img src="https://i.postimg.cc/wvsSBWbr/dashboard-screenshot.png" alt="Dashboard Preview" />
+						<img src="https://i.postimg.cc/hvkF4HCt/dashboard-lg-1.jpg" alt="Dashboard Preview" />
 					</div>
 
 					{/* Error Snackbar */}
