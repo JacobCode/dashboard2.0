@@ -55,11 +55,4 @@ Dashboard for developers who need to keep track of different tasks, important da
 
 ## Desktop 💻
 
-![IMG 1](https://i.postimg.cc/268GQSCz/home-screenshot.png)
-
-
-## Mobile 📱
-
-![IMG 3](https://i.postimg.cc/prLSLBmJ/notification-screenshot.png)
-
-![IMG 4](https://i.postimg.cc/zv2cbRWZ/profile-screenshot.png)
+![IMG 1](https://i.postimg.cc/hvkF4HCt/dashboard-lg-1.jpg)
