@@ -32,7 +32,7 @@ class NavbarLinks extends Component {
 	}
 	logout() {
 		this.props.logoutUser();
-		// window.location.pathname = '/';
+		window.location.pathname = '/';
 		document.querySelector('.hidden-btn').click();
 	}
 	render() {
