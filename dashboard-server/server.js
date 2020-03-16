@@ -436,6 +436,22 @@ app.get('/user/files/download/:filename', (req, res) => {
 		// Return response
 		return readstream.pipe(res);
 	});
-})
+});
+
+// Preview File (GET) (Images Only)
+app.get('/user/files/preview/:filename', (req, res) => {
+	gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+		// If file does not exist
+		if (!files || files.length === 0) {
+			return res.status(404).json({ message: 'error' });
+		}
+		if (/[\/.](gif|jpg|jpeg|tiff|png)$/.test(files[0].contentType)) {
+			const readstream = gfs.createReadStream(files[0].filename);
+			readstream.pipe(res);
+		} else {
+			res.status(404).json({ error: 'Not an image' });
+		}
+	});
+});
 
 app.listen(process.env.PORT || 3001, () => console.log('\x1b[32m', `Server running on port ${process.env.PORT|| 3001}`));
