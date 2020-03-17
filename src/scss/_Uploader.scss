@@ -148,10 +148,15 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	.media {
+		outline: none !important;
+	}
 	.inner {
 		background: white;
 		padding: 1.5rem;
 		position: relative;
+		display: flex;
+		flex-direction: column;
 		.close-modal {
 			background: #e0e0e0;
 			position: absolute;
@@ -181,15 +186,18 @@
 			}
 		}
 		.preview-image {
-			height: 400px;
-			width: 600px;
-			background-size: cover;
+			max-height: 400px;
+			max-width: 600px;
+			min-width: calc(40vw * 1.75);
+			min-height: 40vw;
+			background-size: contain;
 			background-position: center;
 			background-repeat: no-repeat;
 			margin-bottom: 1.5rem;
 			-webkit-box-shadow: 0px 0px 14px -2px rgba(184,184,184,1);
 			-moz-box-shadow: 0px 0px 14px -2px rgba(184,184,184,1);
 			box-shadow: 0px 0px 14px -2px rgba(184,184,184,1);
+			background-color: white;
 		}
 		a {
 			color: $primary;

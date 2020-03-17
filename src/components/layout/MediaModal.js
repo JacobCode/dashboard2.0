@@ -5,9 +5,8 @@ import Close from '@material-ui/icons/Close';
 
 class MediaModal extends Component {
 	render() {
-		const { mediaOpen, toggleMediaModal, currentFile, viewFile } = this.props;
+		const { mediaOpen, toggleMediaModal, currentFile } = this.props;
 		const API_URL = 'https://modern-dashboard.herokuapp.com';
-		console.log(currentFile);
 		return (
 			<Modal id="media-modal" open={mediaOpen}>
 				<div className="media">

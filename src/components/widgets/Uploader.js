@@ -247,7 +247,6 @@ class Uploader extends Component {
 						</div> : 
 						user.files.map((file, i) => {
 							let canPreview = /[\/.](gif|jpg|jpeg|tiff|png)$/.test(file.contentType);
-							console.log(`${API_URL}/user/files/preview/${file.filename}/`);
 							return (
 								<div className="file" key={i}>
 									{canPreview ? 
