@@ -16,8 +16,7 @@ class MediaModal extends Component {
 	}
 	render() {
 		const { mediaOpen, toggleMediaModal, currentFile } = this.props;
-		// const API_URL = 'https://modern-dashboard.herokuapp.com';
-		const API_URL = 'http://localhost:3001';
+		const API_URL = 'https://modern-dashboard.herokuapp.com';
 		return (
 			<Modal id="media-modal" open={mediaOpen}>
 				<div className="media">
