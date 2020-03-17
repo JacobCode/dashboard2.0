@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Material UI
 import Switch from '@material-ui/core/Switch';
+import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 
 const widgets = ['tasks', 'clock', 'crypto', 'calendar', 'bookmarks', 'weather', 'uploader'];
@@ -63,6 +64,7 @@ class ManageWidgets extends Component {
     render() {
         const { tasks, clock, crypto, calendar, bookmarks, weather, uploader } = this.state;
         return (
+			<Fade in={true}>
             <div id="manage-widgets">
                 <h1 className="title">Manage Widgets</h1>
                 <div className="content">
@@ -93,6 +95,7 @@ class ManageWidgets extends Component {
                     </Button>
                 </div>
             </div>
+			</Fade>
         )
     }
 }

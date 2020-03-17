@@ -9,7 +9,8 @@ import {
 	SET_WIDGETS,
 	GET_USER_FILES,
 	UPLOAD_FILE,
-	DELETE_FILE
+	DELETE_FILE,
+	VIEW_FILE
 } from '../actions/types';
 
 // Initial State
@@ -29,7 +30,8 @@ const initialState = {
 		weather: true,
 		crypto: false,
 		uploader: true
-	}
+	},
+	currentFile: {}
 };
 
 export default ((state = initialState, action) => {
@@ -88,6 +90,11 @@ export default ((state = initialState, action) => {
 			return {
 				...state,
 				user: action.payload
+			}
+		case VIEW_FILE:
+			return {
+				...state,
+				currentFile: action.payload
 			}
 		default: return state;
 	}

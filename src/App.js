@@ -15,7 +15,6 @@ import blue from '@material-ui/core/colors/blue';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
-// Testing different colors
 deepPurple.main = '#fe9a04';
 deepPurple.contrastText = 'rgba(255, 255, 255, 0.87)';
 deepPurple["A700"] = '#e38b07';

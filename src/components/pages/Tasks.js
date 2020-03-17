@@ -3,6 +3,7 @@ import uuid from 'uuid';
 
 // Material UI
 import AddIcon from '@material-ui/icons/Add';
+import Fade from '@material-ui/core/Fade';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
@@ -76,90 +77,92 @@ class Tasks extends Component {
     render() {
 		const { bugsData, serverData, websiteData } = this.props.user;
         return (
-            <div id="tasks-page">
-                <h1 className="title">Tasks</h1>
-                <Modal id="task-modal"
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={this.state.open}
-                onClose={this.handleClose}>
-                    <div className="content">
-                        <ClickAwayListener onClickAway={this.toggleForm}>
-                            <div className="form">
-                                <TextField id="task-name"
-                                    label="Task Name"
-                                    value={this.state.chosenTaskName}
-                                    onChange={this.handleTaskName}
-                                    margin="normal"
-                                    variant="outlined"
-                                />
-                                <TextField id="task-option"
-                                select
-                                value={this.state.chosenTaskOption}
-                                onChange={this.handleTaskOption}
-                                variant="outlined"
-                                SelectProps={{ native: true }}>
-                                    {taskOptions.map(option => (
-                                        <option key={option} value={option}>
-                                            {option}
-                                        </option>
-                                    ))}
-                                </TextField>
-                                <Button id="submit-task" variant="contained" type="submit" onClick={this.state.chosenTaskName.length < 1 ? this.toggleForm : this.newTask} color={this.state.chosenTaskName.length < 1 ? 'secondary' : 'primary'}>{this.state.chosenTaskName.length < 1 ? 'Close' : 'Add Task'}</Button>
-                            </div>
-                        </ClickAwayListener>
-                    </div>
-                </Modal>
-                <div className="container">
-                    <div className="task-group bugs">
-                        <header><p>Bugs</p></header>
-                        {bugsData.map((task, i) => {
-                            return (
-                                <div className="task" key={i}>
-                                    <p>{task.title}</p>
-                                    <div className="delete-task-icon">
-                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
-                                    </div>
-                                </div>
-                            )
-                        })}
-                        {bugsData.length === 0 ? <p className="tasks-empty"><span>Empty</span></p> : null}
-                    </div>
-                    <div className="task-group website">
-                        <header><p>Website</p></header>
-                        {websiteData.map((task, i) => {
-                            return (
-                                <div className="task" key={i}>
-                                    <p>{task.title}</p>
-                                    <div className="delete-task-icon">
-                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
-                                    </div>
-                                </div>
-                            )
-                        })}
-                        {websiteData.length === 0 ? <p className="tasks-empty"><span>Empty</span></p> : null}
-                    </div>
-                    <div className="task-group server">
-                        <header><p>Server</p></header>
-                        {serverData.map((task, i) => {
-                            return (
-                                <div className="task" key={i}>
-                                    <p>{task.title}</p>
-                                    <div className="delete-task-icon">
-                                        <DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
-                                    </div>
-                                </div>
-                            )
-                        })}
-                        {serverData.length === 0 ? <p className="tasks-empty"><span>Empty</span></p> : null}
-                    </div>
-                    <Tooltip onClick={this.toggleForm} title="Add Task" aria-label="Add Task">
-                        <Fab color="primary">
-                            <AddIcon />
-                        </Fab>
-                    </Tooltip>
-                </div>
-            </div>
+			<Fade in={true}>
+				<div id="tasks-page">
+					<h1 className="title">Tasks</h1>
+					<Modal id="task-modal"
+					aria-labelledby="simple-modal-title"
+					aria-describedby="simple-modal-description"
+					open={this.state.open}
+					onClose={this.handleClose}>
+						<div className="content">
+							<ClickAwayListener onClickAway={this.toggleForm}>
+								<div className="form">
+									<TextField id="task-name"
+										label="Task Name"
+										value={this.state.chosenTaskName}
+										onChange={this.handleTaskName}
+										margin="normal"
+										variant="outlined"
+									/>
+									<TextField id="task-option"
+									select
+									value={this.state.chosenTaskOption}
+									onChange={this.handleTaskOption}
+									variant="outlined"
+									SelectProps={{ native: true }}>
+										{taskOptions.map(option => (
+											<option key={option} value={option}>
+												{option}
+											</option>
+										))}
+									</TextField>
+									<Button id="submit-task" variant="contained" type="submit" onClick={this.state.chosenTaskName.length < 1 ? this.toggleForm : this.newTask} color={this.state.chosenTaskName.length < 1 ? 'secondary' : 'primary'}>{this.state.chosenTaskName.length < 1 ? 'Close' : 'Add Task'}</Button>
+								</div>
+							</ClickAwayListener>
+						</div>
+					</Modal>
+					<div className="container">
+						<div className="task-group bugs">
+							<header><p>Bugs</p></header>
+							{bugsData.map((task, i) => {
+								return (
+									<div className="task" key={i}>
+										<p>{task.title}</p>
+										<div className="delete-task-icon">
+											<DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
+										</div>
+									</div>
+								)
+							})}
+							{bugsData.length === 0 ? <p className="tasks-empty"><span>Empty</span></p> : null}
+						</div>
+						<div className="task-group website">
+							<header><p>Website</p></header>
+							{websiteData.map((task, i) => {
+								return (
+									<div className="task" key={i}>
+										<p>{task.title}</p>
+										<div className="delete-task-icon">
+											<DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
+										</div>
+									</div>
+								)
+							})}
+							{websiteData.length === 0 ? <p className="tasks-empty"><span>Empty</span></p> : null}
+						</div>
+						<div className="task-group server">
+							<header><p>Server</p></header>
+							{serverData.map((task, i) => {
+								return (
+									<div className="task" key={i}>
+										<p>{task.title}</p>
+										<div className="delete-task-icon">
+											<DeleteIcon onClick={e => this.deleteTask(e, task.type, task.id)} />
+										</div>
+									</div>
+								)
+							})}
+							{serverData.length === 0 ? <p className="tasks-empty"><span>Empty</span></p> : null}
+						</div>
+						<Tooltip onClick={this.toggleForm} title="Add Task" aria-label="Add Task">
+							<Fab color="primary">
+								<AddIcon />
+							</Fab>
+						</Tooltip>
+					</div>
+				</div>
+			</Fade>
         )
     }
 }

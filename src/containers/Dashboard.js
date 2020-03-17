@@ -16,7 +16,8 @@ import {
 	getWeather,
 	getForecast,
 	updateNotifications,
-	updateBookmarks
+	updateBookmarks,
+	viewFile,
 } from '../redux/actions/actions';
 
 // Pages
@@ -30,6 +31,7 @@ import ManageWidgets from '../components/pages/ManageWidgets';
 // Components
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
+import MediaModal from '../components/layout/MediaModal';
 import Footer from '../components/layout/Footer';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -40,8 +42,10 @@ class Dashboard extends Component {
 		this.state = {
 			mobileOpen: false,
 			loading: false,
-			checked: true
-		};
+			checked: true,
+			mediaOpen: false
+		}
+		this.toggleMediaModal = this.toggleMediaModal.bind(this);
 	}
 	handleDrawerToggle = () => {
 		this.setState({ mobileOpen: !this.state.mobileOpen });
@@ -49,13 +53,16 @@ class Dashboard extends Component {
 	closeDrawer = () => {
 		this.setState({ mobileOpen: false })
 	}
+	toggleMediaModal(mediaOpen) {
+		this.setState({ mediaOpen: mediaOpen })
+	}
 	UNSAFE_componentWillMount() {
 		this.setState({ loading: true })
 	}
 	componentDidMount() {
 		setTimeout(() => {
 			this.setState({ loading: false })
-		}, 1000);
+		}, 1250);
 	}
 	render() {
 		const {
@@ -74,6 +81,8 @@ class Dashboard extends Component {
 			getForecast,
 			updateNotifications,
 			updateBookmarks,
+			viewFile,
+			currentFile
 		} = this.props;
 		return (
 			<div>
@@ -87,7 +96,7 @@ class Dashboard extends Component {
 							<CircularProgress />
 						</div>
 						<div className="content">
-							<div className="container">
+							<div className="container" style={{opacity: this.state.loading ? 0 : 1}}>
 								<Switch>
 									{/* Widget Grid */}
 									<Route path={process.env.PUBLIC_URL + '/dashboard'} render={() => <Main 
@@ -103,7 +112,10 @@ class Dashboard extends Component {
 										getWeather={getWeather}
 										getForecast={getForecast}
 										updateNotifications={updateNotifications}
-										updateBookmarks={updateBookmarks} />}
+										updateBookmarks={updateBookmarks}
+										toggleMediaModal={this.toggleMediaModal}
+										viewFile={viewFile} />
+										}
 									exact />
 									{/* Profile */}
 									<Route path={process.env.PUBLIC_URL + '/dashboard/profile'} render={() => <Profile 
@@ -129,6 +141,7 @@ class Dashboard extends Component {
 								</Switch>
 							</div>
 						</div>
+						<MediaModal currentFile={currentFile} viewFile={viewFile} mediaOpen={this.state.mediaOpen} toggleMediaModal={this.toggleMediaModal} />
 						<Footer />
 					</div>
 				</div>
@@ -161,6 +174,8 @@ Dashboard.propTypes = {
 	getForecast: PropTypes.func.isRequired,
 	updateNotifications: PropTypes.func.isRequired,
 	updateBookmarks: PropTypes.func.isRequired,
+	viewFile: PropTypes.func.isRequired,
+	currentFile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -168,6 +183,7 @@ const mapStateToProps = state => ({
 	activeWidgets: state.siteData.activeWidgets,
 	weather: state.siteData.weather,
 	forecast: state.siteData.forecast,
+	currentFile: state.siteData.currentFile
 });
 
 export default connect(mapStateToProps, {
@@ -181,5 +197,6 @@ export default connect(mapStateToProps, {
 	getWeather,
 	getForecast,
 	updateNotifications,
-	updateBookmarks
+	updateBookmarks,
+	viewFile
 })(Dashboard);

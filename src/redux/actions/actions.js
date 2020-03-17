@@ -9,7 +9,8 @@ import {
 	GET_USER_FILES,
 	LOGOUT_USER,
 	UPLOAD_FILE,
-	DELETE_FILE
+	DELETE_FILE,
+	VIEW_FILE
 } from './types';
 
 import axios from 'axios';
@@ -127,4 +128,12 @@ export const deleteFile = (user, file) => dispatch => {
 				payload: user
 			});
 		});
+}
+
+// Preview File
+export const viewFile = file => dispatch => {
+	dispatch({
+		type: VIEW_FILE,
+		payload: file
+	});
 }

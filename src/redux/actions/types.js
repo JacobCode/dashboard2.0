@@ -22,3 +22,4 @@ export const SET_WIDGETS = 'SET_WIDGETS';
 export const GET_USER_FILES = 'GET_USER_FILES';
 export const UPLOAD_FILE = 'UPLOAD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
+export const VIEW_FILE = 'VIEW_FILE';

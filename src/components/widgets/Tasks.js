@@ -109,7 +109,7 @@ class Tasks extends Component {
         }
         setWidgets(obj);
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const { bugsData, websiteData, serverData } = this.props.user;
 		this.setState({ checkedBoxes: [...bugsData.filter((task) => task.checked === true), ...websiteData.filter((task) => task.checked === true), ...serverData.filter((task) => task.checked === true)] });
 	}

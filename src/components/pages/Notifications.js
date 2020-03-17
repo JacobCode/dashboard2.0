@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Material UI
 import AddIcon from '@material-ui/icons/Add';
+import Fade from '@material-ui/core/Fade';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
@@ -75,6 +76,7 @@ class Notifications extends Component {
     render() {
 		const { notifications } = this.props.user;
         return (
+			<Fade in={true}>
             <div id="notifications">
                 <h1 className="noti-title">Notifications</h1>
                 <Modal id="notification-modal"
@@ -187,6 +189,7 @@ class Notifications extends Component {
                     </Tooltip>
                 </div>
             </div>
+			</Fade>
         )
     }
 }

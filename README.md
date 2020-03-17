@@ -48,9 +48,9 @@ Dashboard for developers who need to keep track of different tasks, important da
 * Login/Signup
 
 #### Coming Soon ⭐️
+* Media viewer for uploaded files
 * Forgot password system
 * Resend email verification system
-* Rearrange widgets around by dragging
 
 
 ## Desktop 💻

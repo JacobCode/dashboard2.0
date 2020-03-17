@@ -44,6 +44,7 @@ class Uploader extends Component {
 		this.updateStorage = this.updateStorage.bind(this);
 		this.handleBrowseFile = this.handleBrowseFile.bind(this);
 		this.handleClearButton = this.handleClearButton.bind(this);
+		this.previewFile = this.previewFile.bind(this);
 	}
 	hideWidget() {
         const { setWidgets } = this.props;
@@ -213,6 +214,11 @@ class Uploader extends Component {
 	handleClearButton() {
 		this.setState({ chosenFile: null, fileName: '', showClearButton: false })
 	}
+	previewFile(e, file) {
+		e.preventDefault();
+		this.props.toggleMediaModal(true);
+		this.props.viewFile(file);
+	}
 	UNSAFE_componentWillMount() {
 		this.props.getUserFiles(this.props.user);
 		// this.setState({ files: this.props.user.files });
@@ -240,9 +246,14 @@ class Uploader extends Component {
 							No Files
 						</div> : 
 						user.files.map((file, i) => {
+							let canPreview = /[\/.](gif|jpg|jpeg|tiff|png)$/.test(file.contentType);
+							console.log(`${API_URL}/user/files/preview/${file.filename}/`);
 							return (
 								<div className="file" key={i}>
-									<a href={`${API_URL}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>
+									{canPreview ? 
+									<a href="/" onClick={e => this.previewFile(e, file)}>{file.metadata.name}</a>
+									:
+									<a href={`${API_URL}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>}
 									<span>{this.convertBytes(file.length, 1)}</span>
 									<DeleteIcon onClick={() => this.handleDelete(user, file)} />
 								</div>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -33,7 +33,6 @@ class NavbarLinks extends Component {
 	logout() {
 		this.props.logoutUser();
 		window.location.pathname = '/';
-		document.querySelector('.hidden-btn').click();
 	}
 	render() {
 		const { user } = this.props;
@@ -42,7 +41,9 @@ class NavbarLinks extends Component {
 			<div id="links">
 
 			{/* Dashboard */}
-			<Link to="/dashboard">
+			<NavLink to="/dashboard" onClick={() => {
+				console.log("HI")
+			}}>
 				<Button
 				aria-label="Dashboard">
 				<DashboardIcon />
@@ -50,7 +51,7 @@ class NavbarLinks extends Component {
 					<p>|</p>
 				</Hidden>
 				</Button>
-			</Link>
+			</NavLink>
 
 			{/* Notifications */}
 			<ClickAwayListener onClickAway={this.handleClose}>
@@ -90,10 +91,10 @@ class NavbarLinks extends Component {
 										notifications.map((notification, index) => {
 											return (
 												<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
-													<Link to={`/dashboard/notifications/#${notification.type}`}>
+													<NavLink to={`/dashboard/notifications/#${notification.type}`}>
 														<p className={`type-color ${notification.type === 'work' ? 'red' : notification.type === 'school' ? 'purple' : notification.type === 'personal' ? 'blue' : ''}`}>&bull;</p>
 														<span>{notification.name}</span> <span className="notification-date">{notification.date}</span>
-													</Link>
+													</NavLink>
 												</MenuItem>
 											)
 										})}
@@ -107,11 +108,11 @@ class NavbarLinks extends Component {
 			</ClickAwayListener>
 
 			{/* Profile */}
-			<Link to="/dashboard/profile">
+			<NavLink to="/dashboard/profile">
 				<Button>
 				<Person />
 				</Button>
-			</Link>
+			</NavLink>
 
 			{/* Logout */}
 			<div className="nav-logout">
