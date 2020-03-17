@@ -12,7 +12,7 @@ import NavbarLinks from './NavbarLinks';
 
 export default class Navbar extends Component {
     render() {
-		const { logoutUser, user } = this.props;
+		const { logoutUser, user, history } = this.props;
         return (
             <AppBar id="navbar" color="primary">
                 <Toolbar id="toolbar">
@@ -20,7 +20,7 @@ export default class Navbar extends Component {
                         <Button color="inherit" href="/">Dashboard</Button>
                     </div>
                     <Hidden smDown implementation="css">
-                        <NavbarLinks logoutUser={logoutUser} user={user} />
+                        <NavbarLinks history={history} logoutUser={logoutUser} user={user} />
                     </Hidden>
                     <Hidden mdUp implementation="css">
                         <IconButton

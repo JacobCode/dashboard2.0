@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -35,23 +35,10 @@ class NavbarLinks extends Component {
 		window.location.pathname = '/';
 	}
 	render() {
-		const { user } = this.props;
+		const { user, history } = this.props;
 		const { notifications } = user;
 		return (
 			<div id="links">
-
-			{/* Dashboard */}
-			<NavLink to="/dashboard" onClick={() => {
-				console.log("HI")
-			}}>
-				<Button
-				aria-label="Dashboard">
-				<DashboardIcon />
-				<Hidden mdUp implementation="css">
-					<p>|</p>
-				</Hidden>
-				</Button>
-			</NavLink>
 
 			{/* Notifications */}
 			<ClickAwayListener onClickAway={this.handleClose}>
@@ -64,7 +51,7 @@ class NavbarLinks extends Component {
 						<NotificationsIcon />
 					</Badge>
 					<Hidden mdUp implementation="css">
-						<p onClick={this.handleClick}>|</p>
+						<p>|</p>
 					</Hidden>
 					</Button>
 					{/* Notifications Dropdown */}
@@ -82,37 +69,28 @@ class NavbarLinks extends Component {
 							placement === "bottom" ? "center top" : "center bottom"
 						}}>
 							<Paper>
-								{/* <ClickAwayListener onClickAway={this.handleClose}> */}
-									<MenuList role="menu">
-										{/* If there are no notifications, display No Notifications */}
-										{notifications.length === 0 ? 
-										<MenuItem>No Notifications</MenuItem>
-										:
-										notifications.map((notification, index) => {
-											return (
-												<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
-													<NavLink to={`/dashboard/notifications/#${notification.type}`}>
-														<p className={`type-color ${notification.type === 'work' ? 'red' : notification.type === 'school' ? 'purple' : notification.type === 'personal' ? 'blue' : ''}`}>&bull;</p>
-														<span>{notification.name}</span> <span className="notification-date">{notification.date}</span>
-													</NavLink>
-												</MenuItem>
-											)
-										})}
-									</MenuList>
-								{/* </ClickAwayListener> */}
+								<MenuList role="menu">
+									{/* If there are no notifications, display No Notifications */}
+									{notifications.length === 0 ? 
+									<MenuItem>No Notifications</MenuItem>
+									:
+									notifications.map((notification, index) => {
+										return (
+											<MenuItem className="notification-item" key={index} onClick={this.handleToggles}>
+												<Link to={`/dashboard/notifications/#${notification.type}`}>
+													<p className={`type-color ${notification.type === 'work' ? 'red' : notification.type === 'school' ? 'purple' : notification.type === 'personal' ? 'blue' : ''}`}>&bull;</p>
+													<span>{notification.name}</span> <span className="notification-date">{notification.date}</span>
+												</Link>
+											</MenuItem>
+										)
+									})}
+								</MenuList>
 							</Paper>
 						</Grow>
 					)}
 					</Poppers>
 			</div>
 			</ClickAwayListener>
-
-			{/* Profile */}
-			<NavLink to="/dashboard/profile">
-				<Button>
-				<Person />
-				</Button>
-			</NavLink>
 
 			{/* Logout */}
 			<div className="nav-logout">

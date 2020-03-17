@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import dashBoardRoutes from '../routes';
+import dashboardRoutes from '../routes';
 
 // Redux Functions
 import {
@@ -66,6 +66,7 @@ class Dashboard extends Component {
 	}
 	render() {
 		const {
+			history,
 			user,
 			activeWidgets,
 			weather,
@@ -85,13 +86,14 @@ class Dashboard extends Component {
 			currentFile
 		} = this.props;
 		return (
+			(history) ?
 			<div>
 				{/* If Signed In */}
 				{Object.keys(this.props.user).length > 0 ? 
 				<div id="dashboard" className="App">
-					<Sidebar logoutUser={logoutUser} user={user} routes={dashBoardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
+					<Sidebar logoutUser={logoutUser} user={user} routes={dashboardRoutes} handleDrawerToggle={this.handleDrawerToggle} closeDrawer={this.closeDrawer} open={this.state.mobileOpen} />
 					<div id="main-panel">
-						<Navbar logoutUser={logoutUser} user={user} handleDrawerToggle={this.handleDrawerToggle} />
+						<Navbar history={history} logoutUser={logoutUser} user={user} handleDrawerToggle={this.handleDrawerToggle} />
 						<div className={`loading-container ${this.state.loading === true ? '' : 'hide-loading'}`}>
 							<CircularProgress />
 						</div>
@@ -153,7 +155,7 @@ class Dashboard extends Component {
 						<Redirect from="/*" to="/" />
 					</Switch>
 				</div>}
-			</div>
+			</div> : <div></div>
 		)
 	}
 }
@@ -199,4 +201,4 @@ export default connect(mapStateToProps, {
 	updateNotifications,
 	updateBookmarks,
 	viewFile
-})(Dashboard);
+})(withRouter((Dashboard)));
