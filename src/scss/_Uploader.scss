@@ -157,6 +157,50 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		.audio {
+			display: flex;
+			flex-direction: column;
+			audio {
+				margin-bottom: 1.5rem;
+				-webkit-box-shadow: 0px 0px 14px -2px rgba(184, 184, 184, 1);
+				-moz-box-shadow: 0px 0px 14px -2px rgba(184, 184, 184, 1);
+				box-shadow: 0px 0px 14px -2px rgba(184, 184, 184, 1);
+				outline: none;
+				background: none;
+				border-radius: 2rem;
+				width: calc(40vw);
+				min-width: 275px;
+			}
+		}
+		.image {
+			.preview-image {
+				max-height: 400px;
+				max-width: 600px;
+				width: calc(40vw * 1.75);
+				height: 40vw;
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				margin-bottom: 1.5rem;
+				-webkit-box-shadow: 0px 0px 14px -2px rgba(184, 184, 184, 1);
+				-moz-box-shadow: 0px 0px 14px -2px rgba(184, 184, 184, 1);
+				box-shadow: 0px 0px 14px -2px rgba(184, 184, 184, 1);
+				background-color: white;
+			}
+		}
+		h1 {
+			font-size: 1.2rem;
+			font-weight: 300;
+			margin-bottom: 1.5rem;
+			span {
+				font-weight: 600;
+			}
+		}
+		a {
+			color: $primary;
+			font-size: 1.2rem;
+			text-decoration: none;
+		}
 		.close-modal {
 			background: #e0e0e0;
 			position: absolute;
@@ -168,41 +212,25 @@
 			justify-content: center;
 			opacity: 0.8;
 			border-radius: 50%;
-			width: 25px;
-			height: 25px;
+			width: 20px;
+			height: 20px;
 			cursor: pointer;
 			transition: all 0.4s ease-in-out;
+
 			&:hover {
 				background: red;
 				opacity: 1;
+
 				svg {
 					fill: white;
 				}
 			}
+
 			svg {
-				max-width: 20px;
+				max-width: 17px;
 				fill: $darkGrey;
 				transition: all 0.4s ease-in-out;
 			}
-		}
-		.preview-image {
-			max-height: 400px;
-			max-width: 600px;
-			width: calc(40vw * 1.75);
-			height: 40vw;
-			background-size: contain;
-			background-position: center;
-			background-repeat: no-repeat;
-			margin-bottom: 1.5rem;
-			-webkit-box-shadow: 0px 0px 14px -2px rgba(184,184,184,1);
-			-moz-box-shadow: 0px 0px 14px -2px rgba(184,184,184,1);
-			box-shadow: 0px 0px 14px -2px rgba(184,184,184,1);
-			background-color: white;
-		}
-		a {
-			color: $primary;
-			font-size: 1.2rem;
-			text-decoration: none;
 		}
 	}
 }

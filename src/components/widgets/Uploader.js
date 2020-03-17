@@ -246,7 +246,7 @@ class Uploader extends Component {
 							No Files
 						</div> : 
 						user.files.map((file, i) => {
-							let canPreview = /[\/.](gif|jpg|jpeg|tiff|png)$/.test(file.contentType);
+							let canPreview = /[\/.](gif|jpg|jpeg|tiff|png|mpeg)$/.test(file.contentType);
 							return (
 								<div className="file" key={i}>
 									{canPreview ? 

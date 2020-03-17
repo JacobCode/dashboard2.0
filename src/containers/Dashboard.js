@@ -57,7 +57,8 @@ class Dashboard extends Component {
 		this.setState({ mediaOpen: mediaOpen })
 	}
 	UNSAFE_componentWillMount() {
-		this.setState({ loading: true })
+		this.setState({ loading: true });
+		this.props.viewFile({});
 	}
 	componentDidMount() {
 		setTimeout(() => {

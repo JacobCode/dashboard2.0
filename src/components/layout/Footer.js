@@ -7,6 +7,7 @@ export default class Footer extends Component {
                 <div className="links">
                     <a href="https://github.com/JacobCode"><i className="fab fa-github" /></a>
                     <a href="https://github.com/JacobCode/dashboard2.0"><i className="fas fa-code-branch" /></a>
+					<a href="https://jacobcarver.net"><i className="fas fa-globe"></i></a>
                 </div>
             </div>
         )
