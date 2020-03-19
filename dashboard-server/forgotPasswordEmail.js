@@ -2,7 +2,7 @@ const css = `
 
 `;
 
-const verifyEmailAddress = (token, email) => {
+const forgotPasswordEmail = (token, email) => {
 	return (
 		`
 		${css}
@@ -24,13 +24,13 @@ const verifyEmailAddress = (token, email) => {
 							width='100%'>
 								<tr>
 								<td align='left' style='padding: 56px 56px 28px 56px;' valign='top'>
-									<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333;font-weight:bold;'>Hey There! Welcome to <a href="https://modern-dashboard.netlify.com" style="text-decoration: none;color: #2196f3;">Modern Dashboard</a></div>
+									<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333;font-weight:bold;'>Request to change password</div>
 								</td>
 								</tr>
 								<tr>
 								<td align='left' style='padding: 0 56px 28px 56px;' valign='top'>
-									<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333;'>Please click the following link to confirm that <strong>${email}</strong> is
-									your email address and you created an account with us. If you did not, simply ignore this email. 😁</div>
+									<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333;'>Please click the following link to reset your password. If you do not wish to reset your password and this 
+									was a mistake, please disregard this email. 😁</div>
 								</td>
 								</tr>
 								<tr>
@@ -44,7 +44,7 @@ const verifyEmailAddress = (token, email) => {
 										<w:anchorlock/>
 										<![endif]-->
 										<a style="background-color:#5d42f5;border-radius:50px;color:#ffffff;display:inline-block;font-family: &#39;lato&#39;, &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif;font-size:18px;line-height:44px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;"
-										href="https://modern-dashboard.herokuapp.com/verify/${token}">Confirm Your Account</a>
+										href="https://modern-dashboard.herokuapp.com/changepassword/${token}/${email}">Reset Password</a>
 										<!--[if mso]>
 										</v:roundrect>
 									<![endif]-->
@@ -71,4 +71,4 @@ const verifyEmailAddress = (token, email) => {
 	)
 }
 
-module.exports = verifyEmailAddress;
+module.exports = forgotPasswordEmail;

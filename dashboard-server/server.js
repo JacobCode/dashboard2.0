@@ -17,6 +17,9 @@ const crypto = require('crypto');
 // Email address template to send to user
 const verifyEmailAddress = require('./verifyEmailAddress');
 
+// Forgot password email
+const forgotPasswordEmail = require('./forgotPasswordEmail');
+
 // Express Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -24,6 +27,7 @@ app.use(methodOverride('_method'));
 app.use(cors());
 app.disable('x-powered-by');
 app.enable("trust proxy");
+app.set('view engine', 'ejs');
 
 // DB Models
 const User = require('./models/user');
@@ -64,6 +68,7 @@ const storage = new GridFsStorage({
 				if (err) {
 					return reject(err);
 				}
+				// Set File Info
 				const filename = buf.toString('hex') + path.extname(file.originalname);
 				const fileInfo = {
 					fileName: filename,
@@ -95,14 +100,14 @@ const verifyToken = (req, res, next) => {
 }
 
 // Async func to send email with token
-async function sendEmail(token, email) {
+async function sendEmail(func, token, email, msg, txt) {
 	const transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
 		port: 587,
 		secure: false,
 		// change to node_variables
 		auth: {
-			user: process.env.EMAIL_USERNAME,
+			user: EMAIL_USERNAME,
 			pass: process.env.EMAIL_PASSWORD
 		},
 		tls: {
@@ -110,11 +115,11 @@ async function sendEmail(token, email) {
 		}
 	});
 	const info = await transporter.sendMail({
-		from: `"Test Verification" <${process.env.EMAIL_USERNAME}>`, // sender address
+		from: `"Test Verification" <${'testverify1234567@gmail.com'}>`, // sender address
 		to: email, // receiver email
-		subject: "Account Verification", // Subject line
-		text: "Confirm Your Account", // plain text body
-		html: verifyEmailAddress(token, email) // html email template
+		subject: msg, // Subject line
+		text: txt, // plain text body
+		html: func(token, email) // html email template
 	});
 }
 
@@ -138,6 +143,7 @@ app.get('/verify/:token', setupLimit(1, 60), (req, res) => {
 
 // New User (POST)
 app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
+	const { first_name, last_name, email } = req.body;
 	const hashPassword = async () => {
 		const salt = await bcrypt.genSalt(10);
 		const password = await bcrypt.hash(req.body.password, salt);
@@ -145,9 +151,9 @@ app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
 	}
 	hashPassword().then((pswd) => {
 		var newUser = new User({
-			first_name: req.body.first_name.toString(),
-			last_name: req.body.last_name.toString(),
-			email: req.body.email.toString().toLowerCase(),
+			first_name: first_name.toString(),
+			last_name: last_name.toString(),
+			email: email.toString().toLowerCase(),
 			password: pswd,
 			notifications: [],
 			bookmarks: [],
@@ -162,7 +168,7 @@ app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
 				const keyExpiration = '1h';
 				// JWT Authentication
 				jwt.sign({user: user}, 'secretKey', { expiresIn: keyExpiration }, (err, token) => {
-					sendEmail(token, req.body.email.toLowerCase())
+					sendEmail(verifyEmailAddress, token, email.toLowerCase(), 'Dashboard Account Verification', 'Confirm Your Account')
 						.then(() => {
 							res.status(200).send({ message: 'Account created, please check your email to verify your account' });
 						})
@@ -170,9 +176,10 @@ app.post('/account/register', setupLimit(2, 60), verifyToken, (req, res) => {
 				});
 			})
 			.catch((err) => {
+				console.log(err);
 				// If duplicate values for email
 				if (err.code === 11000) {
-					res.status(201).send({error: 'Email already taken'});
+					res.status(201).send({error: 'Email already in use'});
 				}
 			});
 	});
@@ -270,8 +277,8 @@ app.get('/user/:userId', setupLimit(50, 60), (req, res) => {
 		}).catch((err) => console.log(err));
 });
 
-// Change Password (POST)
-app.post('/user/changepassword', setupLimit(10, 60), (req, res) => {
+// Change Password (POST) (VIA Profile Settings Page)
+app.post('/user/changepassword', setupLimit(5, 60), (req, res) => {
 	if (req.body.id === '5ddc58175ff659042ad5df3f') {
 		res.status(404).send("Can't change guest password!");
 	} else {
@@ -300,6 +307,70 @@ app.post('/user/changepassword', setupLimit(10, 60), (req, res) => {
 			})
 			.catch((err) => res.status(404).send('User does not exist'));
 	}
+});
+
+// Forgot Password (VIA Home Page) (POST)
+app.post('/user/forgotpassword', setupLimit(4, 30), (req, res) => {
+	if (req.body.email === 'guestuser@ethereal.email') {
+		res.status(404).send("Can't change guest password!");
+	} else {
+		User.findOne({ email: req.body.email.toString().toLowerCase() })
+			.then((user) => {
+				if (user !== null) {
+					// Key Expiration
+					const keyExpiration = 60;
+					// JWT Authentication
+					jwt.sign({ user: user }, 'pskey', { expiresIn: keyExpiration }, (err, token) => {
+						sendEmail(forgotPasswordEmail, token, req.body.email.toLowerCase(), 'Change Password Request', "Change your account's password")
+							.then(() => {
+								res.status(200).send({ message: 'Password recovery email has been sent' });
+							})
+							.catch((err) => console.log(err));
+					});
+				} else {
+					res.status(404).send({error: 'User not found'});
+				}
+			})
+			.catch(() => {
+				res.status(404).send({error: 'User not found'});
+			})
+	}
+});
+
+// Show form for user to enter their new password if token is valid (GET)
+app.get('/changepassword/:token/:email', setupLimit(1, 30), (req, res) => {
+	jwt.verify(req.params.token, 'pskey', (err, authData) => {
+		if (err) {
+			res.send('Authorization Expired');
+		} else {
+			app.locals.token = req.params.token;
+			app.locals.email = req.params.email;
+			res.render('./changePassword');
+		}
+	})
+});
+
+// Update the user's new password from the ejs form (POST)
+app.post('/updatepassword', setupLimit(1, 30), (req, res) => {
+	let { token, newPassword, email } = req.body;
+	const hashPassword = async () => {
+		const salt = await bcrypt.genSalt(10);
+		const password = await bcrypt.hash(newPassword, salt);
+		return password;
+	}
+	jwt.verify(token, 'pskey', (err, authData) => {
+		if (err) {
+			res.send('Authorization Expired');
+		} else {
+			hashPassword().then((pswd) => {
+				// Update password
+				User.findOneAndUpdate({ email: email }, { password: pswd }, (error) => {
+					if (error) { console.log(error) }
+					else { res.status(200).send(`Password Successfully Changed`) }
+				});
+			});
+		}
+	});
 });
 
 // Delete account (DELETE)
@@ -425,7 +496,7 @@ app.get('/user/files/download/:filename', (req, res) => {
 		if (!files || files.length === 0) {
 			return res.status(404).json({ message: 'error' });
 		}
-		// create read stream
+		// Create read stream
 		var readstream = gfs.createReadStream({
 			filename: files[0].filename,
 			root: 'uploads'
@@ -438,18 +509,27 @@ app.get('/user/files/download/:filename', (req, res) => {
 	});
 });
 
-// Preview File (GET) (Images Only)
+// Preview File (GET) (Images & MPEG)
 app.get('/user/files/preview/:filename', (req, res) => {
 	gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
 		// If file does not exist
 		if (!files || files.length === 0) {
 			return res.status(404).json({ message: 'error' });
 		}
-		if (/[\/.](gif|jpg|jpeg|tiff|png)$/.test(files[0].contentType)) {
+		// if file is image or audio, return and set content
+		if (/[\/.](gif|jpg|jpeg|png)$/.test(files[0].contentType)) {
 			const readstream = gfs.createReadStream(files[0].filename);
 			readstream.pipe(res);
+		} else if(files[0].contentType === 'audio/mpeg') {
+			const readstream = gfs.createReadStream(files[0].filename);
+			res.type('audio/mpeg');
+			readstream.pipe(res);
+		} else if (files[0].contentType === 'audio/mp3') {
+			const readstream = gfs.createReadStream(files[0].filename);
+			res.type('audio/mp3');
+			readstream.pipe(res);
 		} else {
-			res.status(404).json({ error: 'Not an image' });
+			res.status(404).json({ error: 'Not an image or audio' });
 		}
 	});
 });
