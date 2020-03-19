@@ -20,6 +20,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 // Loading Spinner
 import spinner from '../../images/spinner.svg';
 
+import ForgotPassword from '../layout/ForgotPassword';
+
 // API URL
 const API_URL = 'https://modern-dashboard.herokuapp.com';
 
@@ -43,7 +45,8 @@ class Home extends Component {
 			error: '',
 			loading: false,
 			cookiesEnabled: false,
-			showPassword: false
+			showPassword: false,
+			showModal: false
 		}
 		this.changeForm = this.changeForm.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -52,6 +55,8 @@ class Home extends Component {
 		this.handleLogin = this.handleLogin.bind(this);
 		this.toggleShowPassword = this.toggleShowPassword.bind(this);
 		this.useDemo = this.useDemo.bind(this);
+		this.toggleModal = this.toggleModal.bind(this);
+		this.setModalError = this.setModalError.bind(this);
 	}
 	changeForm() {
 		this.setState({ showSignIn: !this.state.showSignIn, showPassword: false, first_name: '', last_name: '', email: '', password: '', registerEmail: '', registerConfirm: '', registerFName: '', registerLName: '', registerPassword: '' });
@@ -95,7 +100,6 @@ class Home extends Component {
 			// Request
 			axios.post(`${API_URL}/account/register`, newUser, config)
 				.then((res) => {
-					console.log(res);
 					if (res.status === 200) {
 						this.setState({ message: 'Registration successful!', loading: false, showSignIn: true });
 						setTimeout(() => { this.setState({ message: '' }) }, 5500);
@@ -186,6 +190,9 @@ class Home extends Component {
 	toggleShowPassword() {
 		this.setState({ showPassword: !this.state.showPassword });
 	}
+	toggleModal(bool) {
+		this.setState({ showModal: bool });
+	}
 	UNSAFE_componentWillMount() {
 		if (navigator.cookieEnabled === false) {
 			this.setState({ error: 'Please enable cookies', cookiesEnabled: false });
@@ -194,9 +201,13 @@ class Home extends Component {
 			this.setState({ cookiesEnabled: true, error: '' });
 		}
 	}
+	setModalError(type, msg) {
+		this.setState({ [type]: msg });
+	}
 	render() {
 		return (
 			<Div100vh id="home">
+				<ForgotPassword setModalError={this.setModalError} showModal={this.state.showModal} toggleModal={this.toggleModal} />
 				<div className="sides">
 
 					<div className="left">
@@ -204,6 +215,7 @@ class Home extends Component {
 							<div className="logo">Dashboard</div>
 							<div className="toggle" onClick={this.changeForm}>{this.state.showSignIn === true ? 'Sign Up' : 'Sign In'}</div>
 						</header>
+						<p className="forgot-password" onClick={e => this.toggleModal(true)}>Forgot Password?</p>
 						{/* If showSignIn is true, show the signin form */}
 						{this.state.showSignIn === true ?
 							<div id="signin">

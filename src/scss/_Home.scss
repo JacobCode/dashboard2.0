@@ -3,7 +3,7 @@
 	background: white;
 	header {
 		display: flex;
-		width: calc(50% - 1.5rem);
+		width: calc(100% - 3rem);
 		justify-content: space-between;
 		margin-bottom: 1.5rem;
 		position: absolute;
@@ -13,12 +13,21 @@
 			cursor: pointer;
 		}
 	}
+	.forgot-password {
+		position: absolute;
+		right: 1.5rem;
+		bottom: 1.5rem;
+		font-size: 0.825rem;
+		color: #a5a5a5;
+		cursor: pointer;
+	}
 	.sides {
 		display: flex;
 		min-height: 100%;
 		.left {
 			width: 50%;
 			padding: 1.5rem;
+			position: relative;
 			svg {
 				cursor: pointer;
 			}
@@ -147,6 +156,69 @@
 			img {
 				width: 80%;
 			}
+		}
+	}
+}
+
+#forgot-password {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	* {
+		outline: none !important;
+	}
+	.media {
+		outline: none !important;
+	}
+	form {
+		background: white;
+		padding: 1.5rem;
+		width: calc(40vw);
+		max-width: 550px;
+		min-width: 275px;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		.close {
+			background: #e0e0e0;
+			position: absolute;
+			right: -13px;
+			top: -13px;
+			padding: 0.25rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0.8;
+			border-radius: 50%;
+			width: 20px;
+			height: 20px;
+			cursor: pointer;
+			transition: all 0.4s ease-in-out;
+			&:hover {
+				background: red;
+				opacity: 1;
+
+				svg {
+					fill: white;
+				}
+			}
+			svg {
+				max-width: 17px;
+				fill: $darkGrey;
+				transition: all 0.4s ease-in-out;
+			}
+		}
+		h1 {
+			font-weight: 600;
+			margin-bottom: 1.5rem;
+			color: #333333;
+		}
+		#control {
+			width: 100% !important;
+			margin-bottom: 1.5rem;
+		}
+		input {
+			outline: none;
 		}
 	}
 }

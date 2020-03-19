@@ -16,10 +16,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
 
 // Loading Spinner
 import spinner from '../../images/spinner.svg';
-import { FormControl } from '@material-ui/core';
 
 // API URL
 const API_URL = 'https://modern-dashboard.herokuapp.com';

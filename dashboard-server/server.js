@@ -107,7 +107,7 @@ async function sendEmail(func, token, email, msg, txt) {
 		secure: false,
 		// change to node_variables
 		auth: {
-			user: EMAIL_USERNAME,
+			user: process.env.EMAIL_USERNAME,
 			pass: process.env.EMAIL_PASSWORD
 		},
 		tls: {
