@@ -41,13 +41,17 @@ Dashboard for developers who need to keep track of different tasks, important da
 
 * Crypto - Toggle between different cryptocurrencies to view current price, market cap, volume, and percentage increase/decrease
 
+#### New
+* Preview your uploaded Image and MP3/MPEG files
+* Forgot password system
+
 #### Profile
 * Change password
 * Delete account
 * Verify your account through email
 * Login/Signup
 
-#### Coming Soon ⭐️
+#### Coming Soon
 * Media viewer for uploaded files
 * Forgot password system
 * Resend email verification system
