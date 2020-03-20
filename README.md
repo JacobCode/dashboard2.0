@@ -60,6 +60,10 @@ Dashboard for developers who need to keep track of different tasks, important da
 ## Desktop 💻
 
 ![IMG 1](https://i.postimg.cc/hvkF4HCt/dashboard-lg-1.jpg)
+
+## New ⭐️
 ![IMG 2](https://i.postimg.cc/htvdmHC4/dashboard-preview-desktop.jpg)
+
 ![IMG 3](https://i.postimg.cc/5Nnz6xSk/dashboard-preview-mobile.jpg)
+
 ![IMG 4](https://i.postimg.cc/yYV91JcZ/dashboard-forgot-password.jpg)
