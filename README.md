@@ -12,7 +12,7 @@ Dashboard for developers who need to keep track of different tasks, important da
 * Material UI
 
 #### Back End
-* Express
+* Express & EJS
 * NodeJS
 * MongoDB
 * JSON Web Token
