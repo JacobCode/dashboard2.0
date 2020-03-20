@@ -142,6 +142,7 @@ class Home extends Component {
 					this.setState({ message: `Welcome, ${res.data.first_name.charAt(0).toUpperCase() + res.data.first_name.substr(1)}`, loading: false});
 					setTimeout(() => {
 						this.props.loginUser(res.data);
+						window.location.pathname = '/dashboard';
 					}, 1000);
 				}
 

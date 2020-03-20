@@ -11,10 +11,8 @@ import Divider from '@material-ui/core/Divider';
 
 const Sidebar = ({ ...props }) => {
 	const { routes, closeDrawer, user, logoutUser } = props;
-	const logout = () => {
+	const logout = (e) => {
 		logoutUser();
-		window.location.pathname = '/';
-		document.querySelector('.hidden-btn').click();
 	}
   var links = (
     <List id="sidebar-links">
