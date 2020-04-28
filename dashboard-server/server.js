@@ -512,20 +512,21 @@ app.get('/user/files/download/:filename', (req, res) => {
 // Preview File (GET) (Images & MPEG)
 app.get('/user/files/preview/:filename', (req, res) => {
 	gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+		const file = files[0];
 		// If file does not exist
 		if (!files || files.length === 0) {
 			return res.status(404).json({ message: 'error' });
 		}
 		// if file is image or audio, return and set content
-		if (/[\/.](gif|jpg|jpeg|png)$/.test(files[0].contentType)) {
-			const readstream = gfs.createReadStream(files[0].filename);
+		if (/[\/.](gif|jpg|jpeg|png)$/.test(file.contentType)) {
+			const readstream = gfs.createReadStream(filefilename);
 			readstream.pipe(res);
-		} else if(files[0].contentType === 'audio/mpeg') {
-			const readstream = gfs.createReadStream(files[0].filename);
+		} else if(file.contentType === 'audio/mpeg') {
+			const readstream = gfs.createReadStream(file.filename);
 			res.type('audio/mpeg');
 			readstream.pipe(res);
-		} else if (files[0].contentType === 'audio/mp3') {
-			const readstream = gfs.createReadStream(files[0].filename);
+		} else if (file.contentType === 'audio/mp3') {
+			const readstream = gfs.createReadStream(file.filename);
 			res.type('audio/mp3');
 			readstream.pipe(res);
 		} else {
