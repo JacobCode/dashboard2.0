@@ -10,28 +10,28 @@ import Button from "@material-ui/core/Button";
 
 import NavbarLinks from './NavbarLinks';
 
-export default class Navbar extends Component {
-    render() {
-		const { logoutUser, user, history } = this.props;
-        return (
-            <AppBar id="navbar" color="primary">
-                <Toolbar id="toolbar">
-                    <div className="title">
-                        <Button color="inherit" href="/">Dashboard</Button>
-                    </div>
-                    <Hidden smDown implementation="css">
-                        <NavbarLinks history={history} logoutUser={logoutUser} user={user} />
-                    </Hidden>
-                    <Hidden mdUp implementation="css">
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={this.props.handleDrawerToggle}>
-                            <Menu />
-                        </IconButton>
-                    </Hidden>
-                </Toolbar>
-            </AppBar>
-        )
-    }
+const Navbar = (props) => {
+	const { logoutUser, user, history, handleDrawerToggle } = props;
+	return (
+		<AppBar id="navbar" color="primary">
+			<Toolbar id="toolbar">
+				<div className="title">
+					<Button color="inherit" href="/">Dashboard</Button>
+				</div>
+				<Hidden smDown implementation="css">
+					<NavbarLinks history={history} logoutUser={logoutUser} user={user} />
+				</Hidden>
+				<Hidden mdUp implementation="css">
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						onClick={handleDrawerToggle}>
+						<Menu />
+					</IconButton>
+				</Hidden>
+			</Toolbar>
+		</AppBar>
+	)
 }
+
+export default Navbar;

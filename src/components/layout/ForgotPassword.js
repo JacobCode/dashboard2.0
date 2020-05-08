@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import validator from 'email-validator';
 
@@ -14,18 +14,11 @@ import FormControl from '@material-ui/core/FormControl';
 // API URL
 const API_URL = 'https://modern-dashboard.herokuapp.com';
 
-class ForgotPassword extends Component {
-	constructor() {
-		super();
-		this.state = {
-			emailInputValue: ''
-		}
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleEmailChange = this.handleEmailChange.bind(this);
-	}
-	handleSubmit(e) {
-		const { emailInputValue } = this.state;
-		const { setModalError, toggleModal } = this.props;
+const ForgotPassword = (props) => {
+	const { toggleModal, showModal } = props;
+	const [emailInputValue, updateEmailInput] = useState('');
+	const handleSubmit = (e) => {
+		const { setModalError, toggleModal } = props;
 		e.preventDefault();
 		// If email is valid
 		if (validator.validate(emailInputValue)) {
@@ -63,31 +56,24 @@ class ForgotPassword extends Component {
 			}, 3000);
 		}
 	}
-	handleEmailChange(e) {
-		this.setState({ emailInputValue: e.target.value });
-	}
-	render() {
-		const { toggleModal, showModal } = this.props;
-		const { emailInputValue } = this.state;
-		return (
-			<Modal id="forgot-password" open={showModal}>
-				<div>
-					<ClickAwayListener onClickAway={e => toggleModal(false)}>
-						<form onSubmit={this.handleSubmit}>
-							<div className="close"><Close onClick={e => toggleModal(false)} /></div>
-							<h1>Forgot Your Password?</h1>
-							<FormControl id="control">
-								<InputLabel htmlFor="your_email">Enter Your Email *</InputLabel>
-								<Input id="your_email" value={emailInputValue} onChange={this.handleEmailChange}
-								/>
-							</FormControl>
-							<Button type="submit" color="primary" variant="contained">Send Recovery Email</Button>
-						</form>
-					</ClickAwayListener>
-				</div>
-			</Modal>
-		)
-	}
+	return (
+		<Modal id="forgot-password" open={showModal}>
+			<div>
+				<ClickAwayListener onClickAway={e => toggleModal(false)}>
+					<form onSubmit={handleSubmit}>
+						<div className="close"><Close onClick={e => toggleModal(false)} /></div>
+						<h1>Forgot Your Password?</h1>
+						<FormControl id="control">
+							<InputLabel htmlFor="your_email">Enter Your Email *</InputLabel>
+							<Input id="your_email" value={emailInputValue} onChange={e => updateEmailInput(e.target.value)}
+							/>
+						</FormControl>
+						<Button type="submit" color="primary" variant="contained">Send Recovery Email</Button>
+					</form>
+				</ClickAwayListener>
+			</div>
+		</Modal>
+	)
 }
 
 export default ForgotPassword;

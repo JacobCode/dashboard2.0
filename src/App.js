@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Link } from 'react-router-dom';
 import store from './redux/store';
@@ -12,26 +12,25 @@ import Dashboard from './containers/Dashboard';
 // MUI
 import { createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import deepPurple from '@material-ui/core/colors/deepPurple';
+import orange from '@material-ui/core/colors/orange';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
-deepPurple.main = '#fe9a04';
-deepPurple.contrastText = 'rgba(255, 255, 255, 0.87)';
-deepPurple["A700"] = '#e38b07';
+orange.main = '#fe9a04';
+orange.contrastText = 'rgba(255, 255, 255, 0.87)';
+orange["A700"] = '#e38b07';
 
 const theme = createMuiTheme({
 	palette: {
 		primary: blue,
-		secondary: deepPurple,
+		secondary: orange,
 	},
 	typography: {
 		useNextVariants: true,
 	}
 });
 
-class App extends Component {
-	render() {
-		return (
+const App = () => {
+	return (
 		<Provider store={store}>
 			<BrowserRouter>
 				<MuiThemeProvider theme={theme}>
@@ -40,8 +39,7 @@ class App extends Component {
 				</MuiThemeProvider>
 			</BrowserRouter>
 		</Provider>
-		);
-	}
+	)
 }
 
 export default App;

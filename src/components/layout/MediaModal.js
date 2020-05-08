@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Close from '@material-ui/icons/Close';

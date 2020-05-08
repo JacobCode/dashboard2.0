@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class Footer extends Component {
-    render() {
-        return (
-            <div id="footer">
-                <div className="links">
-                    <a href="https://github.com/JacobCode"><i className="fab fa-github" /></a>
-                    <a href="https://github.com/JacobCode/dashboard2.0"><i className="fas fa-code-branch" /></a>
-					<a href="https://jacobcarver.net"><i className="fas fa-globe"></i></a>
-                </div>
-            </div>
-        )
-    }
+const Footer = () => {
+	return (
+		<div id="footer">
+			<div className="links">
+				<a href="https://github.com/JacobCode"><i className="fab fa-github" /></a>
+				<a href="https://github.com/JacobCode/dashboard2.0"><i className="fas fa-code-branch" /></a>
+				<a href="https://jacobcarver.net"><i className="fas fa-globe"></i></a>
+			</div>
+		</div>
+	)
 }
+
+export default Footer;
