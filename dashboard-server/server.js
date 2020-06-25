@@ -13,12 +13,13 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const crypto = require('crypto');
+const key = require('./key.json');
 
 // Email address template to send to user
-const verifyEmailAddress = require('./verifyEmailAddress');
+const verifyEmailAddress = require('./email-templates/verifyEmailAddress');
 
 // Forgot password email
-const forgotPasswordEmail = require('./forgotPasswordEmail');
+const forgotPasswordEmail = require('./email-templates/forgotPasswordEmail');
 
 // Express Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -100,27 +101,38 @@ const verifyToken = (req, res, next) => {
 }
 
 // Async func to send email with token
+/**
+ * 
+ * @param {function} func 
+ * @param {string} token 
+ * @param {string} email 
+ * @param {string} msg 
+ * @param {string} txt 
+ */
 async function sendEmail(func, token, email, msg, txt) {
 	const transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
-		port: 587,
-		secure: false,
-		// change to node_variables
+		port: 465,
+		secure: true,
 		auth: {
-			user: process.env.EMAIL_USERNAME,
-			pass: process.env.EMAIL_PASSWORD
-		},
-		tls: {
-			rejectUnauthorized: false
+			type: 'OAuth2',
+			user: 'contact@jacobcarver.net',
+			serviceClient: key.client_id,
+			privateKey: key.private_key
 		}
 	});
-	const info = await transporter.sendMail({
-		from: `"Test Verification" <${'testverify1234567@gmail.com'}>`, // sender address
-		to: email, // receiver email
-		subject: msg, // Subject line
-		text: txt, // plain text body
-		html: func(token, email) // html email template
-	});
+	try {
+		await transporter.verify();
+		await transporter.sendMail({
+			from: `"Dashboard Verification" <${'contact@jacobcarver.net'}>`, // sender address
+			to: email, // receiver email
+			subject: msg, // Subject line
+			text: txt, // plain text body
+			html: func(token, email) // html email template
+		});
+	} catch(error) {
+		console.log(error);
+	}
 }
 
 // Verify Email (GET)
@@ -310,7 +322,7 @@ app.post('/user/changepassword', setupLimit(5, 60), (req, res) => {
 });
 
 // Forgot Password (VIA Home Page) (POST)
-app.post('/user/forgotpassword', setupLimit(4, 30), (req, res) => {
+app.post('/user/forgotpassword', setupLimit(3, 60), (req, res) => {
 	if (req.body.email === 'guestuser@ethereal.email') {
 		res.status(404).send("Can't change guest password!");
 	} else {
@@ -458,9 +470,7 @@ app.post('/user/files/upload', upload.single('file'), (req, res) => {
 									res.status(200).send({user: data});
 								});
 						}
-					} else {
-						res.status(201).send('There was a problem');
-					}
+					} else { res.status(201).send('There was a problem') }
 				}
 			});
 		});
@@ -470,9 +480,8 @@ app.post('/user/files/upload', upload.single('file'), (req, res) => {
 // Get user's files (GET)
 app.get('/user/files/:userId', (req, res) => {
 	User.findById(req.params.userId)
-		.then((data) => {
-			res.status(200).send(data.files);
-		}).catch((err) => res.send({err: err}));
+		.then((data) => { res.status(200).send(data.files)})
+		.catch((err) => res.send({err: err}));
 });
 
 // Delete File (DELETE)
@@ -492,18 +501,19 @@ app.delete('/user/files/delete/:fileId/:userId', (req, res) => {
 // Download File (GET)
 app.get('/user/files/download/:filename', (req, res) => {
 	gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+		const file = files[0];
 		// If file does not exist
 		if (!files || files.length === 0) {
 			return res.status(404).json({ message: 'error' });
 		}
 		// Create read stream
 		var readstream = gfs.createReadStream({
-			filename: files[0].filename,
+			filename: file.filename,
 			root: 'uploads'
 		});
 		// set the proper content type 
-		res.set('Content-Disposition', `attachment; filename="${files[0].metadata.name}"`);
-		res.set('Content-Type', files[0].contentType);
+		res.set('Content-Disposition', `attachment; filename="${file.metadata.name}"`);
+		res.set('Content-Type', file.contentType);
 		// Return response
 		return readstream.pipe(res);
 	});
@@ -519,7 +529,7 @@ app.get('/user/files/preview/:filename', (req, res) => {
 		}
 		// if file is image or audio, return and set content
 		if (/[\/.](gif|jpg|jpeg|png)$/.test(file.contentType)) {
-			const readstream = gfs.createReadStream(filefilename);
+			const readstream = gfs.createReadStream(file.filename);
 			readstream.pipe(res);
 		} else if(file.contentType === 'audio/mpeg') {
 			const readstream = gfs.createReadStream(file.filename);

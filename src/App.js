@@ -35,7 +35,7 @@ const App = () => {
 			<BrowserRouter>
 				<MuiThemeProvider theme={theme}>
 					<Dashboard />
-					<Link className="hidden-btn" to="/"></Link>
+					<Link className="hidden-btn" to="/">null</Link>
 				</MuiThemeProvider>
 			</BrowserRouter>
 		</Provider>

@@ -307,9 +307,12 @@ class Home extends Component {
 							{this.state.loading === true ? <img id="spinner" src={spinner} alt="Loading..." /> : null}
 					</div>
 
+					
+
+					{window.innerWidth > 480 && (
 					<div className="right">
 						<img src="https://i.postimg.cc/hvkF4HCt/dashboard-lg-1.jpg" alt="Dashboard Preview" />
-					</div>
+					</div>)}
 
 					{/* Error Snackbar */}
 					<Snackbar className="fixed-snackbar"

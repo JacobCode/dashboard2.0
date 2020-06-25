@@ -24,7 +24,7 @@ const ForgotPassword = (props) => {
 		if (validator.validate(emailInputValue)) {
 			axios.post(`${API_URL}/user/forgotpassword`, {email: emailInputValue})
 				.then((res) => {
-					this.setState({ emailInputValue: '' });
+					updateEmailInput('');
 					if (res.status === 200) {
 						setModalError('message', res.data.message);
 						setTimeout(() => {
