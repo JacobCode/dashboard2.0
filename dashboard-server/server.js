@@ -116,7 +116,7 @@ async function sendEmail(func, token, email, msg, txt) {
 		secure: true,
 		auth: {
 			type: 'OAuth2',
-			user: 'contact@jacobcarver.net',
+			user: email,
 			serviceClient: key.client_id,
 			privateKey: key.private_key
 		}
@@ -124,7 +124,7 @@ async function sendEmail(func, token, email, msg, txt) {
 	try {
 		await transporter.verify();
 		await transporter.sendMail({
-			from: `"Dashboard Verification" <${'contact@jacobcarver.net'}>`, // sender address
+			from: `"Dashboard Verification" <${email}>`, // sender address
 			to: email, // receiver email
 			subject: msg, // Subject line
 			text: txt, // plain text body
