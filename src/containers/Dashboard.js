@@ -144,7 +144,7 @@ class Dashboard extends Component {
 								</Switch>
 							</div>
 						</div>
-						<MediaModal currentFile={currentFile} viewFile={viewFile} mediaOpen={this.state.mediaOpen} toggleMediaModal={this.toggleMediaModal} />
+						{currentFile.filename !== undefined && <MediaModal currentFile={currentFile} viewFile={viewFile} mediaOpen={this.state.mediaOpen} toggleMediaModal={this.toggleMediaModal} />}
 						<Footer />
 					</div>
 				</div>

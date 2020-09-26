@@ -112,7 +112,20 @@
                 cursor: default;
                 border-bottom: 1px solid #ececec;
                 p {
-                    max-width: 300px;
+										max-width: 300px;
+										position: relative;
+                    &.complete {
+                        &::after {
+														content: '';
+														height: 1px;
+														background: black;
+														opacity: 0.8;
+														position: absolute;
+														left: 0;
+														top: 50%;
+														width: 100%;
+                        }
+                    }
                 }
                 .delete-task-icon {
                     transform: translate3d(5px, 0, 0);

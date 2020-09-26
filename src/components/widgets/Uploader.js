@@ -252,7 +252,7 @@ class Uploader extends Component {
 									{canPreview ? 
 									<a href="/" onClick={e => this.previewFile(e, file)}>{file.metadata.name}</a>
 									:
-									<a href={`${API_URL}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>}
+									<a href={`${'http://localhost:3001'}/user/files/download/${file.filename}/`} download>{file.metadata.name}</a>}
 									<span>{this.convertBytes(file.length, 1)}</span>
 									<DeleteIcon onClick={() => this.handleDelete(user, file)} />
 								</div>

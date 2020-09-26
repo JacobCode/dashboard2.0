@@ -126,7 +126,7 @@ class Bookmarks extends Component {
                             <div key={index} data-id={bookmark.id} className="bookmark">
                                 <a href={bookmark.url}>
                                     {bookmark.name}
-                                    <img src={`${bookmark.url}/favicon.ico`} alt="LOGO" />
+                                    <img src={`${bookmark.url}/favicon.ico`} alt="🌐" />
                                 </a>
 								<div className="delete">
 									<DeleteIcon onClick={() => this.deleteBookmark(bookmark.id)} />

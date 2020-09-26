@@ -35,7 +35,7 @@ const MediaModal = (props) => {
 								<source type="audio/mp3" src={`${API_URL}/user/files/preview/${currentFile.filename}`} />
 								Cannot play audio on this browser
 							</audio>
-							<a href={`${API_URL}/user/files/download/${currentFile.filename}/`} download>Download</a>
+							<a download href={`${API_URL}/user/files/download/${currentFile.filename}/`}>Download</a>
 						</div>
 						:
 						<div className="image">
@@ -43,7 +43,7 @@ const MediaModal = (props) => {
 							<div className="close-modal" onClick={e => toggleMediaModal(false)}><Close /></div>
 							<div className="preview-image" style={{backgroundImage: `url('${API_URL}/user/files/preview/${currentFile.filename}/')`}}>
 							</div>
-							<a href={`${API_URL}/user/files/download/${currentFile.filename}/`} download>Download</a>
+							<a download href={`${API_URL}/user/files/download/${currentFile.filename}/`}>Download</a>
 						</div>}
 					</div>
 					:
