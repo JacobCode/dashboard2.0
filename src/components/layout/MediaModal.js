@@ -6,6 +6,27 @@ import Close from '@material-ui/icons/Close';
 const MediaModal = (props) => {
 	const { mediaOpen, toggleMediaModal, currentFile } = props;
 	const API_URL = 'https://modern-dashboard.herokuapp.com';
+	const forceDownload = (blob, filename) => {
+		var a = document.createElement('a');
+		a.download = filename;
+		a.href = blob;
+		a.click();
+	}
+	const downloadResource = (e, url, filename) => {
+		e.preventDefault();
+		fetch(url, {
+			headers: new Headers({
+        'Origin': window.location.origin
+      }),
+			mode: 'cors'
+		})
+		.then(response => response.blob())
+		.then(blob => {
+			let blobUrl = window.URL.createObjectURL(blob);
+			forceDownload(blobUrl, filename);
+		})
+		.catch(e => console.error(e));
+	}
 	return (
 		<Modal id="media-modal" open={mediaOpen}>
 			<div className="media">
@@ -22,7 +43,7 @@ const MediaModal = (props) => {
 								<source type="audio/mpeg" src={`${API_URL}/user/files/preview/${currentFile.filename}`} />
 								Cannot play audio on this browser
 							</audio>
-							<a href={`${API_URL}/user/files/download/${currentFile.filename}/`} download>Download</a>
+							<a onClick={e => downloadResource(e, `${API_URL}/user/files/download/${currentFile.filename}/`, currentFile.filename)} download>Download</a>
 						</div>
 						:
 						currentFile.contentType === 'audio/mp3' ? 
@@ -35,7 +56,7 @@ const MediaModal = (props) => {
 								<source type="audio/mp3" src={`${API_URL}/user/files/preview/${currentFile.filename}`} />
 								Cannot play audio on this browser
 							</audio>
-							<a download href={`${API_URL}/user/files/download/${currentFile.filename}/`}>Download</a>
+							<a download onClick={e => downloadResource(e, `${API_URL}/user/files/download/${currentFile.filename}/`, currentFile.filename)}>Download</a>
 						</div>
 						:
 						<div className="image">
@@ -43,7 +64,7 @@ const MediaModal = (props) => {
 							<div className="close-modal" onClick={e => toggleMediaModal(false)}><Close /></div>
 							<div className="preview-image" style={{backgroundImage: `url('${API_URL}/user/files/preview/${currentFile.filename}/')`}}>
 							</div>
-							<a download href={`${API_URL}/user/files/download/${currentFile.filename}/`}>Download</a>
+							<a download onClick={e => downloadResource(e, `${API_URL}/user/files/download/${currentFile.filename}/`, currentFile.filename)}>Download</a>
 						</div>}
 					</div>
 					:
