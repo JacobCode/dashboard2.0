@@ -45,6 +45,18 @@
                 align-items: center;
                 .title {
                     cursor: pointer;
+                    position: relative;
+                    &.complete {
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            height: 1px;
+                            background: black;
+                            opacity: 0.8;
+                            width: 100%;
+                            top: 50%;
+                        }
+                    }
                 }
             }
             img {
